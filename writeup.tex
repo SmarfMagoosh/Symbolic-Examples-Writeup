@@ -1,0 +1,131 @@
+\documentclass{article}
+
+\author{Evan Dreher}
+\title{LRE Language Formalizations}
+\date{June 2025}
+
+
+\newcommand{\matches}{\Downarrow}
+\newcommand{\has}{\in}
+\newcommand{\varenv}{\Gamma}
+\newcommand{\labenv}{\Lambda}
+\newcommand{\envs}{(\varenv, \labenv)}
+\newcommand{\envsp}{(\varenv', \labenv')}
+\newcommand{\envspp}{(\varenv'', \labenv'')}
+\newcommand{\nullval}{?}
+\newcommand{\pred}[2]{\lambda #1 \mapsto #1 #2}
+
+\usepackage{semantic}
+
+\begin{document}
+\maketitle
+
+\section{Syntax Definitions}
+\begin{enumerate}
+    \item $x \matches y$ is ``$x$ is matched by $y$'' where $x$ is a value, and $y$ is an LRE.
+    \item $G[v \rightarrow x]$ is ``insert an entry into $G$ mapping label $v$ to value $x$''
+    \item $G(\ell)$ is ``the value corresponding to label $\ell$ in environment $G$''
+    \item We will use $\varenv$ to represent an environment mapping variable names to values and $\labenv$ to represent an environment mapping LRE labels
+        to predicates. Each integer value in $\labenv$ represents the decision made regarding that label (i.e how many times the expression was repeated
+        in a kleene closure.)
+    
+\end{enumerate}
+
+\section{Semantic Rules}
+\begin{enumerate}
+    \item $\inference
+        [Identity]
+        {}
+        {n \matches n}$
+    \item $\inference
+        [Union1]
+        {\envs v \matches r_1 \envsp}
+        {\envs v \matches r_1|r_2 \envsp}$
+    \item $\inference
+        [Union2]
+        {\envs v \matches r_2 \envsp}
+        {\envs v \matches r_1|r_2 \envsp}$
+    \item $\inference
+        [LinkUnionDec1]
+        {\lnot(\ell \has \labenv) & \envs v \matches r_1 \envsp}
+        {\envs v \matches r_1|_{\ell}r_2 (\varenv', \labenv'[\ell \rightarrow \pred{x}{=1}])}$
+    \item $\inference
+        [LinkedUnionDec2]
+        {\lnot(\labenv \has \ell) & \envs v \matches r_2 \envsp}{\envs v \matches r_1|_{\ell}r_2 (\varenv', \labenv[\ell \rightarrow \pred{x}{=2}])}$
+    % TODO: maybe the first premise for these two rule to a predicate application?
+    \item $\inference
+        [LinkedUnionRef1]
+        {\labenv(\ell) = \pred{x}{=1} & \envs v \matches r_1 \envsp}
+        {\envs v \matches r_1|_{\ell}r_2 \envsp}$
+    \item $\inference
+        [LinkedUnionRef2]
+        {\labenv(\ell) = \pred{x}{=1} & \envs v \matches r_2 \envsp}
+        {\envs v_1 \matches r_1|_{\ell}r_2 \envsp}$
+    \item $\inference
+        [StarRecursive]
+        {\envs v \matches r \envsp & \envsp vs \matches r* \envspp}
+        {\envs v::vs \matches r* \envspp}$
+    \item $\inference
+        [StarBaseCase]
+        {}
+        {\epsilon \matches r*}$
+    \item $\inference
+        [LinkedStarInit]
+        {\lnot(\ell \has \labenv) & (\varenv, \labenv[\ell \rightarrow \pred{x}{\geq 0}]) v \matches r \envsp & \envsp vs \matches r*_\ell \envspp}
+        {\envs v :: vs \matches r*_\ell (\varenv, \labenv[\ell \pred{x}{\geq 1}])}$
+    \item $\inference
+        [LinkedStarBuilding]
+        {\ell \has \labenv & \envs v \matches r \envsp & \envsp vs \matches r*_\ell \envspp}
+        {\envs v :: vs \matches r*_\ell (\varenv, \labenv[\ell \rightarrow \pred{x}{\geq \labenv(\ell) + 1}])}$
+    \item $\inference
+        [LinkedStarTerminate]
+        {\ell \has \labenv}
+        {\envs \epsilon \matches r*_\ell (\varenv, \labenv[\ell \rightarrow \pred{x}{= \labenv(\ell)}])}$
+    \item $\inference
+        [EmptyLinkedStarTerminate]
+        {\lnot(\ell \has \labenv)}
+        {\envs \epsilon \matches r*_\ell (\varenv, \labenv[\ell \rightarrow \pred{x}{=0}])}$
+    \item $\inference
+        [LinkedStarRef]
+        {\labenv(\ell)= \pred{x}{=n} & \envs v \matches r\{n\} \envsp}
+        {\envs v \matches r*_\ell}$
+    \item $\inference
+        [NRepRecursive]
+        {\envs v \matches r \envsp & \envsp vs \matches r\{n - 1\}}
+        {\envs v \matches r\{n\}}$
+    \item $\inference
+        [NRepBase]
+        {}
+        {\epsilon \matches r\{0\}}$
+    \item $\inference
+        [Concatenation]
+        {\envs v_1 \matches r_1 \envsp & \envsp v_2 \matches r_2 \envspp}
+        {\envs v_1::v_2 \matches r_{1}r_2 \envspp}$
+    \item $\inference
+        [VarDec]
+        {(\varenv[x'_\ell \rightarrow \nullval], \labenv) v \matches r[x'/x] \envs'}
+        {\envs v \matches x_{\ell} \rightarrow r \envsp}$
+    \item $\inference
+        [VarRefInit]
+        {\varenv(x_\ell)=\nullval}
+        {\envs v \matches x_\ell (\varenv[x_\ell \rightarrow v], \labenv)}$
+    \item $\inference
+        [VarRefExists]
+        {\varenv(x_\ell) = v}{\envs v \matches x_\ell \envsp}$
+    
+
+
+\end{enumerate}
+
+\section{Notes}
+\par As previously discussed there are still some problems revovling the kleene closure. Since we don't have a way to denote the beginning or end of a list, it is currently
+    impossible to have a 2D list.
+\par If such a thing were possible, we also don't have a way to specify that all sub-lists have to be of the same length (that may not be
+    an issue). 
+\par It also seems impossible to include an expression like $(.)*_1(.)*_1$ to match a list of even length. I've thought about this example and haven't been able to
+    come up with a way that something would be able to match that expression without doing brute force/backtracking.
+\par Lastly. I think there are some issues with the semantic rules regarding the links. In our meeting on Monday (the 23rd), we discussed that we can
+    "flag" the entries in the label environment by storing them as predicates rather than integers (i.e $\geq 10$). This causes problems when we
+    try to access the relevant number of the predicate (in rules 11 and 12 as well as 6, 7, and 14 to a lesser extent.) It seems like we should be
+    able to fix this problem pretty easily by using some other arbitrary flag, but I don't think it quite works as is.
+\end{document}
