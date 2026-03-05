@@ -75,42 +75,59 @@
 \end{enumerate}
 
 \subsection{Translation Rules}
+\par I think these are complete
 \begin{enumerate}
     \item $\inference
         [Assignment]
         {args \translate args' & x \translate x'}
-        {(\lab : p args) :-> x \translate Assign(\lab, p, args', x')}$
-
+        {(\lab : p args) -> x \translate Assign(\lab, p, args', x')}$
+    \item $\inference
+        [Assignment]
+        {args \translate args' & x \translate x'}
+        {\lab -> x \translate Assign(\lab, const(True), \nil, x')}$
+    
     \item $\inference
         [UnionTrans]
-        {hastype{x}{\complex} & hastype{y}{\complex} & x \translate x' & y \translate y'}
+        {\hastype{x}{\complex} & \hastype{y}{\complex} & x \translate x' & y \translate y'}
         {x |\{\lab\} y \translate x' |_{\ell} y'}$
-
+    \item $\inference
+        [UnlabelledUnionTrans]
+        {\hastype{x}{\complex} & \hastype{y}{\complex} & x \translate x' & y \translate y'}
+        {x | y \translate Assign(\lab', const(True), \nil, -> x' |_{\lab'} y')}$
+    
     \item $\inference
         [ConcatBaseTrans]
-        {hastype{x}{\base} & hastype{y}{\base} & x \translate x' & y \translate y'}
+        {\hastype{x}{\base} & \hastype{y}{\base} & x \translate x' & y \translate y'}
         {x y \translate x' :> Wrap(y')}$
     \item $\inference
         [ConcatConsTrans]
-        {hastype{x}{\complex} & hastype{y}{[\complex]} & x \translate x' & y \translate y'}
+        {\hastype{x}{\complex} & \hastype{y}{[\complex]} & x \translate x' & y \translate y'}
         {x y \translate x' :> y'}$
     \item $\inference
         [ConcatSnocTrans]
-        {hastype{x}{[\complex]} & hastype{y}{\complex} & x \translate x' & y \translate y'}
+        {\hastype{x}{[\complex]} & \hastype{y}{\complex} & x \translate x' & y \translate y'}
         {x y \translate x' :++ Wrap(y')}$
     \item $\inference
         [ConcatTrans]
-        {hastype{x}{[\complex]} & hastype{y}{[\complex]} & x \translate x' & y \translate y'}
+        {\hastype{x}{[\complex]} & \hastype{y}{[\complex]} & x \translate x' & y \translate y'}
         {x y \translate x' :++ y'}$
 
     \item $\inference
         [StarBaseTrans]
-        {hastype{x}{\base} & x \translate x'}
+        {\hastype{x}{\base} & x \translate x'}
         {x*\{\lab\} \translate Wrap(x')*_{\lab}}$
     \item $\inference
         [StarTrans]
-        {hastype{x}{[\complex]} & x \translate x'}
+        {\hastype{x}{[\complex]} & x \translate x'}
         {x*\{\lab\} \translate x'*_{\lab}}$
+    \item $\inference
+        [UnlabelledStarBaseTrans]
+        {\hastype{x}{\base} & x \translate x'}
+        {x* \translate Assign(\lab', const(True), \nil, Wrap(x')*_{\lab'})}$
+    \item $\inference
+        [UnlabelledStarTrans]
+        {\hastype{x}{[\complex]} & x \translate x'}
+        {x* \translate Assign(\lab', const(True), \nil, x'*_{\lab'})}$
 
     \item $\inference
         [Variable]
@@ -125,20 +142,20 @@
     \item $\inference
         [LitTrans]
         {}
-        {<c> \translate Lit c}$
+        {<c> \translate Lit(c)}$
     \item $\inference
         [AppTrans]
         {args \translate args'}
-        {<f args> \translate Data(f,args')}$
+        {<f\;args> \translate Data(f,args')}$
     
     \item $\inference
         [DotPTrans]
         {args \translate args'}
-        {(. : p args) \translate Dot(p, args')}$
+        {(. : p\;args) \translate Dot(p, args')}$
     \item $\inference
         [DotTrans]
         {}
-        {. \translate Dot(const True, \nil)}$
+        {. \translate Dot(const(True), \nil)}$
 
     \item $\inference
         [SingletonTrans]
@@ -147,12 +164,34 @@
 \end{enumerate}
 
 \subsection{Dependency Map Computation}
-\par tabling this for now...
+\par the dependency map function is a bit complex and I'm not sure if we need rules for it
+    anyways or if its sufficient to just describe the algorithm. Since we build the dependency
+    map from a while function (not just one expression) I designed it so that it could be a fold
+    function (i.e its type is dmap -> ast n a -> dmap)
 \begin{enumerate}
     \item TODO: rules go here
 \end{enumerate}
 
+\subsection{Scope Checking Rules}
+\par The scope checking rules aim to check if every label used in a tree is
+    used in an appropriate place which really boils down to two rules
+\begin{enumerate}
+    \item No label is used without first being declared
+    \item No label is used unless the dependency map allows it
+\end{enumerate}
+\begin{enumerate}
+    \item TODO: add rules
+\end{enumerate}
+
+\subsection{Well Formedness Rules}
+\par The well formedness rules aim to make sure that the depths of each expression and 
+    subexpression match the rules of our Ast n a GADT (this may already be done in the translation rules?)
+\begin{enumerate}
+    \item TODO: add rules
+\end{enumerate}
+
 \subsection{Generation Rules}
+\par The generation rules demonstrate how a nested list is generated from a symbolic expression
 \begin{enumerate}
     \item $\inference
         [Dot]
@@ -236,6 +275,12 @@
 \end{enumerate}
 
 \subsection{Check Rules}
+\par The check rules aim to determine if it is possible that a given nested list could be generated by a given ast.
+    I'm gonna need some special syntax here that means "there exists a prefix of this list such that..." and "and the
+    rest of the list has some other property" for concat, star, and maybe wrap/cons
+\begin{enumerate}
+    \item TODO: add rules
+\end{enumerate}
 
 \section{Implementation}
 
