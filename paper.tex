@@ -5,25 +5,44 @@
 \usepackage{graphicx}
 \usepackage{semantic}
 
-\newcommand{\matches}{\Downarrow}
+% inputs and outputs
+
+\newcommand{\inp}{(\env, \path) \;}
+\newcommand{\dinp}{(\env', \path') \;}
+\newcommand{\inpwe}[2]{(\envput{\env}{#1}{#2}, \path) \;}
+\newcommand{\inpwp}[2]{(\env, \envput{\path}{#1}{#2}) \;}
+\newcommand{\inpwb}[4]{(\envput{\env}{#1}{#2}, \envput{\path}{#1}{#2}) \;}
+\newcommand{\zout}{\; \env}
+\newcommand{\out}{\; \env'}
+\newcommand{\dout}{\; \env''}
+\newcommand{\tout}{\; \env'''}
+\newcommand{\outw}[2]{\; \envput{\env}{#1}{#2}}
+
+% environment interactions
 \newcommand{\env}{\Gamma}
 \newcommand{\path}{\Pi}
 \newcommand{\deps}{\Delta}
-\newcommand{\inp}{(\env, \path)}
-\newcommand{\out}{(\env', \path)}
-\newcommand{\dout}{\env'', \path}
 \newcommand{\envput}[3]{#1 [#2 \rightarrow #3]}
 \newcommand{\envget}[2]{#1(#2)}
 \newcommand{\envhas}[2]{#2 \in #1}
 \newcommand{\envhasnt}[2]{#2 \notin #1}
+
+% Type related stuff
+\newcommand{\base}{\beta}
+\newcommand{\complex}{\tau}
+\newcommand{\hastype}[2]{#1 : #2}
+
+% Custom operators
+\newcommand{\matches}{\Downarrow}
+\newcommand{\translate}{\longrightarrow}
+
+% Other
 \newcommand{\lab}{\ell}
 \newcommand{\nil}{[\;]}
 \newcommand{\gen}{rand()}
-\newcommand{\base}{\beta}
-\newcommand{\complex}{\tau}
-\newcommand{\hastype}[2]{#1 \propto #2}
-\newcommand{\translate}{\longrightarrow}
-\newcommand{\dmap}{\Delta}
+\newcommand{\OR}{\ |\ }
+\newcommand{\fresh}[1]{#1 \; fresh}
+\newcommand{\arbitrary}[1]{#1 \; arbitrary}
 
 \date{February 2026}
 \title{SymCheck}
@@ -44,6 +63,51 @@
 
 \section{Design}
 
+\subsection{The Surface Language}
+\par The surface language is the language that the user interacts with. Their expressions are defined in terms of the surface
+    language so they can be translated to the core language.
+
+\begin{align*}
+    surface &\to <f\;args>                                  && \text{where ``f'' is a function}                             \\
+        &\OR [ surface ]                                                                                                    \\
+        &\OR surface\; '|'\;surface                                                                                         \\
+        &\OR surface\; '|\{\lab\}'\;surface                 && \text{where ``$\lab$'' is a string}                          \\
+        &\OR surface*                                                                                                       \\
+        &\OR surface*\{\lab\}                               && \text{where ``$\lab$'' is a string}                          \\
+        &\OR surface\;surface                                                                                               \\
+        &\OR \lab \mapsto surface                           && \text{where ``$\lab$'' is a string}                          \\
+        &\OR (\lab\;:\;p\;args) \mapsto surface             && \text{where ``p'' is a predicate and ``$\lab$'' is a string} \\
+        &\OR \lab                                           && \text{where ``$\lab$'' is a string}                          \\
+        &\OR .                                                                                                              \\
+        &\OR (.\;:\;p\;args)                                && \text{where ``p'' is a predicate}                            \\
+        &\OR <lit>                                          && \text{where ``lit'' is a literal}                            \\ 
+        &\OR \nil                                                                                                           \\
+    args &\to \epsilon                                                                                                      \\
+        & \OR args'                                                                                                         \\
+    args' &\to surface                                                                                                      \\
+        &\OR surface \; '\$' \; args'                                                                                       \\
+\end{align*}
+
+\subsection{The Core Language}
+\par After translation all expressions are in the core language. The core language provides better typechecking for the
+    compiler.
+\begin{align*}
+    core &\to <f\;args>                                     && \text{where ``f'' is a function}                             \\
+        &\OR [core]                                                                                                         \\
+        &\OR core '|_{\lab}' core                           && \text{where ``$\lab$'' is a string}                          \\
+        &\OR core*_{\lab}                                   && \text{where ``$\lab$'' is a string}                          \\
+        &\OR core :> core                                                                                                   \\
+        &\OR core :++ core                                                                                                  \\
+        &\OR (\lab \; : \; p \; args) \mapsto core          && \text{where ``$\lab$'' is a string and ``p is a predicate''} \\
+        &\OR \lab                                           && \text{where ``$\lab$'' is a string}                          \\        
+        &\OR <lit>                                          && \text{where ``lit'' is a literal}                            \\
+        &\OR \nil                                                                                                           \\
+    args &\to \epsilon                                                                                                      \\
+        & \OR args'                                                                                                         \\
+    args' &\to core                                                                                                         \\
+        &\OR core \; '\$' \; args'                                                                                          \\
+\end{align*}
+
 \subsection{Syntax Definitions}
 \par We may need rules for translation, dependency map building, eval, check, 
     scope checking, well-formedness checking.
@@ -53,15 +117,15 @@
     \item $\path$ is our path, or ``context.'' It keeps track of which labels are taking on which values currently.
     \item $\env$ is our environment. It functions as a dictionary that maps labels to values. Since a single variable may take
         on multiple values in different contexts, the environment really maps labels to dictionaries which map contexts to values.
-    \item $\dmap$ is our dependency map. Since certain variable are only defined in the context of
+    \item $\deps$ is our dependency map. Since certain variable are only defined in the context of
         other variables, we need a map to tell us which other variable must be defined to bring another
         variable into scope. So the dependency maps labels to lists of labels for this purpose. For instance consider the
         symbolic expression $a -> (b -> b)*_{a}$. Since $b$ is defined in that star expression labelled ``$a$'' then
-        $b$ can only be referenced if $a$ is defined in the current context of an expression. Thus, $\envget{\dmap}{b}=[a]$.
+        $b$ can only be referenced if $a$ is defined in the current context of an expression. Thus, $\envget{\deps}{b}=[a]$.
         When using the environment, we assume the dependency map is precomputed. We also assume the dependency map is consulted
         before looking up a variables specific value in the environment.
     \item $x \matches y$ means ``$x$ is matched by LRE $y$''
-    \item $\envput{\lab}{x}$ means ``Insert the key value pair $(\lab, x)$ into the environment''
+    \item $\envput{E}{\lab}{x}$ means ``Insert the key value pair $(\lab, x)$ into $E$''
     \item $\envget{\lab}$ means ``lookup the value for $x$ in the environment.'' We assume that this operation takes the current
         context into account.
     \item $\envhas{E}{\lab}$ means ``check if $\lab$ is in the key set of $E$''
@@ -72,101 +136,120 @@
         We will use ``$\complex$'' to represent an arbitrary type.
     \item $\hastype{x}{T}$ means ``$x$ is of type $T$'' where $T$ is one of the aforementioned types.
     \item $x \translate y$ means ``$x$ translates to $y$''
+    \item For any of the functions defined here, adding a star before it indicates we apply the function to each element of a list
+        and return the list as a result. For example $surfs\; *\translate cores$ means that $surfs$ is a list of surface trees.
+        We translate each one using $\translate*$ and the result is a list of core trees called $cores$.
+    \item $const$ is a function that takes 2 arguments but always returns its first argument.
+    \item $xs ++ ys$ means ``append the list $ys$ to the list $xs$''
+    \item $x :: xs$ means ``prepend the element $x$ to the list $xs$''
+    \item $\fresh{x}$ means that $x$ is a random value that will never be used again in any other expression
+    \item $\arbitrary{x}$ means that $x$ is a random value that may be used again in subsequent expressions.
+    \item $\gen$ is a function that generates and arbitrary value of the correct type (context dependent) and returns it.
 \end{enumerate}
 
 \subsection{Translation Rules}
-\par I think these are complete
 \begin{enumerate}
+    % Data
     \item $\inference
-        [Assignment]
-        {args \translate args' & x \translate x'}
-        {(\lab : p args) -> x \translate Assign(\lab, p, args', x')}$
+        [AppTrans]
+        {args\; *\translate args'}
+        {<f\;args> \translate <f\;args'>}$
+
+    % Wrap
     \item $\inference
-        [Assignment]
-        {args \translate args' & x \translate x'}
-        {\lab -> x \translate Assign(\lab, const(True), \nil, x')}$
-    
+        [SingletonTrans]
+        {x \translate x'}
+        {[x] \translate [x']}$
+
+    % Union
     \item $\inference
         [UnionTrans]
         {\hastype{x}{\complex} & \hastype{y}{\complex} & x \translate x' & y \translate y'}
-        {x |\{\lab\} y \translate x' |_{\ell} y'}$
+        {x |\{\lab\} y \translate x' \; |_{\lab} \; y'}$
     \item $\inference
         [UnlabelledUnionTrans]
-        {\hastype{x}{\complex} & \hastype{y}{\complex} & x \translate x' & y \translate y'}
-        {x | y \translate Assign(\lab', const(True), \nil, -> x' |_{\lab'} y')}$
-    
-    \item $\inference
-        [ConcatBaseTrans]
-        {\hastype{x}{\base} & \hastype{y}{\base} & x \translate x' & y \translate y'}
-        {x y \translate x' :> Wrap(y')}$
-    \item $\inference
-        [ConcatConsTrans]
-        {\hastype{x}{\complex} & \hastype{y}{[\complex]} & x \translate x' & y \translate y'}
-        {x y \translate x' :> y'}$
-    \item $\inference
-        [ConcatSnocTrans]
-        {\hastype{x}{[\complex]} & \hastype{y}{\complex} & x \translate x' & y \translate y'}
-        {x y \translate x' :++ Wrap(y')}$
-    \item $\inference
-        [ConcatTrans]
-        {\hastype{x}{[\complex]} & \hastype{y}{[\complex]} & x \translate x' & y \translate y'}
-        {x y \translate x' :++ y'}$
+        {\hastype{x}{\complex} & \hastype{y}{\complex} & x \translate x' & y \translate y' & \fresh{\lab'}}
+        {x \; | \; y \translate (\lab' \; : \; const(True) \; \nil) \mapsto x' \; |_{\lab'} \; y'}$
 
+    % Star
     \item $\inference
         [StarBaseTrans]
         {\hastype{x}{\base} & x \translate x'}
-        {x*\{\lab\} \translate Wrap(x')*_{\lab}}$
+        {x*\{\lab\} \translate [x']*_{\lab}}$
     \item $\inference
         [StarTrans]
         {\hastype{x}{[\complex]} & x \translate x'}
         {x*\{\lab\} \translate x'*_{\lab}}$
     \item $\inference
         [UnlabelledStarBaseTrans]
-        {\hastype{x}{\base} & x \translate x'}
-        {x* \translate Assign(\lab', const(True), \nil, Wrap(x')*_{\lab'})}$
+        {\hastype{x}{\base} & x \translate x' & \fresh{\lab'}}
+        {x* \translate (\lab' \; : \; const(True) \; \nil) \mapsto [x']*_{\lab'}}$
     \item $\inference
         [UnlabelledStarTrans]
-        {\hastype{x}{[\complex]} & x \translate x'}
-        {x* \translate Assign(\lab', const(True), \nil, x'*_{\lab'})}$
+        {\hastype{x}{[\complex]} & x \translate x' & \fresh{\lab'}}
+        {x* \translate (\lab' \; : \; const(True) \; \nil) \mapsto x'*_{\lab'}}$
 
+    % Concat
+    \item $\inference
+        [ConcatBaseTrans]
+        {\hastype{x}{\base} & \hastype{y}{\base} & x \translate x' & y \translate y'}
+        {x \; y \translate x' :> [y']}$
+    \item $\inference
+        [ConcatConsTrans]
+        {\hastype{x}{\complex} & \hastype{y}{[\complex]} & x \translate x' & y \translate y'}
+        {x \; y \translate x' :> y'}$
+    \item $\inference
+        [ConcatSnocTrans]
+        {\hastype{x}{[\complex]} & \hastype{y}{\complex} & x \translate x' & y \translate y'}
+        {x \; y \translate x' :++ [y']}$
+    \item $\inference
+        [ConcatTrans]
+        {\hastype{x}{[\complex]} & \hastype{y}{[\complex]} & x \translate x' & y \translate y'}
+        {x \; y \translate x' :++ y'}$
+
+    % Assignment
+    \item $\inference
+        [AssignmentWithPredTrans]
+        {args \; *\translate args' & x \translate x'}
+        {(\lab \; : \; p \; args) -> x \translate (\lab \; : \; p \; args') \mapsto x'}$
+    \item $\inference
+        [AssignmentNoPredTrans]
+        {args \; *\translate args' & x \translate x'}
+        {\lab \mapsto x \translate (\lab \; : \; const(True) \; \nil) \mapsto x'}$
+    
+    % Variables
     \item $\inference
         [Variable]
         {}
-        {\lab \translate Var(\lab)}$
+        {\lab \translate \lab}$
 
+    % Dot
+    \item $\inference
+        [DotWithPredTrans]
+        {args \; *\translate args' & fresh(\lab')}
+        {(. : p\;args) \translate (\lab' \; : \: p \; args') \mapsto \lab'}$
+    \item $\inference
+        [DotNoPredTrans]
+        {\fresh(\lab')}
+        {. \translate (\lab' \; : \; const(True) \; \nil) \mapsto \lab'}$
+
+    % Literals
+    \item $\inference
+        [LitTrans]
+        {}
+        {<c> \translate <c>}$ 
+
+    % Empty
     \item $\inference
         [EmptyTrans]
         {}
         {\nil \translate \nil}$
-
-    \item $\inference
-        [LitTrans]
-        {}
-        {<c> \translate Lit(c)}$
-    \item $\inference
-        [AppTrans]
-        {args \translate args'}
-        {<f\;args> \translate Data(f,args')}$
-    
-    \item $\inference
-        [DotPTrans]
-        {args \translate args'}
-        {(. : p\;args) \translate Dot(p, args')}$
-    \item $\inference
-        [DotTrans]
-        {}
-        {. \translate Dot(const(True), \nil)}$
-
-    \item $\inference
-        [SingletonTrans]
-        {x \translate x'}
-        {[x] \translate Wrap(x')}$
 \end{enumerate}
 
 \subsection{Dependency Map Computation}
 \par the dependency map function is a bit complex and I'm not sure if we need rules for it
     anyways or if its sufficient to just describe the algorithm. Since we build the dependency
-    map from a while function (not just one expression) I designed it so that it could be a fold
+    map from a whole series of expressions representing a function I designed it so that it could be a fold
     function (i.e its type is dmap -> ast n a -> dmap)
 \begin{enumerate}
     \item TODO: rules go here
@@ -194,84 +277,77 @@
 \par The generation rules demonstrate how a nested list is generated from a symbolic expression
 \begin{enumerate}
     \item $\inference
-        [Dot]
-        {}
-        {\inp x \matches . \inp}$
-
-    \item $\inference
         [VariableReference1]
-        {\inp & \envhasnt{\env}{\lab} & (\envput{\env}{\lab}{x}, \path)}
-        {\inp x \matches \lab (\envput{\env}{\lab}{x}, \path)}$
+        {\envhasnt{\env}{\lab} & \arbitrary{x}}
+        {\inp \lab \matches x \outw{\lab}{x}}$
     \item $\inference
         [VariableReference2]
-        {\inp & \envhas{\env}{\lab} & \envget{\env}{\lab} = x & \inp}
-        {\inp x \matches \lab \inp}$
+        {\envget{\env}{\lab} = x}
+        {\inp \lab \matches x \zout}$
 
     \item $\inference
         [Empty]
         {}
-        {\inp \nil \matches \nil \inp}$
+        {\inp \nil \matches \nil \zout}$
 
     % by design, the depth of r_1 and r_2 are equal
     \item $\inference
         [UnionInit]
-        {\inp & \envhasnt{\env}{\lab} & (\envput{\env}{\lab}{\gen}, \path) & x \matches r_1 |_{\lab} r_2 & \out}
-        {\inp x \matches r_1 |_{\lab} r_2 \out}$
+        {\envhasnt{\env}{\lab} & \arbitrary{v} & \inpwe{\lab}{v} x \matches r_1 |_{\lab} r_2 \out}
+        {\inp r_1 |_{\lab} r_2 \matches x \out}$
     \item $\inference
         [UnionLeft]
-        {\inp & \envget{\env}{\lab} \mod 2 = 0 & (\env, \envput{\path}{\lab}{0}) & x \matches r_1 & \out}
-        {\inp x \matches r_1 |_{\lab} r_2 \out}$
+        {\envget{\env}{\lab} \mod 2 = 0 & \inpwp{\lab}{0} r_1 \matches x \out}
+        {\inp r_1 |_{\lab} r_2 \matches x \out}$
     \item $\inference
         [UnionRight]
-        {\inp & \envget{\env}{\lab} \mod 2 = 1 & (\env, \envput{\path}{\lab}{1}) & x \matches r_2 & \out}
-        {\inp x \matches r_1 |_{\lab} r_2 \out}$
+        {\envget{\env}{\lab} \mod 2 = 1 & \inpwp{\lab}{0} r_2 \matches x \out}
+        {\inp r_1 |_{\lab} r_2 \matches x \out}$
 
     % by design, the starred regex has a non-zero depth
     \item $\inference
         [StarInit]
-        {\inp & \envhasnt{\env}{\lab} & (\envput{\env}{\lab}{\gen}, \path) & x \matches r*_{\lab} & \out }
-        {\inp x \matches r*_{\lab} \out}$
+        {\envhasnt{\env}{\lab} & \arbitrary{v} & \inpwe{\lab}{v} x \matches r*_{\lab} \out }
+        {\inp r*_{\lab} \matches x \out}$
+    % Is it possible to pass the that label for the star when we switch it out for a constant label?
     \item $\inference
         [Star]
-        {\inp & \envget{\env}{\lab} = n \inp xs \matches r\{n\} \out}
-        {\inp xs \matches r*_{\lab} \dout}$
+        {\envget{\env}{\lab} = n & \inpwp{\lab}{0} xs \matches r*_{n} \out}
+        {\inp r*_{\lab} \matches xs \out}$
     \item $\inference
-        [RepeatNBase]
+        [ConstStarBase]
         {n \leq 0}
-        {\inp [] \matches r\{n\} \inp}$
+        {\inp [] \matches r*_{n} \inp}$
     \item $\inference
-        [RepeatN]
-        {n > 0 & \inp & xs & \matches & r & \out & ys \matches r\{n-1\} & \dout}
-        {\inp xs ++ ys \matches r\{n\} \inp}$
+        [ConstStar]
+        {n > 0 & \inp r \matches xs \out & \inpwp{TODO}{FIX} r*_{n-1} \matches ys \dout}
+        {\inp r*_{n} \matches xs ++ ys \dout}$
 
-    % by design, r_1 and r_2 have a non-zero depth
+    % by design, r_1 and r_2 have a non-zero depth for concat
     \item $\inference
         [Concat]
-        {\inp xs \matches r_1 \out & ys \matches r_2 \dout}
-        {\inp xs ++ ys \matches r_{1} :++ r_{2} \dout}$
+        {\inp r_1 \matches xs \out & r_2 \matches ys \dout}
+        {\inp r_{1} :++ r_{2} \matches xs ++ ys \env''}$
     \item $\inference
         [Cons]
-        {\inp x \matches r_1 \out xs \matches r_2 \dout}
-        {\inp x : xs \matches r_{1} :> r_{2} \dout}$
+        {\inp r_1 \matches x \out & \out r_1 \matches xs \dout}
+        {\inp r_{1} :> r_{2} \matches x : xs \dout}$
 
     \item $\inference
         [Wrap]
-        {\inp x \matches r \out}
-        {\inp [x] \matches Wrap\;r \out}$
+        {\inp r \matches x \out}
+        {\inp [x] \matches [r] \out}$
 
+    % TODO be more clear about difference between this and apply maybe?
     \item $\inference
         [Literals]
         {}
-        {\inp x \matches Lit\;x \out}$
+        {\inp <c> \matches c \out}$
 
     \item $\inference
-        [ApplyBase]
-        {}
-        {\inp x \matches Data(x,\nil) \out}$
-    \item $\inference
-        [ApplyBase]
-        {\inp x \matches Data(f(arg),args) \out}
-        {\inp x \matches Data(f,(arg : args)) \out}$
+        [Apply]
+        {\inp args \matches args' \env}
+        {\inp <f \; args> \matches f(args') \env}$
 \end{enumerate}
 
 \subsection{Check Rules}
