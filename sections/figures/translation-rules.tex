@@ -1,0 +1,97 @@
+\begin{figure*}
+    % Data
+  \[
+  \begin{array}{ll}
+     \inference
+        [AppTrans]
+        {\forall arg_i \in args, }
+        {<f\;args> \translate <f\;args'>}
+    &
+    % Union
+     \inference
+        [UnionTrans]
+        {\hastype{x}{\complex} & \hastype{y}{\complex} & x \translate x' & y \translate y'}
+        {x |\{\lab\} y \translate x' \; |_{\lab} \; y'}
+     \inference
+        [UnlabelledUnionTrans]
+        {\hastype{x}{\complex} & \hastype{y}{\complex} & x \translate x' & y \translate y' & \fresh{\lab'}}
+        {x \; | \; y \translate (\lab' \Longleftarrow True) \mapsto x' \; |_{\lab'} \; y'}
+  \end{array}
+    \]
+
+    % Star
+     $\inference
+        [StarBaseTrans]
+        {\hastype{x}{\base} & x \translate x'}
+        {x*\{\lab\} \translate [x']*_{\lab}}$
+     $\inference
+        [StarTrans]
+        {\hastype{x}{[\complex]} & x \translate x'}
+        {x*\{\lab\} \translate x'*_{\lab}}$
+     $\inference
+        [UnlabelledStarBaseTrans]
+        {\hastype{x}{\base} & x \translate x' & \fresh{\lab'}}
+        {x* \translate (\lab' \Longleftarrow True) \mapsto [x']*_{\lab'}}$
+     $\inference
+        [UnlabelledStarTrans]
+        {\hastype{x}{[\complex]} & x \translate x' & \fresh{\lab'}}
+        {x* \translate (\lab' \Longleftarrow True) \mapsto x'*_{\lab'}}$
+
+    % Concat
+     $\inference
+        [ConcatBaseTrans]
+        {\hastype{x}{\base} & \hastype{y}{\base} & x \translate x' & y \translate y'}
+        {x \; y \translate x' :> [y']}$
+     $\inference
+        [ConcatConsTrans]
+        {\hastype{x}{\complex} & \hastype{y}{[\complex]} & x \translate x' & y \translate y'}
+        {x \; y \translate x' :> y'}$
+     $\inference
+        [ConcatSnocTrans]
+        {\hastype{x}{[\complex]} & \hastype{y}{\complex} & x \translate x' & y \translate y'}
+        {x \; y \translate x' :++ [y']}$
+     $\inference
+        [ConcatTrans]
+        {\hastype{x}{[\complex]} & \hastype{y}{[\complex]} & x \translate x' & y \translate y'}
+        {x \; y \translate x' :++ y'}$
+
+    % Assignment
+     $\inference
+        [AssignmentWithPredTrans]
+        {\forall arg \in args, arg \translate arg' & x \translate x'}
+        {(\lab \Longleftarrow p(args, \lab)) \mapsto x \translate (\lab \Longleftarrow p(args', \lab)) \mapsto x'}$
+     $\inference
+        [AssignmentNoPredTrans]
+        {x \translate x'}
+        {\lab \mapsto x \translate (\lab \Longleftarrow True) \mapsto x'}$
+    
+    % Variables
+     $\inference
+        [Variable]
+        {}
+        {\lab \translate \lab}$
+
+    % Dot
+     $\inference
+        [DotWithPredTrans]
+        {args \; *\translate args' & fresh(\lab')}
+        {(. \Longleftarrow p \; args) \translate (\lab' \Longleftarrow p(args', \lab)) \mapsto \lab'}$
+     $\inference
+        [DotNoPredTrans]
+        {\fresh(\lab')}
+        {. \translate (\lab' \Longleftarrow True) \mapsto \lab'}$
+
+    % Literals
+     $\inference
+        [LitTrans]
+        {}
+        {<c> \translate <c>}$ 
+
+    % Empty
+     $\inference
+        [EmptyTrans]
+        {}
+        {\nil \translate \nil}$
+\caption{}
+
+\end{figure*}
