@@ -1,0 +1,63 @@
+\begin{figure*}
+    % we assume all values are generated at assignment and therefore the environment contains them
+     $\inference
+        [Variable]
+        {\envget{\env}{\lab} = x}
+        {\inp \lab \matches x, \zout}$
+
+     $\inference
+        [Empty]
+        {}
+        {\inp \nil \matches \nil, \zout}$
+
+    % by design, the depth of r_1 and r_2 are equal
+     $\inference
+        [UnionLeft]
+        {\envget{\env}{\lab} \mod 2 = 0 & \inpwp{\lab}{0} r_1 \matches x, \out}
+        {\inp r_1 |_{\lab} r_2 \matches x, \out}$
+     $\inference
+        [UnionRight]
+        {\envget{\env}{\lab} \mod 2 = 1 & \inpwp{\lab}{0} r_2 \matches x, \out}
+        {\inp r_1 |_{\lab} r_2 \matches x, \out}$
+
+    % Is it possible to pass the that label for the star when we switch it out for a constant label?
+     $\inference
+        [StarInit]
+        {\envhasnt{\pathvar}{\lab} & \envget{\env}{\lab} = n & \inpwp{\lab}{0} r*_{\lab} \matches xs, \out}
+        {\inp r*_{\lab} \matches xs, \out}$
+     $\inference
+        [Star]
+        {\envget{\pathvar}{\lab} < n & \envget{\env}{\lab} = n & \inp r \matches xs, \out & \inpwp{\lab}{\envget{\pathvar}{\lab} + 1} r*_{\lab} \matches ys}
+        {\inp r*_{\lab} \matches xs ++ ys}$
+     $\inference
+        [StarEnd]
+        {\envget{\env}{\lab} \leq 0 \lor \envget{\pathvar}{\lab} \geq \envget{\env}{\lab}}
+        {\inp r*_{\lab} \matches \nil, \out}$
+
+    % by design, r_1 and r_2 have a non-zero depth for concat
+     $\inference
+        [Concat]
+        {\inp r_1 \matches xs, \out & r_2 \matches ys, \dout}
+        {\inp r_{1} :++ r_{2} \matches xs ++ ys, \dout}$
+     $\inference
+        [Cons]
+        {\inp r_1 \matches x, \out & \out r_1 \matches xs, \dout}
+        {\inp r_{1} :> r_{2} \matches x : xs, \dout}$
+
+    % TODO be more clear about difference between this and apply maybe?
+     $\inference
+        [Literals]
+        {}
+        {\inp <c> \matches c, \out}$
+
+     $\inference
+        [Apply]
+        {\inp args \matches args' \env}
+        {\inp <f \; args> \matches f(args'), \env}$
+
+     $\inference
+        [Assign]
+        {\arbitrary{x} & p(args, x)}
+        {\inp (\lab \Longleftarrow p(args, \lab)) \mapsto e, \outw{\lab}{x}}$
+\end{figure*}
+
