@@ -1,17 +1,17 @@
-\documentclass{article}
+\documentclass[sigconf,review,anonymous]{acmart}
 
-\usepackage{amsmath,amsthm,amssymb}
-\usepackage{algorithmicx}
+% \usepackage{amsmath,amsthm,amssymb}
+% \usepackage{algorithmicx}
 \usepackage{graphicx}
 \usepackage{semantic}
 
 % inputs and outputs
 
-\newcommand{\inp}{(\env, \path) \;}
-\newcommand{\dinp}{(\env', \path') \;}
-\newcommand{\inpwe}[2]{(\envput{\env}{#1}{#2}, \path) \;}
-\newcommand{\inpwp}[2]{(\env, \envput{\path}{#1}{#2}) \;}
-\newcommand{\inpwb}[4]{(\envput{\env}{#1}{#2}, \envput{\path}{#1}{#2}) \;}
+\newcommand{\inp}{(\env, \pathvar) \;}
+\newcommand{\dinp}{(\env', \pathvar') \;}
+\newcommand{\inpwe}[2]{(\envput{\env}{#1}{#2}, \pathvar) \;}
+\newcommand{\inpwp}[2]{(\env, \envput{\pathvar}{#1}{#2}) \;}
+\newcommand{\inpwb}[4]{(\envput{\env}{#1}{#2}, \envput{\pathvar}{#1}{#2}) \;}
 \newcommand{\zout}{\; \env}
 \newcommand{\out}{\; \env'}
 \newcommand{\dout}{\; \env''}
@@ -21,7 +21,7 @@
 
 % environment interactions
 \newcommand{\env}{\Gamma}
-\newcommand{\path}{\Pi}
+\newcommand{\pathvar}{\Pi}
 \newcommand{\deps}{\Delta}
 \newcommand{\envput}[3]{#1 [#2 \rightarrow #3]}
 \newcommand{\envget}[2]{#1(#2)}
@@ -49,12 +49,12 @@
 \title{SymCheck}
 \author{Evan Dreher, Abha Chaudhary, William Hallahan}
 
-\begin{document}
-\maketitle
-
 \begin{abstract}
     
 \end{abstract}
+
+\begin{document}
+\maketitle
 
 \section{Introduction} \label{sec:introduction}
 
@@ -66,7 +66,7 @@
 
 \subsection{The Surface Language} \label{subsec:the-surface-language}
 \begin{enumerate}
-    \item $\path$ is our path, or ``context.'' It keeps track of which labels are taking on which values currently.
+    \item $\pathvar$ is our path, or ``context.'' It keeps track of which labels are taking on which values currently.
     
     \item $\env$ is our environment. It functions as a dictionary that maps labels to values. Since a single variable may take on multiple values in different contexts, the environment really maps labels to dictionaries which map contexts to values.
     
@@ -282,15 +282,15 @@
     % Is it possible to pass the that label for the star when we switch it out for a constant label?
     \item $\inference
         [StarInit]
-        {\envhasnt{\path}{\lab} & \envget{\env}{\lab} = n & \inpwp{\lab}{0} r*_{\lab} \matches xs, \out}
+        {\envhasnt{\pathvar}{\lab} & \envget{\env}{\lab} = n & \inpwp{\lab}{0} r*_{\lab} \matches xs, \out}
         {\inp r*_{\lab} \matches xs, \out}$
     \item $\inference
         [Star]
-        {\envget{\path}{\lab} < n & \envget{\env}{\lab} = n & \inp r \matches xs, \out & \inpwp{\lab}{\envget{\path}{\lab} + 1} r*_{\lab} \matches ys}
+        {\envget{\pathvar}{\lab} < n & \envget{\env}{\lab} = n & \inp r \matches xs, \out & \inpwp{\lab}{\envget{\pathvar}{\lab} + 1} r*_{\lab} \matches ys}
         {\inp r*_{\lab} \matches xs ++ ys}$
     \item $\inference
         [StarEnd]
-        {\envget{\env}{\lab} \leq 0 \lor \envget{\path}{\lab} \geq \envget{\env}{\lab}}
+        {\envget{\env}{\lab} \leq 0 \lor \envget{\pathvar}{\lab} \geq \envget{\env}{\lab}}
         {\inp r*_{\lab} \matches \nil, \out}$
 
     % by design, r_1 and r_2 have a non-zero depth for concat
