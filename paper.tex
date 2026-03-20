@@ -9,45 +9,7 @@
 \newcommand{\abha}[1]{{\color{blue}\textbf{Abha: } #1}}
 \newcommand{\evan}[1]{{\color{green}\textbf{Evan: } #1}}
 
-% inputs and outputs
-
-\newcommand{\inp}{(\env, \pathvar) \;}
-\newcommand{\dinp}{(\env', \pathvar') \;}
-\newcommand{\inpwe}[2]{(\envput{\env}{#1}{#2}, \pathvar) \;}
-\newcommand{\inpwp}[2]{(\env, \envput{\pathvar}{#1}{#2}) \;}
-\newcommand{\inpwb}[4]{(\envput{\env}{#1}{#2}, \envput{\pathvar}{#1}{#2}) \;}
-\newcommand{\zout}{\; \env}
-\newcommand{\out}{\; \env'}
-\newcommand{\dout}{\; \env''}
-\newcommand{\tout}{\; \env'''}
-\newcommand{\outw}[2]{\; \envput{\env}{#1}{#2}}
-\newcommand{\asgnarrow}{\mapsto}
-
-% environment interactions
-\newcommand{\env}{\Gamma}
-\newcommand{\pathvar}{\Pi}
-\newcommand{\deps}{\Delta}
-\newcommand{\envput}[3]{#1 [#2 \rightarrow #3]}
-\newcommand{\envget}[2]{#1(#2)}
-\newcommand{\envhas}[2]{#2 \in #1}
-\newcommand{\envhasnt}[2]{#2 \notin #1}
-
-% Type related stuff
-\newcommand{\base}{\beta}
-\newcommand{\complex}{\tau}
-\newcommand{\hastype}[2]{#1 : #2}
-
-% Custom operators
-\newcommand{\matches}{\Downarrow}
-\newcommand{\translate}{\longrightarrow}
-
-% Other
-\newcommand{\lab}{\ell}
-\newcommand{\nil}{[\;]}
-\newcommand{\gen}{rand()}
-\newcommand{\OR}{\ |\ }
-\newcommand{\fresh}[1]{#1 \; fresh}
-\newcommand{\arbitrary}[1]{#1 \; arbitrary}
+\input{commands}
 
 \date{February 2026}
 \title{SymCheck}

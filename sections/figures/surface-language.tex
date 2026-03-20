@@ -1,19 +1,19 @@
 \begin{figure}
 \begin{center}
     \begin{align*}
-        \mathit{surface} &\to [ \mathit{surface} ]                      \\
-            &\OR \mathit{surface}\; '|'\;\mathit{surface}               \\
-            &\OR \mathit{surface}\; '|\{\lab\}'\;\mathit{surface}       \\
-            &\OR \mathit{surface}*                                      \\
-            &\OR \mathit{surface}*\{\lab\}                              \\
-            &\OR \mathit{surface}\;\mathit{surface}                     \\
-            &\OR \lab \asgnarrow \mathit{surface}                       \\
-            &\OR (\lab \Longleftarrow b) \asgnarrow \mathit{surface}    \\
-            &\OR \lab                                                   \\
-            &\OR .                                                      \\
-            &\OR (. \Longleftarrow b)                                   \\
-            &\OR <x>                                                    \\ 
-            &\OR \nil                                                   \\
+        \mathit{surface} &\to [ \mathit{surface} ]                     & \text{List}    \\
+            &\OR \mathit{surface}\; '|'\;\mathit{surface}              & \text{Union}    \\
+            &\OR \mathit{surface}\; '|\{\lab\}'\;\mathit{surface}      & \text{Labeled Union}    \\
+            &\OR \mathit{surface}*                                     & \text{Kleene Closure}    \\
+            &\OR \mathit{surface}*\{\lab\}                             & \text{Labeled Kleene Closure}    \\
+            &\OR \mathit{surface}\;\mathit{surface}                    & \text{Sequencing}    \\
+            &\OR \lab \asgnarrow \mathit{surface}                      & \text{Binding}    \\
+            &\OR (\lab \Longleftarrow b) \asgnarrow \mathit{surface}   & \text{Constrained Binding}    \\
+            &\OR \lab                                                  & \text{Label}    \\
+            &\OR .                                                     & \text{Any Value}    \\
+            &\OR (. \Longleftarrow b)                                  & \text{Constrained Value}    \\
+            &\OR <x>                                                   & \text{Program Code}    \\ 
+            &\OR \nil                                                  & \text{Empty List}    \\
     \end{align*}
     \caption{The Surface Language as a Context Free Grammar}
     \label{fig:the-surface-language}

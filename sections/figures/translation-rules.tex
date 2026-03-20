@@ -1,23 +1,18 @@
 \begin{figure*}
     % Data
-  \[
-  \begin{array}{ll}
-     \inference
+     $\inference
         [AppTrans]
         {\forall arg_i \in args, }
-        {<f\;args> \translate <f\;args'>}
-    &
-    % Union
-     \inference
+        {<f\;args> \translate <f\;args'>}$
+        % Union
+     $\inference
         [UnionTrans]
         {\hastype{x}{\complex} & \hastype{y}{\complex} & x \translate x' & y \translate y'}
-        {x |\{\lab\} y \translate x' \; |_{\lab} \; y'}
-     \inference
+        {x |\{\lab\} y \translate x' \; |_{\lab} \; y'}$
+     $\inference
         [UnlabelledUnionTrans]
         {\hastype{x}{\complex} & \hastype{y}{\complex} & x \translate x' & y \translate y' & \fresh{\lab'}}
-        {x \; | \; y \translate (\lab' \Longleftarrow True) \mapsto x' \; |_{\lab'} \; y'}
-  \end{array}
-    \]
+        {x \; | \; y \translate (\lab' \Longleftarrow True) \mapsto x' \; |_{\lab'} \; y'}$
 
     % Star
      $\inference
@@ -92,6 +87,6 @@
         [EmptyTrans]
         {}
         {\nil \translate \nil}$
-\caption{\bill{Generation Rules}}
+\caption{\bill{Translation Rules}}
 
 \end{figure*}

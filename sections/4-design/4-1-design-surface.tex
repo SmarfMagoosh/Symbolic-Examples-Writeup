@@ -1,34 +1,27 @@
 \subsection{The Surface Language} \label{subsec:the-surface-language}
-\begin{enumerate}
-    \item $\pathvar$ is our path, or ``context.'' It keeps track of which labels are taking on which values currently.
-    
-    \item $\env$ is our environment. It functions as a dictionary that maps labels to values. Since a single variable may take on multiple values in different contexts, the environment really maps labels to dictionaries which map contexts to values.
-    
-    \item $\deps$ is our dependency map. Since certain variable are only defined in the context of other variables, we need a map to tell us which other variable must be defined to bring another variable into scope. So the dependency maps labels to lists of labels for this purpose. For instance, consider the symbolic expression $a -> (b -> b)*_{a}$. Since $b$ is defined in the star expression labelled ``$a$'' then $b$ is only defined if $a$ is defined in the current context of an expression. Thus, $\envget{\deps}{b}=[a]$. When using the environment, we assume the dependency map is precomputed. We also assume the dependency map is consulted before looking up a variables specific value in the environment.
-    
-    \item $\envput{E}{\lab}{x}$ means ``Insert the key-value pair $(\lab, x)$ into $E$.'' if $E$ is $\env$ then we assume that this operation takes the current context and dependency map into account
-    
-    \item $\envget{E}{\lab}$ means ``get the value for key $x$ in $E$.'' If $E$ is $\env$ then we assume that this operation takes the current context and dependency map into account.
-    
-    \item $\envhas{E}{\lab}$ means ``check if $\lab$ is in the key set of $E$''
-    
-    \item $\hastype{x}{T}$ means ``$x$ is of type $T$'' where $T$ is either a base type $\base$, an arbitrary type $\complex$, or. A base type is a type that is not a list, an arbitrary type either a base type or a list of some arbitrary type. TODO, this isn't quite true I don't think... it really means ``surface expression $x$ will generate values of type $T$.'' maybe need new symbol for this?
-    
-    \item $e \matches x$ means ``symbolic expression $e$ generates value $x$''
-
-    \item $x \translate y$ means ``surface expression $x$ translates to  core expression $y$''
-    
-    \item $xs ++ ys$ means ``append the list $ys$ to the list $xs$''
-    
-    \item $x :: xs$ means ``prepend the element $x$ to the list $xs$''
-    
-    \item $\fresh{x}$ means that value $x$ is a random value that will never be used again in any other expression
-    
-    \item $\arbitrary{x}$ means that value $x$ is a random value that may be used again in subsequent expressions.
-    
-    \item $\gen$ is a function that generates and arbitrary value of the correct type (context dependent) and returns it.
-\end{enumerate}
 
 \input{sections/figures/surface-language}
-\par The surface language is the language that the user interacts with. Their expressions are defined in terms of the surface language so they can be translated to the core language. In this specification, $\lab$ is a label (i.e a string), $x$ is any arbitrary expression, and $b$ is some expression that evaluates to a boolean. The $b$ expression exists so that the user can constrain the domains of variables so that the generation process isn't completely random. If $b$ is just ``$True$'' then SymCheck will use the first value it generates for the label. It is possible, however, to include a predicate here which can include surface expressions as arguments so that labels can be constrained in terms of other labels. If this is done, it is assumed that the arguments are translated to the core language (see section \ref{subsec:translation-rules}) and evaluated (see section \ref{subsec:generation-rules}) before being passed to the predicate.
+While convenient for generating and checking values,
+the core language is quite small and awkward
+to write examples in.
+Hence, we define a larger, more feature rich surface language
+which we then translate into the core language.
+Figure~\ref{fig:the-surface-language}
+shows the grammar of this core language.
+
+Many features of the core language closely resemble the core language--
+we have labels, as well as labeled unions, labeled kleene closures, and labeled bindings, for instance.
+Several other additional features
+are essentially syntactic sugar for these.
+For instance, the surface language includes a dot operator $.$,
+which matches on any value.
+In the core language, this is translated into
+introducing and matching on a fresh unconstrained label, $. \translate (\lab' \Longleftarrow True) \mapsto \lab'$.
+
+\par The surface language is the language that the user interacts with.
+Their expressions are defined in terms of the surface language so they can be translated to the core language.
+In this specification, $\lab$ is a label (i.e a string), $x$ is any arbitrary expression, and $b$ is some expression that evaluates to a boolean.
+The $b$ expression exists so that the user can constrain the domains of variables so that the generation process isn't completely random. If $b$ is just ``$True$'' then SymCheck will use the first value it generates for the label.
+It is possible, however, to include a predicate here which can include surface expressions as arguments so that labels can be constrained in terms of other labels.
+If this is done, it is assumed that the arguments are translated to the core language (see section \ref{subsec:translation-rules}) and evaluated (see section \ref{subsec:generation-rules}) before being passed to the predicate.
 
