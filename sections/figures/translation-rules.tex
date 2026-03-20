@@ -34,19 +34,19 @@
 
     % Concat
      $\inference
-        [ConcatBaseTrans]
+        [\ConcatBaseTrans]
         {\hastype{x}{\base} & \hastype{y}{\base} & x \translate x' & y \translate y'}
         {x \; y \translate x' :> [y']}$
      $\inference
-        [ConcatConsTrans]
+        [\ConcatConsTrans]
         {\hastype{x}{\complex} & \hastype{y}{[\complex]} & x \translate x' & y \translate y'}
         {x \; y \translate x' :> y'}$
      $\inference
-        [ConcatSnocTrans]
+        [\ConcatSnocTrans]
         {\hastype{x}{[\complex]} & \hastype{y}{\complex} & x \translate x' & y \translate y'}
         {x \; y \translate x' :++ [y']}$
      $\inference
-        [ConcatTrans]
+        [\ConcatTrans]
         {\hastype{x}{[\complex]} & \hastype{y}{[\complex]} & x \translate x' & y \translate y'}
         {x \; y \translate x' :++ y'}$
 
@@ -72,7 +72,7 @@
         {args \; *\translate args' & fresh(\lab')}
         {(. \Longleftarrow p \; args) \translate (\lab' \Longleftarrow p(args', \lab)) \mapsto \lab'}$
      $\inference
-        [DotNoPredTrans]
+        [\DotNoPredTrans]
         {\fresh(\lab')}
         {. \translate (\lab' \Longleftarrow True) \mapsto \lab'}$
 
@@ -88,5 +88,5 @@
         {}
         {\nil \translate \nil}$
 \caption{\bill{Translation Rules}}
-
+\label{fig:translation-rules}
 \end{figure*}

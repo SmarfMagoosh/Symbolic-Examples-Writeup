@@ -3,26 +3,13 @@
 
 \input{sections/4-design/notes}
 
+\input{sections/figures/type-language}
+
 \input{sections/4-design/4-1-design-surface}
 
 \subsection{The Core Language} \label{subsec:the-core-language}
 \par After translation all expressions are in the core language. The core language provides better typechecking for the compiler.
-\begin{figure}
-\begin{center}
-    \begin{align*}
-        \mathit{core} &\to \mathit{core} '|_{\lab}' \mathit{core}   \\
-            &\OR \mathit{core}*_{\lab}                              \\
-            &\OR \mathit{core} :> \mathit{core}                     \\
-            &\OR \mathit{core} :++ \mathit{core}                    \\
-            &\OR (\lab \Longleftarrow b) \asgnarrow \mathit{core}   \\
-            &\OR \lab                                               \\        
-            &\OR <x>                                                \\
-            &\OR \nil                                               \\
-    \end{align*}
-    \caption{The Core Language as a Context Free Grammar}
-    \label{fig:the-core-language}
-\end{center}
-\end{figure}
+\input{sections/figures/core-language}
 
 
 

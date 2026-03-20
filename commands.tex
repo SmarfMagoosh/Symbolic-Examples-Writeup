@@ -1,3 +1,11 @@
+% formatting
+\newcommand{\emphbf}[1]{\textbf{\emph{#1}}} 
+\newcommand{\mypara}[1]{\smallskip\noindent\emphbf{#1}} 
+
+\newcommand{\usp}{\ensuremath{\>}}
+\newcommand{\uspp}{\ensuremath{\usp \usp}}
+\newcommand{\usppp}{\ensuremath{\usp \usp \usp}}
+
 
 % inputs and outputs
 
@@ -23,9 +31,18 @@
 \newcommand{\envhasnt}[2]{#2 \notin #1}
 
 % Type related stuff
+\newcommand{\type}{\tau}
 \newcommand{\base}{\beta}
 \newcommand{\complex}{\tau}
 \newcommand{\hastype}[2]{#1 : #2}
+
+% surface language
+\newcommand{\surface}{\ensuremath{\mathit{surface}}\xspace}
+
+% core language
+\newcommand{\core}{\ensuremath{\mathit{core}}\xspace}
+\newcommand{\cons}{\ensuremath{:>}\xspace}
+\newcommand{\concat}{\ensuremath{:++}\xspace}
 
 % Custom operators
 \newcommand{\matches}{\Downarrow}
@@ -38,3 +55,13 @@
 \newcommand{\OR}{\ |\ }
 \newcommand{\fresh}[1]{#1 \; fresh}
 \newcommand{\arbitrary}[1]{#1 \; arbitrary}
+
+% Rules
+\newcommand{\rulename}[1]{{{\footnotesize{\textsc{#1}}}}\xspace}
+
+\newcommand{\ConcatBaseTrans}{\rulename{ConcatBaseTrans}}
+\newcommand{\ConcatConsTrans}{\rulename{ConcatConsTrans}}
+\newcommand{\ConcatSnocTrans}{\rulename{ConcatSnocTrans}}
+\newcommand{\ConcatTrans}{\rulename{ConcatTrans}}
+
+\newcommand{\DotNoPredTrans}{\rulename{DotNoPredTrans}}
