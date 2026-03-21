@@ -40,9 +40,13 @@
 \newcommand{\surface}{\ensuremath{s}\xspace}
 
 % core language
-\newcommand{\core}{\ensuremath{e}\xspace}
+\newcommand{\core}{\ensuremath{c}\xspace}
 \newcommand{\cons}{\ensuremath{:>}\xspace}
 \newcommand{\concat}{\ensuremath{:++}\xspace}
+
+% host language
+\newcommand{\expr}{\ensuremath{e}\xspace}
+
 
 % Custom operators
 \newcommand{\matches}{\Downarrow}
@@ -77,3 +81,20 @@
 
 \newcommand{\StarBaseTrans}{\rulename{StarBaseTrans}}
 \newcommand{\StarTrans}{\rulename{StarTrans}}
+
+%Generation
+\newcommand{\RuleEmpty}{\rulename{Empty}}
+\newcommand{\RuleConcat}{\rulename{Concat}}
+\newcommand{\RuleCons}{\rulename{Cons}}
+
+\newcommand{\RuleUnionLeft}{\rulename{UnionLeft}}
+\newcommand{\RuleUnionRight}{\rulename{UnionRight}}
+
+\newcommand{\RuleStarInit}{\rulename{StarInit}}
+\newcommand{\RuleStar}{\rulename{Star}}
+\newcommand{\RuleStarEnd}{\rulename{StarEnd}}
+
+\newcommand{\RuleLiteral}{\rulename{Literal}}
+
+\newcommand{\RuleApply}{\rulename{Apply}}
+\newcommand{\RuleAssign}{\rulename{Assign}}

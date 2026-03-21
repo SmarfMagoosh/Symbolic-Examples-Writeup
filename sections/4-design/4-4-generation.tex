@@ -1,3 +1,64 @@
 \subsection{Generation Rules} \label{subsec:generation-rules}
 \input{sections/figures/generation-rules}
-\par The generation rules demonstrate how a nested list is generated from a symbolic expression
+\par We now consider generating random input values from symbolic expressions.
+To do this, we define
+a relation
+$\inp \lab \matches x, \zout$.
+$\pathvar$ is the \textit{context}.
+\bill{In the notes this said ``path or context''--
+I don't care which, but pick one of those names and stick with it.}
+It maps labels to the values that they are currently
+taking on.
+Note that the same label may take 
+$\env$ is the \textit{environment},
+which maps label-context pairs to values.
+\begin{example}
+\bill{We can leave this until later, because it might depend on how we set up other stuff
+down the line-- but some kind of example here might be helpful}
+\end{example}
+% Since a single variable may take on multiple values in different contexts,
+% the environment really maps labels to dictionaries which map contexts to values.
+
+Figure~\ref{fig:generation-rules}
+shows the generation rules.
+
+\mypara{List constructs}
+\RuleEmpty, \RuleCons, and \RuleConcat
+structurally match on a symbolic list,
+recursively generating a concrete list's subcomponents,
+and then appropriately composing those subcomponents together.
+\RuleEmpty is the simplest of these,
+simply saying that an empty list
+can only generate an empty list
+($\inp \nil \matches \nil, \zout$.)
+\RuleCons generates a single element
+for the head of the list
+and generates the tail of the list,
+and composes them with \cons.
+Finally, \RuleConcat generates
+two separate lists,
+and concatenates them together with \concat.
+\bill{Evan, it looks like the recursive
+applications of $\matches$ on the top
+of \RuleConcat and \RuleCons
+are a bit malformed--
+can you please look at those?
+Also, we need to explain in this paragraph
+why the context is ``threaded through'' the recursive calls.
+(Is the environment threaded through? I think we don't need to have it threaded?
+But explain that also.)}
+
+\mypara{Assign}
+\RuleAssign
+\bill{...}
+
+\mypara{Union}
+\RuleUnionLeft and \RuleUnionRight
+handle the $\|_\lab$ operator.
+Note that which rule applies
+is based on the (previously randomly chosen)
+value of $\lab$. \bill{Explain more}
+\bill{Is it a glitch in the rules that $\lab$ is assigned the value $0$ in the path of \RuleUnionRight}
+
+\mypara{Kleene Closure}
+\RuleStarInit, \RuleStar, \RuleStarEnd \bill{...}
