@@ -2,11 +2,11 @@
 \begin{center}
     \begin{align*}
        \surface &\to [\surface ]                     & \text{List}    \\
-            &\OR\surface\; '|'\;\mathit{surface}              & \text{Union}    \\
-            &\OR\surface\; '|\{\lab\}'\;\mathit{surface}      & \text{Labeled Union}    \\
+            &\OR\surface\; '|'\;\surface              & \text{Union}    \\
+            &\OR\surface\; '|\{\lab\}'\;\surface      & \text{Labeled Union}    \\
             &\OR\surface*                                     & \text{Kleene Closure}    \\
             &\OR\surface*\{\lab\}                             & \text{Labeled Kleene Closure}    \\
-            &\OR\surface\;\mathit{surface}                    & \text{Sequencing}    \\
+            &\OR\surface\;\surface                   & \text{Sequencing}    \\
             &\OR \lab \asgnarrow\surface                      & \text{Binding}    \\
             &\OR (\lab \Longleftarrow b) \asgnarrow\surface   & \text{Constrained Binding}    \\
             &\OR \lab                                                  & \text{Label}    \\

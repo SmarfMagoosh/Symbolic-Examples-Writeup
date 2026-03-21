@@ -17,17 +17,6 @@ Figure~\ref{fig:translation-rules}
 shows \bill{a selection of?} the rules
 used in the translation.
 
-Many features of the core language exactly resemble the core language--
-we have labels, as well as labeled unions, labeled kleene closures, and labeled bindings, for instance.
-Several other additional features
-are essentially syntactic sugar for these.
-For instance, the surface language includes a dot operator $.$,
-which matches on any value.
-As shown by the rule
-\DotNoPredTrans.
-this is translated into
-introducing and matching on a fresh unconstrained label, $(\lab' \Longleftarrow True) \mapsto \lab'$.
-
 \mypara{Representations of lists}
 The largest semantic deviation between the surface and core language
 is in the representation of lists.
@@ -41,8 +30,55 @@ for instance \texttt{[5 6] [7] [8 9]} represents the nested list $[5, 6], [7], [
 \bill{Maybe elaborate on motivation/design choices somewhere}
 
 The rules \ConcatBaseTrans, \ConcatConsTrans,\ConcatSnocTrans, and \ConcatTrans implement this.
-They rely on examining the type of the left and right expressions in a sequence
+They rely on examining the type of the left and right expressions $\surface_1\;\surface_2$ in a sequence.
+In the case that both $\surface_1$ and $\surface_2$
+ both have type $[\type]$,
+\ConcatTrans concatenates the two lists into a single list with type $[\type]$.
+If $\surface_1$ has type \type and $\surface_2$ has type $[\type]$,
+then  \ConcatConsTrans says that $\surface_1$ is cons-ed onto the list $\surface_2$.
+Similarly, if $\surface_1$ has type $[\type]$,
+and $\surface_2$ has type $\type$,
+then \ConcatSnocTrans snoc's $\surface_2$ on the end of $\surface_1$.
+Finally, \ConcatBaseTrans
+handles when \textit{both} $\surface_1$ and $\surface_2$ are the same non-list type \base
+by combining them into the list $\surface_1 \cons [\surface_2]$.
+Any other combination of types
+(for example, if $\surface_1$ has type \type and $\surface_2$
+has type $[[\type]]$) is rejected with a compile-time \bill{I think? Evan, is it compile time?} error message.
+\bill{More motivation of design choices?}
 \bill{...}
+
+\mypara{Features}
+Besides the difference in the representation of lists,
+many features of the core language closely resemble the core language--
+we have labels, as well as labeled unions, labeled kleene closures, and labeled bindings, for instance.
+We also have unlabeled variants on each of these, in the form of the
+unlabeled union, unlabled kleene closure, and unlabeled dot ($.$) (which represents any value.)
+These are essentially syntactic sugar for the labeled variant of each construct,
+and can be translated as such.
+For instance,
+as shown by the rule
+\DotNoPredTrans.
+the dot operator $.$,
+is translated into
+introducing and then matching on a fresh unconstrained label, $(\lab' \Longleftarrow True) \mapsto \lab'$.
+
+There difference in the representation of lists does have some slight impact 
+on the translation of the kleene star, in particular.
+In the core language, we require that the type of the repeated
+expression be a list.
+In the surface language,
+we allow applying the kleene star to either a list \textit{or} a base type,
+i.e. $5*$ and $[5]*$ would both be lists of 0 or more 5s.
+To support this, we have two rules to support translation of labeled
+(and correspondinglgy, two rules for unlabeled)
+kleene stars,
+\StarTrans and \StarBaseTrans.
+\StarTrans translates stars $x*\{\lab\}$ where $x$ is a list type,
+by simply translating $x \translate x'$ and then returning $x'*_{\lab}$.
+\StarBaseTrans translates stars $x*\{\lab\}$ where $x$ is a base type,
+and works by translating of $x$ to $x'$, and then wrapping $x'$ in a list in the star,
+$[x']*_{\lab}$.
 
 
 
