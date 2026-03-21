@@ -9,17 +9,68 @@ which we then translate into the core language.
 Figure~\ref{fig:the-surface-language}
 shows the grammar of this core language.
 
-\mypara{Translation}
-We define the surface-to-core translation as a relation $\translate$,
-where $\surface \translate \core$ denotes
-that the surface language expression \surface is translated to the core language expression \core. 
-Figure~\ref{fig:translation-rules}
-shows \bill{a selection of?} the rules
-used in the translation.
+\mypara{Features}
+Many features of the core language closely resemble the core language--
+we have labels, as well as labeled unions, labeled kleene closures, and labeled bindings, for instance.
+However, we introduce a number of additional features.
+We also have unlabeled variants on unions, closures, and bindings, in the form of the
+unlabeled union, unlabled kleene closure, and unlabeled dot ($.$) (which represents any value.)
+Unlike in the core language,
+labels in the surface language may \textit{optionally} include a predicate,
+but are now required to have one.
+Finally,
+and perhaps most notably,
+whitespace based sequencing
+(evocative of traditional regular expressions)
+to represent lists,
+rather than the explicit \cons and \concat of the core language.
 
-\mypara{Representations of lists}
-The largest semantic deviation between the surface and core language
-is in the representation of lists.
+\mypara{Translation}
+The surface-to-core translation is split into two phases.
+The first phase rewrites the surface language to a subset of the surface language,
+in which we have only
+labeled features (no unlabeled features),
+and all labels have associated predicates.
+The second phase rewrites this subset of the surface language to the core language.
+
+\textit{Phase 1}
+We define the first translation phase as a relation $\translateOne$,
+where $\surface_1 \translate \surface_1$ denotes
+that the expression $\surface$ is translated to the core language expression $\surface_2$. 
+Figure~\ref{fig:translation-rules-phase1}
+shows \bill{a selection of?} the rules
+used in the phase 1 translation.
+% Besides the difference in the representation of lists,
+% many features of the core language closely resemble the core language--
+% we have labels, as well as labeled unions, labeled kleene closures, and labeled bindings, for instance.
+% We also have unlabeled variants on each of these, in the form of the
+% unlabeled union, unlabled kleene closure, and unlabeled dot ($.$) (which represents any value.)
+The dot, and unlabeled variants of union and kleene closure,
+are essentially syntactic sugar for the labeled variant of each construct,
+and are translated as such in phase 1.
+For instance,
+as shown by the rule
+\DotNoPredTrans.
+the dot operator $.$,
+is translated into
+introducing and then matching on a fresh unconstrained label, $(\lab' \Longleftarrow True) \mapsto \lab'$.
+Similarly, fresh labels are introduced and bound to each unlabeled union and kleene closure
+by rules \UnlabelledUnionTrans and \UnlabelledStarBaseTrans, respectively.
+
+Phase 1 also translates
+labels that do not have predicates into
+labels with predicates
+via the \AssignmentNoPredTrans and \DotNoPredTrans rules.
+It does this by simply setting such predicates to $True$,
+which is trivially satisfied by any value.
+\bill{Not technically a predicate}
+
+\mypara{Phase 2}
+Phase 2 translates the surface language to the core language,
+$\surface \translate \core$.
+In doing so,
+it resolves arguably the largest semantic deviation between the surface and core language:
+the two languages representations of lists.
 In the core language, a single element is concatenated to a list
 by \cons, and two lists may be concatenated into a single list by \concat.
 The surface language does away with these operators,
@@ -46,32 +97,15 @@ Any other combination of types
 (for example, if $\surface_1$ has type \type and $\surface_2$
 has type $[[\type]]$) is rejected with a compile-time \bill{I think? Evan, is it compile time?} error message.
 \bill{More motivation of design choices?}
-\bill{...}
 
-\mypara{Features}
-Besides the difference in the representation of lists,
-many features of the core language closely resemble the core language--
-we have labels, as well as labeled unions, labeled kleene closures, and labeled bindings, for instance.
-We also have unlabeled variants on each of these, in the form of the
-unlabeled union, unlabled kleene closure, and unlabeled dot ($.$) (which represents any value.)
-These are essentially syntactic sugar for the labeled variant of each construct,
-and can be translated as such.
-For instance,
-as shown by the rule
-\DotNoPredTrans.
-the dot operator $.$,
-is translated into
-introducing and then matching on a fresh unconstrained label, $(\lab' \Longleftarrow True) \mapsto \lab'$.
-
-There difference in the representation of lists does have some slight impact 
+This difference in the representation of lists does have some slight impact 
 on the translation of the kleene star, in particular.
 In the core language, we require that the type of the repeated
 expression be a list.
 In the surface language,
 we allow applying the kleene star to either a list \textit{or} a base type,
 i.e. $5*$ and $[5]*$ would both be lists of 0 or more 5s.
-To support this, we have two rules to support translation of labeled
-(and correspondinglgy, two rules for unlabeled)
+To support this, we have two rules to support translation of
 kleene stars,
 \StarTrans and \StarBaseTrans.
 \StarTrans translates stars $x*\{\lab\}$ where $x$ is a list type,
@@ -79,6 +113,10 @@ by simply translating $x \translate x'$ and then returning $x'*_{\lab}$.
 \StarBaseTrans translates stars $x*\{\lab\}$ where $x$ is a base type,
 and works by translating of $x$ to $x'$, and then wrapping $x'$ in a list in the star,
 $[x']*_{\lab}$.
+
+
+
+\bill{...}
 
 
 

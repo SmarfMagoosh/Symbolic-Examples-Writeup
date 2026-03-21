@@ -46,7 +46,8 @@
 
 % Custom operators
 \newcommand{\matches}{\Downarrow}
-\newcommand{\translate}{\longrightarrow}
+\newcommand{\translateOne}{\longrightarrow_1}
+\newcommand{\translate}{\longrightarrow_2}
 
 % Other
 \newcommand{\lab}{\ell}
@@ -59,12 +60,20 @@
 % Rules
 \newcommand{\rulename}[1]{{{\footnotesize{\textsc{#1}}}}\xspace}
 
+%Translation Phase 1
+\newcommand{\UnlabelledStarBaseTrans}{\rulename{UnlabelledStarBaseTrans}}
+\newcommand{\UnlabelledUnionTrans}{\rulename{UnlabelledUnionTrans}}
+\newcommand{\DotWithPredTrans}{\rulename{DotWithPredTrans}}
+\newcommand{\DotNoPredTrans}{\rulename{DotNoPredTrans}}
+
+\newcommand{\AssignmentNoPredTrans}{\rulename{AssignmentNoPredTrans}}
+
+%Translation Phase 2
 \newcommand{\ConcatBaseTrans}{\rulename{ConcatBaseTrans}}
 \newcommand{\ConcatConsTrans}{\rulename{ConcatConsTrans}}
 \newcommand{\ConcatSnocTrans}{\rulename{ConcatSnocTrans}}
 \newcommand{\ConcatTrans}{\rulename{ConcatTrans}}
 
-\newcommand{\DotNoPredTrans}{\rulename{DotNoPredTrans}}
 
 \newcommand{\StarBaseTrans}{\rulename{StarBaseTrans}}
 \newcommand{\StarTrans}{\rulename{StarTrans}}
