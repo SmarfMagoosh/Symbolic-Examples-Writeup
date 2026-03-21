@@ -32,8 +32,8 @@
     % Data
      $\inference
         [AppTrans]
-        {\forall arg_i \in args, }
-        {<f\;args> \translate <f\;args'>}$
+        {\mathit{args}' = \forall \mathit{arg}_i \in \mathit{args} . \mathit{arg}_i \translate \mathit{arg}'_i }
+        {<f\;\mathit{args}> \translate <f\;\mathit{args}'>}$
         % Union
      $\inference
         [UnionTrans]
