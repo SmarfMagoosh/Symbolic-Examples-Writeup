@@ -1,5 +1,7 @@
 default:
 	pdflatex --output-directory=out paper.tex
+	bibtex out/paper
+	pdflatex --output-directory=out paper.tex
 	pdflatex --output-directory=out paper.tex
 	mv out/*.pdf .
 
