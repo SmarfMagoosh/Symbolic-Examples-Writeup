@@ -1,14 +1,14 @@
 \begin{figure}
 \begin{center}
     \begin{align*}
-        \mathit{surface} &\to [ \mathit{surface} ]                     & \text{List}    \\
-            &\OR \mathit{surface}\; '|'\;\mathit{surface}              & \text{Union}    \\
-            &\OR \mathit{surface}\; '|\{\lab\}'\;\mathit{surface}      & \text{Labeled Union}    \\
-            &\OR \mathit{surface}*                                     & \text{Kleene Closure}    \\
-            &\OR \mathit{surface}*\{\lab\}                             & \text{Labeled Kleene Closure}    \\
-            &\OR \mathit{surface}\;\mathit{surface}                    & \text{Sequencing}    \\
-            &\OR \lab \asgnarrow \mathit{surface}                      & \text{Binding}    \\
-            &\OR (\lab \Longleftarrow b) \asgnarrow \mathit{surface}   & \text{Constrained Binding}    \\
+       \surface &\to [\surface ]                     & \text{List}    \\
+            &\OR\surface\; '|'\;\mathit{surface}              & \text{Union}    \\
+            &\OR\surface\; '|\{\lab\}'\;\mathit{surface}      & \text{Labeled Union}    \\
+            &\OR\surface*                                     & \text{Kleene Closure}    \\
+            &\OR\surface*\{\lab\}                             & \text{Labeled Kleene Closure}    \\
+            &\OR\surface\;\mathit{surface}                    & \text{Sequencing}    \\
+            &\OR \lab \asgnarrow\surface                      & \text{Binding}    \\
+            &\OR (\lab \Longleftarrow b) \asgnarrow\surface   & \text{Constrained Binding}    \\
             &\OR \lab                                                  & \text{Label}    \\
             &\OR .                                                     & \text{Any Value}    \\
             &\OR (. \Longleftarrow b)                                  & \text{Constrained Value}    \\
