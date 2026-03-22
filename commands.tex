@@ -50,12 +50,12 @@
 
 
 % Custom operators
-\newcommand{\matches}{\Downarrow}
+\newcommand{\matches}{\ensuremath{\Downarrow}\xspace}
 \newcommand{\translateOne}{\longrightarrow_1}
 \newcommand{\translate}{\longrightarrow_2}
 
 % Other
-\newcommand{\lab}{\ell}
+\newcommand{\lab}{\ensuremath{\ell}\xspace}
 \newcommand{\nil}{[\;]}
 \newcommand{\gen}{rand()}
 \newcommand{\OR}{\ |\ }
@@ -84,6 +84,8 @@
 \newcommand{\StarTrans}{\rulename{StarTrans}}
 
 %Generation
+\newcommand{\RuleVariable}{\rulename{Variable}}
+
 \newcommand{\RuleEmpty}{\rulename{Empty}}
 \newcommand{\RuleConcat}{\rulename{Concat}}
 \newcommand{\RuleCons}{\rulename{Cons}}

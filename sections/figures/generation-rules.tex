@@ -1,7 +1,7 @@
 \begin{figure*}
     % we assume all values are generated at assignment and therefore the environment contains them
      $\inference
-        [Variable]
+        [\RuleVariable]
         {\envget{\env}{\lab} = x}
         {\inp \lab \matches x, \zout}$
 
@@ -13,11 +13,11 @@
     % by design, the depth of r_1 and r_2 are equal
      $\inference
         [\RuleUnionLeft]
-        {\envget{\env}{\lab} \mod 2 = 0 & \inpwp{\lab}{0} r_1 \matches x, \out}
+        {\envget{\env}{\lab} \mod 2 = 0 & \inp r_1 \matches x, \out}
         {\inp r_1 |_{\lab} r_2 \matches x, \out}$
      $\inference
         [\RuleUnionRight]
-        {\envget{\env}{\lab} \mod 2 = 1 & \inpwp{\lab}{0} r_2 \matches x, \out}
+        {\envget{\env}{\lab} \mod 2 = 1 & \inp r_2 \matches x, \out}
         {\inp r_1 |_{\lab} r_2 \matches x, \out}$
 
     % Is it possible to pass the that label for the star when we switch it out for a constant label?

@@ -4,17 +4,46 @@
 To do this, we define
 a relation
 $\inp \lab \matches x, \zout$.
-$\pathvar$ is the \textit{context}.
-\bill{In the notes this said ``path or context''--
-I don't care which, but pick one of those names and stick with it.}
-It maps labels to the values that they are currently
-taking on.
-Note that the same label may take 
-$\env$ is the \textit{environment},
-which maps label-context pairs to values.
+$\pathvar$ is the \textit{path} and $\env$ is the \textit{environment};
+we elaborate on each of these in the following.
+
+Understanding the path requires noting that,
+in generating lists (or, when we come to it later in Section~\bill{whatever}, validating lists)
+we may repeatedly use an expression via a kleene closure, i.e. given $r*_\lab$,
+the expression $r$ may be repeated an arbitrary number of times.
+The path is a set of label-to-int mappings that tracks this repetition--
+on first entering a kleene closure $r*_\lab$,
+$\lab \rightarrow 1$ is entered into the path.
+On each successive $n^{th}$ iteration, this mapping is updated to $n$.
+
+The environment tracks how generation is assigning labels to values via bindings,
+$(lab \Longleftarrow p(args, \lab)) \mapsto e$
+however note that the same label may be re-assigned different values in each iteration of a
+(possibly nested) kleene closure,
+thus, the environment is really a mapping of (label, path) pairs to values.
+
+
+
 \begin{example}
-\bill{We can leave this until later, because it might depend on how we set up other stuff
-down the line-- but some kind of example here might be helpful}
+Consider the expression:
+\[
+(n \Longleftarrow \mathit{True}) \mapsto ((x \Longleftarrow \mathit{True}) \mapsto x)*_n
+\]
+One list that could be generated from this would be:
+\[
+[8, 4, 17]
+\]
+The corresponding environment would be:
+\begin{align*}
+\{ &(n, \{\}) \rightarrow 3, \\
+&(x, \{ n \rightarrow 1 \}) \rightarrow 8, \\
+&(x, \{ n \rightarrow 2 \}) \rightarrow 4, \\
+&(x, \{ n \rightarrow 3 \}) \rightarrow 17 \\ \}
+\end{align*}
+$n$ occurs outside of all kleene closures, and thus has an empty context.
+$x$ is chosen to be $8$, $4$, and $17$, respectively,
+on the $1^{st}$, $2^{nd}$ and $3^{rd}$ iterations of the unrolling of the kleene closure indexed by $n$,
+and thus has a separate value for each of these three contexts.
 \end{example}
 % Since a single variable may take on multiple values in different contexts,
 % the environment really maps labels to dictionaries which map contexts to values.
@@ -22,7 +51,7 @@ down the line-- but some kind of example here might be helpful}
 Figure~\ref{fig:generation-rules}
 shows the generation rules.
 
-\mypara{List constructs}
+\mypara{Lists Constructors}
 \RuleEmpty, \RuleCons, and \RuleConcat
 structurally match on a symbolic list,
 recursively generating a concrete list's subcomponents,
@@ -48,17 +77,47 @@ why the context is ``threaded through'' the recursive calls.
 (Is the environment threaded through? I think we don't need to have it threaded?
 But explain that also.)}
 
-\mypara{Assign}
+\mypara{Literals}
+\RuleLiteral matches on a specific literal--
+in a similar fashion to \RuleEmpty,
+this rule simply straightforwardly says that a literal 
+can only generate exactly that literal.
+
+\mypara{Assignment and Variables}
 \RuleAssign
-\bill{...}
+handles binding
+of a new label,
+$(\lab \Longleftarrow p(args, \lab)) \mapsto e$.
+To do this,
+it repeatedly generates arbitrary values of the appropriate type
+\bill{how do we know appropriate type?},
+until it finds a value that satisfies the constraint $p(args, \lab)$.
+Once such a value is found,
+the label is bound and returned in a new environment,
+$\outw{\lab}{x}$.
+Given a label appearing in the expression,
+\RuleVariable then allows looking up that label in the environment,
+and generating the mapped-to value.
 
 \mypara{Union}
 \RuleUnionLeft and \RuleUnionRight
 handle the $\|_\lab$ operator.
 Note that which rule applies
 is based on the (previously randomly chosen)
-value of $\lab$. \bill{Explain more}
-\bill{Is it a glitch in the rules that $\lab$ is assigned the value $0$ in the path of \RuleUnionRight}
+value of $\lab$,
+hence getting us an (indirectly) non-deterministic choice.
 
 \mypara{Kleene Closure}
-\RuleStarInit, \RuleStar, \RuleStarEnd \bill{...}
+\RuleStar handles kleene closures, $r*_\lab$.
+To do this, it looks up $\envget{\env}{\lab} = n$ in the environment,
+and then recursive applies \matches to generate $n$ lists that match $r$,
+i.e.
+$\forall 1 \leq i \leq n . (\env_{i - 1}, \envput{\pathvar}{\lab}{i}) r \matches xs_i, \env_i$.
+Note that (1) the environment is threaded through all these calls,
+to ensure that we record all variable bindings performed within each regular expression
+and (2) as covered in our description of the path above,
+this is the one place in the rules where we \textit{modify} the path,
+by, on each iteration, setting the label \lab to point to the current iteration count $i$.
+
+\mypara{Apply}
+\bill{Evan, the rule might need to be adjusted a bit? Maybe you could also take a stab at writing something here?}
