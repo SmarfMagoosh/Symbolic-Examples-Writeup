@@ -34,6 +34,13 @@
         {\envget{\env}{\lab} \leq 0 \lor \envget{\pathvar}{\lab} \geq \envget{\env}{\lab}}
         {\inp r*_{\lab} \matches \nil, \out}$
 
+    $\inference
+        [\RuleStar]
+        { \envget{\env}{\lab} = n
+        & xs = \forall 0 \leq i < n . \inpwp{\lab}{i} r \matches xs_i, \out
+        }
+        {\inp r*_{\lab} \matches \foldconcat{xs}, \out}$
+
     % by design, r_1 and r_2 have a non-zero depth for concat
      $\inference
         [\RuleConcat]
