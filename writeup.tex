@@ -5,7 +5,7 @@
 \date{June 2025}
 
 
-\newcommand{\matches}{\Downarrow}
+\newcommand{\gens}{\Downarrow}
 \newcommand{\has}{\in}
 \newcommand{\varenv}{\Gamma}
 \newcommand{\labenv}{\Lambda}
@@ -22,7 +22,7 @@
 
 \section{Syntax Definitions}
 \begin{enumerate}
-    \item $x \matches y$ is ``$x$ is matched by $y$'' where $x$ is a value, and $y$ is an LRE.
+    \item $x \gens y$ is ``$x$ is matched by $y$'' where $x$ is a value, and $y$ is an LRE.
     \item $G[v \rightarrow x]$ is ``insert an entry into $G$ mapping label $v$ to value $x$''
     \item $G(\ell)$ is ``the value corresponding to label $\ell$ in environment $G$''
     \item We will use $\varenv$ to represent an environment mapping variable names to values and $\labenv$ to represent an environment mapping LRE labels
@@ -36,82 +36,82 @@
     \item $\inference
         [Identity]
         {}
-        {n \matches n}$
+        {n \gens n}$
     \item $\inference
         [Union1]
-        {\envs v \matches r_1 \envsp}
-        {\envs v \matches r_1|r_2 \envsp}$
+        {\envs v \gens r_1 \envsp}
+        {\envs v \gens r_1|r_2 \envsp}$
     \item $\inference
         [Union2]
-        {\envs v \matches r_2 \envsp}
-        {\envs v \matches r_1|r_2 \envsp}$
+        {\envs v \gens r_2 \envsp}
+        {\envs v \gens r_1|r_2 \envsp}$
     \item $\inference
         [LinkUnionDec1]
-        {\lnot(\ell \has \labenv) & \envs v \matches r_1 \envsp}
-        {\envs v \matches r_1|_{\ell}r_2 (\varenv', \labenv'[\ell \rightarrow \pred{x}{=1}])}$
+        {\lnot(\ell \has \labenv) & \envs v \gens r_1 \envsp}
+        {\envs v \gens r_1|_{\ell}r_2 (\varenv', \labenv'[\ell \rightarrow \pred{x}{=1}])}$
     \item $\inference
         [LinkedUnionDec2]
-        {\lnot(\labenv \has \ell) & \envs v \matches r_2 \envsp}{\envs v \matches r_1|_{\ell}r_2 (\varenv', \labenv[\ell \rightarrow \pred{x}{=2}])}$
+        {\lnot(\labenv \has \ell) & \envs v \gens r_2 \envsp}{\envs v \gens r_1|_{\ell}r_2 (\varenv', \labenv[\ell \rightarrow \pred{x}{=2}])}$
     % TODO: maybe the first premise for these two rule to a predicate application?
     \item $\inference
         [LinkedUnionRef1]
-        {\labenv(\ell) = \pred{x}{=1} & \envs v \matches r_1 \envsp}
-        {\envs v \matches r_1|_{\ell}r_2 \envsp}$
+        {\labenv(\ell) = \pred{x}{=1} & \envs v \gens r_1 \envsp}
+        {\envs v \gens r_1|_{\ell}r_2 \envsp}$
     \item $\inference
         [LinkedUnionRef2]
-        {\labenv(\ell) = \pred{x}{=1} & \envs v \matches r_2 \envsp}
-        {\envs v_1 \matches r_1|_{\ell}r_2 \envsp}$
+        {\labenv(\ell) = \pred{x}{=1} & \envs v \gens r_2 \envsp}
+        {\envs v_1 \gens r_1|_{\ell}r_2 \envsp}$
     \item $\inference
         [StarRecursive]
-        {\envs v \matches r \envsp & \envsp vs \matches r* \envspp}
-        {\envs v::vs \matches r* \envspp}$
+        {\envs v \gens r \envsp & \envsp vs \gens r* \envspp}
+        {\envs v::vs \gens r* \envspp}$
     \item $\inference
         [StarBaseCase]
         {}
-        {\epsilon \matches r*}$
+        {\epsilon \gens r*}$
     \item $\inference
         [LinkedStarInit]
-        {\lnot(\ell \has \labenv) & (\varenv, \labenv[\ell \rightarrow \pred{x}{\geq 0}]) v \matches r \envsp & \envsp vs \matches r*_\ell \envspp}
-        {\envs v :: vs \matches r*_\ell (\varenv, \labenv[\ell \pred{x}{\geq 1}])}$
+        {\lnot(\ell \has \labenv) & (\varenv, \labenv[\ell \rightarrow \pred{x}{\geq 0}]) v \gens r \envsp & \envsp vs \gens r*_\ell \envspp}
+        {\envs v :: vs \gens r*_\ell (\varenv, \labenv[\ell \pred{x}{\geq 1}])}$
     \item $\inference
         [LinkedStarBuilding]
-        {\ell \has \labenv & \envs v \matches r \envsp & \envsp vs \matches r*_\ell \envspp}
-        {\envs v :: vs \matches r*_\ell (\varenv, \labenv[\ell \rightarrow \pred{x}{\geq \labenv(\ell) + 1}])}$
+        {\ell \has \labenv & \envs v \gens r \envsp & \envsp vs \gens r*_\ell \envspp}
+        {\envs v :: vs \gens r*_\ell (\varenv, \labenv[\ell \rightarrow \pred{x}{\geq \labenv(\ell) + 1}])}$
     \item $\inference
         [LinkedStarTerminate]
         {\ell \has \labenv}
-        {\envs \epsilon \matches r*_\ell (\varenv, \labenv[\ell \rightarrow \pred{x}{= \labenv(\ell)}])}$
+        {\envs \epsilon \gens r*_\ell (\varenv, \labenv[\ell \rightarrow \pred{x}{= \labenv(\ell)}])}$
     \item $\inference
         [EmptyLinkedStarTerminate]
         {\lnot(\ell \has \labenv)}
-        {\envs \epsilon \matches r*_\ell (\varenv, \labenv[\ell \rightarrow \pred{x}{=0}])}$
+        {\envs \epsilon \gens r*_\ell (\varenv, \labenv[\ell \rightarrow \pred{x}{=0}])}$
     \item $\inference
         [LinkedStarRef]
-        {\labenv(\ell)= \pred{x}{=n} & \envs v \matches r\{n\} \envsp}
-        {\envs v \matches r*_\ell}$
+        {\labenv(\ell)= \pred{x}{=n} & \envs v \gens r\{n\} \envsp}
+        {\envs v \gens r*_\ell}$
     \item $\inference
         [NRepRecursive]
-        {\envs v \matches r \envsp & \envsp vs \matches r\{n - 1\}}
-        {\envs v \matches r\{n\}}$
+        {\envs v \gens r \envsp & \envsp vs \gens r\{n - 1\}}
+        {\envs v \gens r\{n\}}$
     \item $\inference
         [NRepBase]
         {}
-        {\epsilon \matches r\{0\}}$
+        {\epsilon \gens r\{0\}}$
     \item $\inference
         [Concatenation]
-        {\envs v_1 \matches r_1 \envsp & \envsp v_2 \matches r_2 \envspp}
-        {\envs v_1::v_2 \matches r_{1}r_2 \envspp}$
+        {\envs v_1 \gens r_1 \envsp & \envsp v_2 \gens r_2 \envspp}
+        {\envs v_1::v_2 \gens r_{1}r_2 \envspp}$
     \item $\inference
         [VarDec]
-        {(\varenv[x'_\ell \rightarrow \nullval], \labenv) v \matches r[x'/x] \envs'}
-        {\envs v \matches x_{\ell} \rightarrow r \envsp}$
+        {(\varenv[x'_\ell \rightarrow \nullval], \labenv) v \gens r[x'/x] \envs'}
+        {\envs v \gens x_{\ell} \rightarrow r \envsp}$
     \item $\inference
         [VarRefInit]
         {\varenv(x_\ell)=\nullval}
-        {\envs v \matches x_\ell (\varenv[x_\ell \rightarrow v], \labenv)}$
+        {\envs v \gens x_\ell (\varenv[x_\ell \rightarrow v], \labenv)}$
     \item $\inference
         [VarRefExists]
-        {\varenv(x_\ell) = v}{\envs v \matches x_\ell \envsp}$
+        {\varenv(x_\ell) = v}{\envs v \gens x_\ell \envsp}$
     
 \end{enumerate}
 

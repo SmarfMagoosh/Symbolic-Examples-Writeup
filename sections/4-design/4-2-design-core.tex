@@ -1,0 +1,4 @@
+\subsection{The Core Language} \label{subsec:the-core-language}
+\par While the user works with the surface language, the core language (see figure \ref{fig:the-core-language}). The core language is depth-indexed, meaning that the depth of the core AST is part of its type. The depth-index indicates the nested depth of the list it will generate. A depth of 0 indicates that the result will be a singleton not a list. We use this feature to ensure that all expressions are well formed before runtime. Furthermore, we can put constraints on what depths are allowed for each constructor. For example, the $:++$ operator is for concatenation which requires 2 lists. So we can ensure that its two arguments have the same depth, and that it is non zero.
+
+\input{sections/figures/core-language}

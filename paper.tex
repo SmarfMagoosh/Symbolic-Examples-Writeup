@@ -9,45 +9,71 @@
 \newcommand{\abha}[1]{{\color{blue}\textbf{Abha: } #1}}
 \newcommand{\evan}[1]{{\color{green}\textbf{Evan: } #1}}
 
-% inputs and outputs
+% Aliases
+\newcommand{\gens}{\Downarrow}
+\newcommand{\translate}{\longrightarrow}
+\newcommand{\gennedby}{\Uparrow}
 
-\newcommand{\inp}{(\env, \pathvar) \;}
-\newcommand{\dinp}{(\env', \pathvar') \;}
-\newcommand{\inpwe}[2]{(\envput{\env}{#1}{#2}, \pathvar) \;}
-\newcommand{\inpwp}[2]{(\env, \envput{\pathvar}{#1}{#2}) \;}
-\newcommand{\inpwb}[4]{(\envput{\env}{#1}{#2}, \envput{\pathvar}{#1}{#2}) \;}
-\newcommand{\zout}{\; \env}
-\newcommand{\out}{\; \env'}
-\newcommand{\dout}{\; \env''}
-\newcommand{\tout}{\; \env'''}
-\newcommand{\outw}[2]{\; \envput{\env}{#1}{#2}}
+\newcommand{\lab}{\ell}
 \newcommand{\asgnarrow}{\mapsto}
 
-% environment interactions
 \newcommand{\env}{\Gamma}
 \newcommand{\pathvar}{\Pi}
 \newcommand{\deps}{\Delta}
-\newcommand{\envput}[3]{#1 [#2 \rightarrow #3]}
-\newcommand{\envget}[2]{#1(#2)}
-\newcommand{\envhas}[2]{#2 \in #1}
-\newcommand{\envhasnt}[2]{#2 \notin #1}
+\newcommand{\constraints}{\phi}
 
-% Type related stuff
 \newcommand{\base}{\beta}
 \newcommand{\complex}{\tau}
+
+% environment interactions
+\newcommand{\envput}[2]{\env [(\pathvar, #1) \rightarrow #2]}
+\newcommand{\envget}[1]{\env(\pathvar, #1)}
+\newcommand{\envhas}[1]{#1 \in \env}
+\newcommand{\envhasnt}[1]{#1 \notin \env}
+
+\newcommand{\pathput}[2]{\pathvar [#1 \rightarrow #2]}
+\newcommand{\pathget}[1]{\pathvar(#1)}
+\newcommand{\pathhas}[1]{#1 \in \pathvar}
+\newcommand{\pathhasnt}[1]{#1 \notin \pathvar}
+
+\newcommand{\constraintsput}[2]{\constraints [#1 \rightarrow #2]}
+\newcommand{\constraintsget}[2]{\constraints(#1, #2)}
+\newcommand{\constraintshas}[1]{#1 \in \pathvar}
+\newcommand{\constraintshasnt}[1]{#1 \notin \pathvar}
+
+% inputs and outputs
+\newcommand{\ginp}{(\env, \pathvar) \;}
+\newcommand{\ginpwe}[2]{(\envput{#1}{#2}, \pathvar) \;}
+\newcommand{\ginpwp}[2]{(\env, \pathput{#1}{#2}) \;}
+\newcommand{\ginpwb}[4]{(\envput{#1}{#2}, \pathput{\pathvar}{#3}{#4}) \;}
+\newcommand{\gout}{\; \env}
+\newcommand{\goutw}[2]{\; \envput{#1}{#2}}
+
+\newcommand{\vinp}{(\env, \pathvar, \constraints) \;}
+\newcommand{\vinpwe}[2]{(\envput{#1}{#2}, \pathvar, \constraints) \;}
+\newcommand{\vinpwp}[2]{(\env, \pathput{#1}{#2}, \constraints) \;}
+\newcommand{\vinpwc}[2]{(\env, \pathvar, \constraintsput{#1}{#2}) \;}
+\newcommand{\vinpwb}[4]{(\envput{#1}{#2}, \pathput{\pathvar}{#3}{#4}, \constraints) \;}
+\newcommand{\vout}{\; (\env, \constraints) \;}
+\newcommand{\voutwe}[2]{\; (\envput{#1}{#2}, \constraints)}
+\newcommand{\voutwc}[2]{\; (\envput, \constraintsput{#1}{#2})}
+
+% Type related stuff
+
 \newcommand{\hastype}[2]{#1 : #2}
 
-% Custom operators
-\newcommand{\matches}{\Downarrow}
-\newcommand{\translate}{\longrightarrow}
-
 % Other
-\newcommand{\lab}{\ell}
 \newcommand{\nil}{[\;]}
 \newcommand{\gen}{rand()}
 \newcommand{\OR}{\ |\ }
 \newcommand{\fresh}[1]{#1 \; fresh}
 \newcommand{\arbitrary}[1]{#1 \; arbitrary}
+
+
+% Multicharacter variables
+\newcommand{\surface}{\mathit{surface}}
+\newcommand{\core}{\mathit{core}}
+\newcommand{\args}{\mathit{args}}
 
 \date{February 2026}
 \title{SymCheck}
