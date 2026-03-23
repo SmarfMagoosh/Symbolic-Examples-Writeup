@@ -1,1 +1,35 @@
 \section{Introduction} \label{sec:introduction}
+\textit{Property-based testing}
+is an approach to testing programs.
+In this approach,
+a programmer identifies
+\textit{properties}, or specifications,
+of functions or groups of functions,
+and those properties are then tested on
+a large number of randomly selected values.
+Property-based testing was first popularized in
+the functional programming ecosystem,
+with the Haskell library QuickCheck~\cite{claessen2000quickcheck}
+being a particular influential work.
+However, there are now property-based testing libraries
+for many other languages, both imperative and functional,
+including libraries for Python~\cite{maciver2019hypothesis},
+Rust~\cite{derbenwick2025property},
+\bill{C++? Java? 2 or 3 more here maybe}
+
+A traditional style of
+property based test
+ensures that two expressions return
+the same result when applied to equal inputs.
+For example
+\bill{Show something in quickcheck}
+\bill{While undoubtedly useful,
+... why might we prefer \ourDSL?
+(1) \ourDSL works as a specification
+(2) \ourDSL is independent of existing code-- I'm thinking one good example
+here could be that zip/zipWith have similar behavior- but also these might have very similar implementations}
+In this work,
+we propose a
+new embedded Domain Specific Language (eDSL),
+\ourDSL,
+for the purpose of writing property-based tests.
