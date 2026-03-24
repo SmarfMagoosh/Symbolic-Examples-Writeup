@@ -1,68 +1,72 @@
 \begin{figure*}
 \begin{center}
+    % $\inference
+    %     [Assignment]
+    %     {\arbitrary{v} & \inpwe{\lab}{v} x \gennedby e, \out}
+    %     {\inp xs \gennedby (\lab \Longleftarrow \mathit{True}) \mapsto e, \out}$
     $\inference
-        [Assignment]
+        [\ValidateAssignment]
         {\arbitrary{v} & \inpwe{\lab}{v} x \gennedby e, \out}
-        {\inp x \gennedby (\lab \Longleftarrow \mathit{True}) \mapsto e, \out}$
+        {\inp xs \gennedby (\lab \Longleftarrow \mathit{True}) \mapsto e, \out}$
 
     % list operations
     $\inference
-        [Cons]
+        [\ValidateCons]
         {\inp x \gennedby r_1, \out & \dinp xs \gennedby r_2, \dout}
         {\inp x \ccons xs \gennedby r_1 \cons r_2, \dout}$
     $\inference
-        [Concat]
+        [\ValidateConcat]
         {\inp xs \gennedby r_1, \out & \dinp ys \gennedby r_2, \dout}
         {\inp xs \append ys \gennedby r_1 \concat r_2, \dout}$
     $\inference
-        [Empty]
+        [\ValidateEmpty]
         {}
         {\inp \nil \gennedby \nil, \out}$
 
     % literals
     $\inference
-        [Literals]
+        [\ValidateLiteral]
         {}
-        {\inp c \gennedby <c>, \out}$
+        {\inp c \gennedby <c>, \env}$
     $\inference
-        [Application]
+        [\ValidateApplication]
         {\env_0 = \env
             & args' = \forall 1 \leq i \leq n. \; (\env_{i - 1}, \pathvar) arg'_i \gennedby arg_i, \env_i}
          {\inp <f \; args> \gens f(args'), \out}$
 
     % variables
     $\inference
-        [Variable1]
+        [\ValidateVarOne]
         {\envget{\lab} = x}
         {\inp x \gennedby \lab, \out}$
     $\inference
-        [Variable2]
+        [\ValidateVarTwo]
         {\envhasnt{\lab} & \arbitrary{x}}
         {\inp x \gennedby \lab, \outw{\lab}{x}}$
 
     $\inference
-        [UnionSolveLeft]
+        [\ValidateUnionSolveLeft]
         {\envhasnt{\lab} & \inp x \gennedby r_1, \out}
         {\inp x \gennedby r_1 |_{\lab} r_2, \outw{\lab}{0}}$
     $\inference
-        [UnionSolveLeft]
+        [\ValidateUnionSolveRight]
         {\envhasnt{\lab} & \inp x \gennedby r_2, \out}
         {\inp x \gennedby r_1 |_{\lab} r_2, \outw{\lab}{1}}$
     $\inference
-        [UnionLeft]
+        [\ValidateUnionLeft]
         {\envget{\lab} \mod 2 = 0 & \inp x \gennedby r_1, \out}
         {\inp x \gennedby r_1 |_{\lab} r_2, \out}$
     $\inference
-        [UnionLeft]
+        [\ValidateUnionRight]
         {\envget{\lab} \mod 2 = 1 & \inp x \gennedby r_2, \out}
         {\inp x \gennedby r_1 |_{\lab} r_2, \out}$
     
     $\inference
-        [StarSolve]
+        [\ValidateStarSolve]
         {\envhasnt{\lab} & \exists n. \inpwe{\lab}{n} xs \gennedby r*_{\lab}, \out}
         {\inp xs \gennedby r*_{lab}, \out}$
     $\inference
-         [Star]
+         [\ValidateStar]
          { \envget{\lab} = n
             & \env_0 = \env
             & xs = \forall 1 \leq i \leq n . (\env_{i - 1}, \pathput{\lab}{i}) xs_i \gennedby r, \env_i
