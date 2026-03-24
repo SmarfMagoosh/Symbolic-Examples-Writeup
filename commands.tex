@@ -18,6 +18,7 @@
 % Operators
 \newcommand{\gens}{\ensuremath{\Downarrow}\xspace}
 \newcommand{\gennedby}{\ensuremath{\Uparrow}\xspace}
+\newcommand{\gennedarrow}{\ensuremath{\leadsto}\xspace}
 \newcommand{\translateOne}{\longrightarrow_1}
 \newcommand{\translate}{\longrightarrow_2}
 
@@ -28,7 +29,7 @@
 
 % environment interactions
 \newcommand{\envput}[2]{\env [(\pathvar, #1) \rightarrow #2]}
-\newcommand{\envget}[1]{\env(\pathvar, #1)}
+\newcommand{\envget}[1]{\env_\pathvar(#1)}
 \newcommand{\envhas}[1]{#1 \in \env}
 \newcommand{\envhasnt}[1]{#1 \notin \env}
 
@@ -58,7 +59,7 @@
 \newcommand{\out}{\; \env'}                         % regular output (assumed modification)
 \newcommand{\zout}{\; \env}                         % "zeroth output" (when we no there was no modification)
 \newcommand{\dout}{\; \env''}                       % "double output" assume a second modification
-\newcommand{\outw}[2]{\; \envput{\env}{#1}{#2}}     % output with updated environment
+\newcommand{\outw}[2]{\; \envput{#1}{#2}}     % output with updated environment
 
 % Type related stuff
 \newcommand{\type}{\ensuremath{\tau}\xspace}
@@ -111,3 +112,23 @@
 \newcommand{\RuleLiteral}{\rulename{Literal}}
 \newcommand{\RuleApply}{\rulename{Apply}}
 \newcommand{\RuleAssign}{\rulename{Assign}}
+
+%Validation
+\newcommand{\ValidateAssignment}{\rulename{Assignment}}
+\newcommand{\ValidateCons}{\rulename{Cons}}
+\newcommand{\ValidateConcat}{\rulename{Concat}}
+\newcommand{\ValidateEmpty}{\rulename{Empty}}
+\newcommand{\ValidateLiteral}{\rulename{Literal}}
+\newcommand{\ValidateApplication}{\rulename{ValidateApplication}}
+
+
+\newcommand{\ValidateVarOne}{\rulename{Variable1}}
+\newcommand{\ValidateVarTwo}{\rulename{Variable2}}
+\newcommand{\ValidateUnionSolveLeft}{\rulename{UnionSolveLeft}}
+\newcommand{\ValidateUnionSolveRight}{\rulename{UnionSolveRight}}
+
+\newcommand{\ValidateUnionLeft}{\rulename{UnionLeft}}
+\newcommand{\ValidateUnionRight}{\rulename{UnionRight}}
+
+\newcommand{\ValidateStarSolve}{\rulename{StarSolve}}
+\newcommand{\ValidateStar}{\rulename{Star}}

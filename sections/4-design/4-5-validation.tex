@@ -1,5 +1,89 @@
 \subsection{Validation Rules} \label{subsec:validation-rules}
 
+Once we have a run a function on randomly generated inputs,
+we must \textit{validate} that the function's output
+matches the output symbolic expression.
+We define a relation
+$\inp xs \gennedby e, \out$,
+where $xs$ is a concrete list and $e$ is a symbolic expression to do this.
+When validating,
+we do not allow variables bindings to have constraints other than \text{True};
+besides this, we construct the rules such that a list will be validated against a symbolic expression
+if and only if the list could be generated from the symbolic expression.
+
+Figure~\ref{fig:validation-rules} formalizes the validation rules.
+Note that the actual operation of the validation rules is quite different from that of the generation rules.
+During generation,
+we randomly generate values at each binding and make use of those values later in constructing
+a list.
+During validation, we instead search for \textit{any} instantiation of bound variables
+that will allow the match to succeed.
+This requires delaying instantiation of variables until they are \textit{used},
+and can be determined to correspond to some concrete expression.
+In some cases, we must explore multiple possible matches
+(for example, both branches of a union.)
+This in reflected in the fact that the rules are \textit{not} entirely syntax-directed--
+in the case that multiple rules apply,
+the validator tries applying all of them,
+in sequence,
+until either (1) it finds a rule application that allows the match to succeed
+or, (2) all possible rules, and thus the test as a whole, fail.
+
+
+\mypara{List Constructors}
+\ValidateCons, \ValidateConcat, and \ValidateEmpty
+structurally match on a symbolic expression and a concrete list.
+\ValidateCons and \ValidateEmpty
+work very similarly to the corresponding generation rules,
+\RuleCons and \RuleEmpty.
+\bill{Evan, change the above sentence, put that example tyou showed me here}
+\ValidateConcat differs more significantly in that
+it must non-deterministically split the list \bill{...}
+
+\mypara{Literals}
+\ValidateLiteral matches a literal $c$ in the list to that same literal $c$ in the symbolic expression.
+As with \ValidateCons and \ValidateEmpty,
+this is not notably different then the corresponding generation rule,
+\RuleLiteral
+
+\mypara{Assignment and Variables}
+\ValidateVarOne, \ValidateVarTwo, and \ValidateAssignment
+\bill{Evan, \ValidateAssignment seems wrong as is, because shouln't be generating a random value?
+But I don't understand enough about how dependency map is working to fix.}
+
+\mypara{Union}
+We have four rules to handle a union $r_1 |_\lab r_2$.
+Two of these rules,
+\ValidateUnionSolveLeft and \ValidateUnionSolveRight,
+handle the case where $\lab$ is not bound in the environment.
+\ValidateUnionSolveLeft tries to match
+the list against the left side of the union $r_1$,
+binding $(\pathvar, \lab)$ to $0$ in the environment.
+Correspondingly,
+\ValidateUnionSolveRight tries to match against $r_2$,
+binding $(\pathvar, \lab)$ to $1$.
+\ValidateUnionLeft and \ValidateUnionRight
+handle the case where $\lab$ is bound in
+the environment.
+In this case, no branching will occur,
+as $\envget{\lab}$
+will determine which of the two rules is applicable. 
+
+\mypara{Kleene Closure}
+Much like for the union,
+we have two rules for kleene closures $r*_\lab$
+depending on whether \lab is bound in the environment.
+\ValidateStarSolve
+
+\ValidateStar
+\bill{...}
+
+\mypara{Apply}
+\ValidateApplication
+\bill{...}
+
+\bill{Somewhere note that predicates not usable in output}
+
 \par Validation happens slightly different than generation.
 Firstly, there are no constraints on variables during the validation phase.
 The purpose of validation is, given a symbolic expression and a list, to determine if
@@ -8,6 +92,7 @@ generate the list (i.e $\forall e, xs. e \gens xs \Longleftrightarrow xs \genned
 When we come across a label that has no value, we must try every value that label could
 take and check if one of them lets the output match the expression. If it can, we say the
 list was validated by the expression.
+
 
 \input{sections/figures/validation-rules}
 

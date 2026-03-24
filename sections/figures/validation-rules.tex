@@ -1,73 +1,82 @@
 \begin{figure*}
 \begin{center}
+    % $\inference
+    %     [Assignment]
+    %     {\arbitrary{v} & \inpwe{\lab}{v} x \gennedby e, \out}
+    %     {\inp xs \gennedby (\lab \Longleftarrow \mathit{True}) \mapsto e, \out}$
     $\inference
-        [Assignment]
+        [\ValidateAssignment]
         {\arbitrary{v} & \inpwe{\lab}{v} x \gennedby e, \out}
-        {\inp x \gennedby (\lab \Longleftarrow \mathit{True}) \mapsto e, \out}$
+        {\inp xs \gennedby (\lab \Longleftarrow \mathit{True}) \mapsto e \gennedarrow \bill{???}, \out}$
 
     % list operations
     $\inference
-        [Cons]
-        {\inp x \gennedby r_1, \out & \dinp xs \gennedby r_2, \dout}
-        {\inp x \ccons xs \gennedby r_1 \cons r_2, \dout}$
+        [\ValidateCons]
+        {\inp x \gennedby r_1 \gennedarrow [], \out & \dinp xs \gennedby r_2 \gennedarrow ys, \dout}
+        {\inp x \ccons xs \gennedby r_1 \cons r_2 \gennedarrow ys, \dout}$
     $\inference
-        [Concat]
-        {\inp xs \gennedby r_1, \out & \dinp ys \gennedby r_2, \dout}
-        {\inp xs \append ys \gennedby r_1 \concat r_2, \dout}$
+        [\ValidateConcat]
+        {\inp xs \gennedby r_1 \gennedarrow ys, \out & \dinp ys \gennedby r_2 \gennedarrow zs, \dout}
+        {\inp xs  \gennedby r_1 \concat r_2 \gennedarrow zs, \dout}$
     $\inference
-        [Empty]
+        [\ValidateEmpty]
         {}
-        {\inp \nil \gennedby \nil, \out}$
+        {\inp ys \gennedby \nil \gennedarrow ys, \out}$
 
     % literals
     $\inference
-        [Literals]
+        [\ValidateLiteral]
         {}
-        {\inp c \gennedby <c>, \out}$
+        {\inp c \gennedby <c> \gennedarrow [], \env}$
     $\inference
-        [Application]
+        [\ValidateApplication]
         {\env_0 = \env
-            & args' = \forall 1 \leq i \leq n. \; (\env_{i - 1}, \pathvar) arg'_i \gennedby arg_i, \env_i}
-         {\inp <f \; args> \gens f(args'), \out}$
+            & args' = \forall 1 \leq i \leq n. \; (\env_{i - 1}, \pathvar) arg'_i \gennedby arg_i \gennedarrow \bill{...}, \env_i}
+         {\inp <f \; args> \gens f(args') \gennedarrow \bill{...}, \out}$
 
     % variables
     $\inference
-        [Variable1]
+        [\ValidateVarOne]
         {\envget{\lab} = x}
-        {\inp x \gennedby \lab, \out}$
+        {\inp x \gennedby \lab \gennedarrow [], \out}$
     $\inference
-        [Variable2]
+        [\ValidateVarTwo]
         {\envhasnt{\lab} & \arbitrary{x}}
-        {\inp x \gennedby \lab, \outw{\lab}{x}}$
+        {\inp x \gennedby \lab \gennedarrow [], \outw{\lab}{x}}$
 
     $\inference
-        [UnionSolveLeft]
-        {\envhasnt{\lab} & \inp x \gennedby r_1, \out}
-        {\inp x \gennedby r_1 |_{\lab} r_2, \outw{\lab}{0}}$
+        [\ValidateUnionSolveLeft]
+        {\envhasnt{\lab} & \inp xs \gennedby r_1 \gennedarrow ys, \out}
+        {\inp xs \gennedby r_1 |_{\lab} r_2 \gennedarrow ys, \outw{\lab}{0}}$
     $\inference
-        [UnionSolveLeft]
-        {\envhasnt{\lab} & \inp x \gennedby r_2, \out}
-        {\inp x \gennedby r_1 |_{\lab} r_2, \outw{\lab}{1}}$
+        [\ValidateUnionSolveRight]
+        {\envhasnt{\lab} & \inp xs \gennedby r_2 \gennedarrow ys, \out}
+        {\inp xs \gennedby r_1 |_{\lab} r_2 \gennedarrow ys, \outw{\lab}{1}}$
     $\inference
-        [UnionLeft]
-        {\envget{\lab} \mod 2 = 0 & \inp x \gennedby r_1, \out}
-        {\inp x \gennedby r_1 |_{\lab} r_2, \out}$
+        [\ValidateUnionLeft]
+        {\envget{\lab} \mod 2 = 0 & \inp xs \gennedby r_1 \gennedarrow ys, \out}
+        {\inp xs \gennedby r_1 |_{\lab} r_2 \gennedarrow ys, \out}$
     $\inference
-        [UnionLeft]
-        {\envget{\lab} \mod 2 = 1 & \inp x \gennedby r_2, \out}
-        {\inp x \gennedby r_1 |_{\lab} r_2, \out}$
+        [\ValidateUnionRight]
+        {\envget{\lab} \mod 2 = 1 & \inp xs \gennedby r_2 \gennedarrow ys, \out}
+        {\inp xs \gennedby r_1 |_{\lab} r_2 \gennedarrow ys, \out}$
     
     $\inference
-        [StarSolve]
-        {\envhasnt{\lab} & \exists n. \inpwe{\lab}{n} xs \gennedby r*_{\lab}, \out}
-        {\inp xs \gennedby r*_{lab}, \out}$
+        [\ValidateStarSolve]
+        { \envhasnt{\lab}
+            & \env_0 = \env
+            & \text{choose } n \geq 0
+            &\forall 1 \leq i < n . (\env_{i}, \pathput{\lab}{i}) ys_i \gennedby r \gennedarrow ys_{i + 1}, \env_{i + 1}
+         }
+        % {\envhasnt{\lab} & \exists n. \inpwe{\lab}{n} xs \gennedby r*_{\lab}, \out}
+        {\inp xs \gennedby r*_{lab} \gennedarrow ys_n, \out}$
     $\inference
-         [Star]
+         [\ValidateStar]
          { \envget{\lab} = n
             & \env_0 = \env
-            & xs = \forall 1 \leq i \leq n. (\env_{i - 1}, \pathput{\lab}{i}) xs_i \gennedby r, \env_i
+            & \forall 1 \leq i < n . (\env_{i}, \pathput{\lab}{i}) ys_i \gennedby r \gennedarrow ys_{i + 1}, \env_{i + 1}
          }
-         {\inp \foldconcat{xs} \gennedby r*_{\lab}, \env_n}$
+         {\inp xs \gennedby r*_{\lab} \gennedarrow ys_n, \env_n}$
 
     \caption{Validation Rules}
     \label{fig:validation-rules}
