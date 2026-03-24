@@ -13,7 +13,7 @@
     
     \item $\hastype{x}{T}$ means ``$x$ is of type $T$'' where $T$ is either a base type $\base$, an arbitrary type $\complex$, or. A base type is a type that is not a list, an arbitrary type either a base type or a list of some arbitrary type. TODO, this isn't quite true I don't think... it really means ``surface expression $x$ will generate values of type $T$.'' maybe need new symbol for this?
     
-    \item $e \matches x$ means ``symbolic expression $e$ generates value $x$''
+    \item $e \gens x$ means ``symbolic expression $e$ generates value $x$''
 
     \item $x \translate y$ means ``surface expression $x$ translates to  core expression $y$''
     
@@ -24,6 +24,4 @@
     \item $\fresh{x}$ means that value $x$ is a random value that will never be used again in any other expression
     
     \item $\arbitrary{x}$ means that value $x$ is a random value that may be used again in subsequent expressions.
-    
-    \item $\gen$ is a function that generates and arbitrary value of the correct type (context dependent) and returns it.
 \end{enumerate}

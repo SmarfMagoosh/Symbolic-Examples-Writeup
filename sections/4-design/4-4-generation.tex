@@ -1,17 +1,14 @@
 \subsection{Generation Rules} \label{subsec:generation-rules}
-\input{sections/figures/generation-rules}
-<<<<<<< HEAD
-\par We now consider generating random input values from symbolic expressions.
-To do this, we define
-a relation
-$\inp \lab \matches x, \zout$.
-$\pathvar$ is the \textit{path} and $\env$ is the \textit{environment};
-we elaborate on each of these in the following.
 
-Understanding the path requires noting that,
-in generating lists (or, when we come to it later in Section~\bill{whatever}, validating lists)
+\input{sections/figures/generation-rules}
+
+\par 
+We now consider generating random input values from symbolic expressions. 
+To do this, we define a relation $\inp \lab \gens x, \zout$. 
+$\pathvar$ is the \textit{path} and $\env$ is the \textit{environment}; we elaborate on each of these in the following. 
+Understanding the path requires noting that, in generating lists (or, when we come to it later in Section~\bill{whatever}, validating lists) 
 we may repeatedly use an expression via a kleene closure, i.e. given $r*_\lab$,
-the expression $r$ may be repeated an arbitrary number of times.
+the expression $r$ may be repeated an arbitrary number of times. 
 The path is a set of label-to-int mappings that tracks this repetition--
 on first entering a kleene closure $r*_\lab$,
 $\lab \rightarrow 1$ is entered into the path.
@@ -23,24 +20,28 @@ however note that the same label may be re-assigned different values in each ite
 (possibly nested) kleene closure,
 thus, the environment is really a mapping of (label, path) pairs to values.
 
-
-
 \begin{example}
 Consider the expression:
+
 \[
 (n \Longleftarrow \mathit{True}) \mapsto ((x \Longleftarrow \mathit{True}) \mapsto x)*_n
 \]
+
 One list that could be generated from this would be:
+
 \[
 [8, 4, 17]
 \]
+
 The corresponding environment would be:
 \begin{align*}
-\{ &(n, \{\}) \rightarrow 3, \\
-&(x, \{ n \rightarrow 1 \}) \rightarrow 8, \\
-&(x, \{ n \rightarrow 2 \}) \rightarrow 4, \\
-&(x, \{ n \rightarrow 3 \}) \rightarrow 17 \\ \}
+    \{  &(n, \{\}) \rightarrow 3, \\
+        &(x, \{ n \rightarrow 1 \}) \rightarrow 8, \\
+        &(x, \{ n \rightarrow 2 \}) \rightarrow 4, \\
+        &(x, \{ n \rightarrow 3 \}) \rightarrow 17 \\ 
+    \}
 \end{align*}
+
 $n$ occurs outside of all kleene closures, and thus has an empty context.
 $x$ is chosen to be $8$, $4$, and $17$, respectively,
 on the $1^{st}$, $2^{nd}$ and $3^{rd}$ iterations of the unrolling of the kleene closure indexed by $n$,
@@ -60,7 +61,7 @@ and then appropriately composing those subcomponents together.
 \RuleEmpty is the simplest of these,
 simply saying that an empty list
 can only generate an empty list
-($\inp \nil \matches \nil, \zout$.)
+($\inp \nil \gens \nil, \zout$.)
 \RuleCons generates a single element
 for the head of the list
 and generates the tail of the list,
@@ -69,7 +70,7 @@ Finally, \RuleConcat generates
 two separate lists,
 and concatenates them together with \concat.
 \bill{Evan, it looks like the recursive
-applications of $\matches$ on the top
+applications of $\gens$ on the top
 of \RuleConcat and \RuleCons
 are a bit malformed--
 can you please look at those?
@@ -110,10 +111,10 @@ hence getting us an (indirectly) non-deterministic choice.
 
 \mypara{Kleene Closure}
 \RuleStar handles kleene closures, $r*_\lab$.
-To do this, it looks up $\envget{\env}{\lab} = n$ in the environment,
-and then recursive applies \matches to generate $n$ lists that match $r$,
+To do this, it looks up $\envget{\lab} = n$ in the environment,
+and then recursive applies \gens to generate $n$ lists that match $r$,
 i.e.
-$\forall 1 \leq i \leq n . (\env_{i - 1}, \envput{\pathvar}{\lab}{i}) r \matches xs_i, \env_i$.
+$\forall 1 \leq i \leq n . (\env_{i - 1}, \envput{\pathvar}{\lab}{i}) r \gens xs_i, \env_i$.
 Note that (1) the environment is threaded through all these calls,
 to ensure that we record all variable bindings performed within each regular expression
 and (2) as covered in our description of the path above,
@@ -122,6 +123,3 @@ by, on each iteration, setting the label \lab to point to the current iteration 
 
 \mypara{Apply}
 \bill{Evan, the rule might need to be adjusted a bit? Maybe you could also take a stab at writing something here?}
-=======
-\par The generation rules demonstrate how a nested list is generated from a symbolic expression. The rules are constructed such that you are guaranteed that the nested depth of the generated value will be the same as the depth index of the core AST that generated it.
->>>>>>> Evan

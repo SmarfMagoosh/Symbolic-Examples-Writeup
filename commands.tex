@@ -1,4 +1,9 @@
-% formatting
+% Comment Commands
+\newcommand{\bill}[1]{{\color{red}\textbf{Bill: } #1}}
+\newcommand{\abha}[1]{{\color{blue}\textbf{Abha: } #1}}
+\newcommand{\evan}[1]{{\color{green}\textbf{Evan: } #1}}
+
+% Formatting
 \newcommand{\emphbf}[1]{\textbf{\emph{#1}}} 
 \newcommand{\mypara}[1]{\smallskip\noindent\emphbf{#1}} 
 
@@ -9,8 +14,53 @@
 \newcommand{\dslname}[1]{{{\footnotesize{\textsc{#1}}}}\xspace}
 \newcommand{\ourDSL}{\dslname{SymCheck}}
 
-% inputs and outputs
+% Operators
+\newcommand{\gens}{\ensuremath{\Downarrow}\xspace}
+\newcommand{\gennedby}{\ensuremath{\Uparrow}\xspace}
+\newcommand{\translateOne}{\longrightarrow_1}
+\newcommand{\translate}{\longrightarrow_2}
 
+\newcommand{\asgnarrow}{\mapsto}
+\newcommand{\env}{\Gamma}
+\newcommand{\pathvar}{\Pi}
+\newcommand{\deps}{\Delta}
+
+% environment interactions
+\newcommand{\envput}[2]{\env [(\pathvar, #1) \rightarrow #2]}
+\newcommand{\envget}[1]{\env(\pathvar, #1)}
+\newcommand{\envhas}[1]{#1 \in \env}
+\newcommand{\envhasnt}[1]{#1 \notin \env}
+
+\newcommand{\pathput}[2]{\pathvar [#1 \rightarrow #2]}
+\newcommand{\pathget}[1]{\pathvar(#1)}
+\newcommand{\pathhas}[1]{#1 \in \pathvar}
+\newcommand{\pathhasnt}[1]{#1 \notin \pathvar}
+
+% inputs and outputs
+\newcommand{\ginp}{(\env, \pathvar) \;}
+\newcommand{\ginpwe}[2]{(\envput{#1}{#2}, \pathvar) \;}
+\newcommand{\ginpwp}[2]{(\env, \pathput{#1}{#2}) \;}
+\newcommand{\ginpwb}[4]{(\envput{#1}{#2}, \pathput{\pathvar}{#3}{#4}) \;}
+\newcommand{\gout}{\; \env}
+\newcommand{\goutw}[2]{\; \envput{#1}{#2}}
+
+\newcommand{\vinp}{(\env, \pathvar, \constraints) \;}
+\newcommand{\vinpwe}[2]{(\envput{#1}{#2}, \pathvar, \constraints) \;}
+\newcommand{\vinpwp}[2]{(\env, \pathput{#1}{#2}, \constraints) \;}
+\newcommand{\vinpwc}[2]{(\env, \pathvar, \constraintsput{#1}{#2}) \;}
+\newcommand{\vinpwb}[4]{(\envput{#1}{#2}, \pathput{\pathvar}{#3}{#4}, \constraints) \;}
+\newcommand{\vout}{\; (\env, \constraints) \;}
+\newcommand{\voutwe}[2]{\; (\envput{#1}{#2}, \constraints)}
+\newcommand{\voutwc}[2]{\; (\envput, \constraintsput{#1}{#2})}
+
+% Other
+\newcommand{\lab}{\ensuremath{\ell}\xspace}
+\newcommand{\nil}{[\;]}
+\newcommand{\OR}{\ |\ }
+\newcommand{\fresh}[1]{#1 \; fresh}
+\newcommand{\arbitrary}[1]{#1 \; arbitrary}
+
+% Inputs and Outputs
 \newcommand{\inp}{(\env, \pathvar) \;}
 \newcommand{\dinp}{(\env', \pathvar') \;}
 \newcommand{\inpwe}[2]{(\envput{\env}{#1}{#2}, \pathvar) \;}
@@ -21,16 +71,6 @@
 \newcommand{\dout}{\; \env''}
 \newcommand{\tout}{\; \env'''}
 \newcommand{\outw}[2]{\; \envput{\env}{#1}{#2}}
-\newcommand{\asgnarrow}{\mapsto}
-
-% environment interactions
-\newcommand{\env}{\Gamma}
-\newcommand{\pathvar}{\Pi}
-\newcommand{\deps}{\Delta}
-\newcommand{\envput}[3]{#1 [#2 \rightarrow #3]}
-\newcommand{\envget}[2]{#1(#2)}
-\newcommand{\envhas}[2]{#2 \in #1}
-\newcommand{\envhasnt}[2]{#2 \notin #1}
 
 % Type related stuff
 \newcommand{\type}{\ensuremath{\tau}\xspace}
@@ -51,18 +91,6 @@
 \newcommand{\expr}{\ensuremath{e}\xspace}
 
 
-% Custom operators
-\newcommand{\matches}{\ensuremath{\Downarrow}\xspace}
-\newcommand{\translateOne}{\longrightarrow_1}
-\newcommand{\translate}{\longrightarrow_2}
-
-% Other
-\newcommand{\lab}{\ensuremath{\ell}\xspace}
-\newcommand{\nil}{[\;]}
-\newcommand{\gen}{rand()}
-\newcommand{\OR}{\ |\ }
-\newcommand{\fresh}[1]{#1 \; fresh}
-\newcommand{\arbitrary}[1]{#1 \; arbitrary}
 
 % Rules
 \newcommand{\rulename}[1]{{{\footnotesize{\textsc{#1}}}}\xspace}
@@ -72,7 +100,6 @@
 \newcommand{\UnlabelledUnionTrans}{\rulename{UnlabelledUnionTrans}}
 \newcommand{\DotWithPredTrans}{\rulename{DotWithPredTrans}}
 \newcommand{\DotNoPredTrans}{\rulename{DotNoPredTrans}}
-
 \newcommand{\AssignmentNoPredTrans}{\rulename{AssignmentNoPredTrans}}
 
 %Translation Phase 2
@@ -80,26 +107,19 @@
 \newcommand{\ConcatConsTrans}{\rulename{ConcatConsTrans}}
 \newcommand{\ConcatSnocTrans}{\rulename{ConcatSnocTrans}}
 \newcommand{\ConcatTrans}{\rulename{ConcatTrans}}
-
-
 \newcommand{\StarBaseTrans}{\rulename{StarBaseTrans}}
 \newcommand{\StarTrans}{\rulename{StarTrans}}
 
 %Generation
 \newcommand{\RuleVariable}{\rulename{Variable}}
-
 \newcommand{\RuleEmpty}{\rulename{Empty}}
 \newcommand{\RuleConcat}{\rulename{Concat}}
 \newcommand{\RuleCons}{\rulename{Cons}}
-
 \newcommand{\RuleUnionLeft}{\rulename{UnionLeft}}
 \newcommand{\RuleUnionRight}{\rulename{UnionRight}}
-
 \newcommand{\RuleStarInit}{\rulename{StarInit}}
 \newcommand{\RuleStar}{\rulename{Star}}
 \newcommand{\RuleStarEnd}{\rulename{StarEnd}}
-
 \newcommand{\RuleLiteral}{\rulename{Literal}}
-
 \newcommand{\RuleApply}{\rulename{Apply}}
 \newcommand{\RuleAssign}{\rulename{Assign}}
