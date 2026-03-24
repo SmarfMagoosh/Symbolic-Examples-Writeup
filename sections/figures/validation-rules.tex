@@ -1,64 +1,75 @@
-% \begin{figure*}
-% \begin{center}
-%     % the big change from generation to validation
-%     $\inference
-%         [Assignment]
-%         {\vinpwc{\lab}{\mathit{constraint}} x \gennedby e, \vout}
-%         {\vinp x \gennedby (\lab \Longleftarrow \mathit{constraint}) \mapsto e, \vout}$
+\begin{figure*}
+\begin{center}
+    $\inference
+        [Assignment]
+        {\arbitrary{v} & \inpwe{\lab}{v} x \gennedby e, \out}
+        {\inp x \gennedby (\lab \Longleftarrow \mathit{True}) \mapsto e, \out}$
 
-%     % No constraints necessary
+    % list operations
+    $\inference
+        [Cons]
+        {\inp x \gennedby r_1, \out & \dinp xs \gennedby r_2, \dout}
+        {\inp x \ccons xs \gennedby r_1 \cons r_2, \dout}$
+    $\inference
+        [Concat]
+        {\inp xs \gennedby r_1, \out & \dinp ys \gennedby r_2, \dout}
+        {\inp xs \append ys \gennedby r_1 \concat r_2, \dout}$
+    $\inference
+        [Empty]
+        {}
+        {\inp \nil \gennedby \nil, \out}$
 
-%     % list operations
-%     $\inference
-%         [Cons]
-%         {\vinp x \gennedby r_1, \vout & \vinp xs \gennedby r_2, \vout}
-%         {\vinp x :: xs \gennedby r_1 :> r_2, \vout}$
-%     $\inference
-%         [Concat]
-%         {\exists n, \vinp xs[0..n] \gennedby r_1, \vout & \vinp xs[n..] \gennedby r_2, \vout}
-%         {\vinp xs \gennedby r_1 :++ r_2, \vout}$
-%     $\inference
-%         [Empty]
-%         {}
-%         {\vinp \nil \gennedby \nil, \vout}$
+    % literals
+    $\inference
+        [Literals]
+        {}
+        {\inp c \gennedby <c>, \out}$
+    $\inference
+        [Application]
+        {\env_0 = \env
+            & args' = \forall 1 \leq i \leq n. \; (\env_{i - 1}, \pathvar) arg'_i \gennedby arg_i, \env_i}
+         {\inp <f \; args> \gens f(args'), \out}$
 
-%     % literals
-%     $\inference
-%         [Literals]
-%         {}
-%         {\vinp c \gennedby <c>, \vout}$
-%     $\inference
-%         [Application]
-%         {args' = \forall 0 \leq i < n. \ginp args_{i} \gens args'_{i} \gout & x = f(args')}
-%         {\vinp x \gennedby <f \; args>, \vout}$
+    % variables
+    $\inference
+        [Variable1]
+        {\envget{\lab} = x}
+        {\inp x \gennedby \lab, \out}$
+    $\inference
+        [Variable2]
+        {\envhasnt{\lab} & \arbitrary{x}}
+        {\inp x \gennedby \lab, \outw{\lab}{x}}$
 
-%     % variables
-%     $\inference
-%         [Variable1]
-%         {\envget{\lab} = x}
-%         {\vinp x \gennedby \lab, \vout}$
-%     $\inference
-%         [Variable2]
-%         {\envhasnt{\env}{\lab} & \constraintsget{\lab}{x}}
-%         {\vinp x \gennedby \lab, \voutwe{\lab}{x}}$
-
-%     $\inference
-%         [UnionSolveLeft]
-%         {\envhasnt{\lab} & \constraintsget{\lab}{0} & x \gennedby r_1}
-%         {\vinp x \gennedby r_1 |_{\lab} r_2, \voutwe{\lab}{0}}$
-%     $\inference
-%         [UnionSolveLeft]
-%         {\envhasnt{\lab} & \constraintsget{\lab}{1} & x \gennedby r_2}
-%         {\vinp x \gennedby r_1 |_{\lab} r_2, \voutwe{\lab}{1}}$
+    $\inference
+        [UnionSolveLeft]
+        {\envhasnt{\lab} & \inp x \gennedby r_1, \out}
+        {\inp x \gennedby r_1 |_{\lab} r_2, \outw{\lab}{0}}$
+    $\inference
+        [UnionSolveLeft]
+        {\envhasnt{\lab} & \inp x \gennedby r_2, \out}
+        {\inp x \gennedby r_1 |_{\lab} r_2, \outw{\lab}{1}}$
+    $\inference
+        [UnionLeft]
+        {\envget{\lab} \mod 2 = 0 & \inp x \gennedby r_1, \out}
+        {\inp x \gennedby r_1 |_{\lab} r_2, \out}$
+    $\inference
+        [UnionLeft]
+        {\envget{\lab} \mod 2 = 1 & \inp x \gennedby r_2, \out}
+        {\inp x \gennedby r_1 |_{\lab} r_2, \out}$
     
-%     $\inference
-%         [StarSolve]
-%         {\envhasnt{\lab} & \exists n. \constraintsget{n} & \vinpwe{\lab}{n} xs \gennedby r*_{\lab}}
-%         {\vinp xs \gennedby r*_{lab}, \voutwe{\lab}{n}}$
+    $\inference
+        [StarSolve]
+        {\envhasnt{\lab} & \exists n. \inpwe{\lab}{n} xs \gennedby r*_{\lab}, \out}
+        {\inp xs \gennedby r*_{lab}, \out}$
+    $\inference
+         [Star]
+         { \envget{\lab} = n
+            & \env_0 = \env
+            & xs = \forall 1 \leq i \leq n . (\env_{i - 1}, \pathput{\lab}{i}) xs_i \gennedby r, \env_i
+         }
+         {\inp \foldconcat{xs} \gennedby r*_{\lab}, \env_n}$
 
-%     % NOTE: for stars and unions, if the environment has a value for the label the rule approximately the same as for generation
-%     % so for the sake of redundancy those rules are omitted.
-%     \caption{Validation Rules}
-%     \label{fig:validation-rules}
-% \end{center}
-% \end{figure*}
+    \caption{Validation Rules}
+    \label{fig:validation-rules}
+\end{center}
+\end{figure*}

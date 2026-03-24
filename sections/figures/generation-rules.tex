@@ -1,72 +1,60 @@
 \begin{figure*}
 \begin{center}
-     % we assume all values are generated at assignment and therefore the environment contains them
-     $\inference
-        [\RuleVariable]
-        {\envget{\lab} = x}
-        {\inp \lab \gens x, \zout}$
+      % we assume all values are generated at assignment and therefore the environment contains them
+      $\inference
+         [\RuleVariable]
+         {\envget{\lab} = x}
+         {\inp \lab \gens x, \zout}$
 
-     $\inference
-        [\RuleEmpty]
-        {}
-        {\ginp \nil \gens \nil, \gout}$
+      $\inference
+         [\RuleEmpty]
+         {}
+         {\inp \nil \gens \nil, \zout}$
 
-    % by design, the depth of r_1 and r_2 are equal
-     $\inference
-        [\RuleUnionLeft]
-        {\envget{\lab} \mod 2 = 0 & \inp r_1 \gens x, \out}
-        {\inp r_1 |_{\lab} r_2 \gens x, \out}$
-     $\inference
-        [\RuleUnionRight]
-        {\envget{\lab} \mod 2 = 1 & \inp r_2 \gens x, \out}
-        {\inp r_1 |_{\lab} r_2 \gens x, \out}$
+      % by design, the depth of r_1 and r_2 are equal
+      $\inference
+         [\RuleUnionLeft]
+         {\envget{\lab} \mod 2 = 0 & \inp r_1 \gens x, \out}
+         {\inp r_1 |_{\lab} r_2 \gens x, \out}$
+      $\inference
+         [\RuleUnionRight]
+         {\envget{\lab} \mod 2 = 1 & \inp r_2 \gens x, \out}
+         {\inp r_1 |_{\lab} r_2 \gens x, \out}$
 
-    % Is it possible to pass the that label for the star when we switch it out for a constant label?
-   %   $\inference
-   %      [\RuleStarInit]
-   %      {\envhasnt{\pathvar}{\lab} & \envget{\lab} = n & \inpwp{\lab}{0} r*_{\lab} \gens xs, \out}
-   %      {\inp r*_{\lab} \gens xs, \out}$
-   %   $\inference
-   %      [\RuleStar]
-   %      {\envget{\pathvar}{\lab} < n & \envget{\lab} = n & \inp r \gens xs, \out & \inpwp{\lab}{\envget{\pathvar}{\lab} + 1} r*_{\lab} \gens ys}
-   %      {\inp r*_{\lab} \gens xs ++ ys}$
-   %   $\inference
-   %      [\RuleStarEnd]
-   %      {\envget{\lab} \leq 0 \lor \envget{\pathvar}{\lab} \geq \envget{\lab}}
-   %      {\inp r*_{\lab} \gens \nil, \out}$
+      $\inference
+         [\RuleStar]
+         { \envget{\lab} = n
+            & \env_0 = \env
+            & xs = \forall 1 \leq i \leq n . (\env_{i - 1}, \pathput{\lab}{i}) r \gens xs_i, \env_i
+         }
+         {\inp r*_{\lab} \gens \foldconcat{xs}, \env_n}$
 
-    $\inference
-        [\RuleStar]
-        { \envget{\env_0}{\lab} = n
-        & xs = \forall 1 \leq i \leq n . (\env_{i - 1}, \envput{\pathvar}{\lab}{i}) r \gens xs_i, \env_i
-        }
-        {(\env_0, \pathvar) r*_{\lab} \gens \foldconcat{xs}, \env_n}$
+      % by design, r_1 and r_2 have a non-zero depth for concat
+      $\inference
+         [\RuleConcat]
+         {\inp r_1 \gens xs, \out & \dinp r_2 \gens ys, \dout}
+         {\inp r_{1} \concat r_{2} \gens xs \append ys, \dout}$
+      $\inference
+         [\RuleCons]
+         {\inp r_1 \gens x, \out & \dinp r_1 \gens xs, \dout}
+         {\inp r_{1} \cons r_{2} \gens x \ccons xs, \dout}$
 
-    % by design, r_1 and r_2 have a non-zero depth for concat
-     $\inference
-        [\RuleConcat]
-        {\inp r_1 \gens xs, \out & r_2 \gens ys, \dout}
-        {\inp r_{1} :++ r_{2} \gens xs ++ ys, \dout}$
-     $\inference
-        [\RuleCons]
-        {\inp r_1 \gens x, \out & \out r_1 \gens xs, \dout}
-        {\inp r_{1} :> r_{2} \gens x : xs, \dout}$
+      % TODO be more clear about difference between this and apply maybe?
+      $\inference
+         [\RuleLiteral]
+         {}
+         {\inp <c> \gens c, \zout}$
 
-    % TODO be more clear about difference between this and apply maybe?
-     $\inference
-        [\RuleLiteral]
-        {}
-        {\ginp<c> \gens c, \gout}$
+      $\inference
+         [\RuleApply]
+         {\env_0 = \env
+            & args' = \forall 1 \leq i \leq n. \; (\env_{i - 1}, \pathvar) arg_i \gens arg'_i, \env_i}
+         {\inp <f \; args> \gens f(args'), \out}$
 
-     $\inference
-        [\RuleApply]
-        {\inp args \gens args' \env}
-        {\inp <f \; args> \gens f(args'), \env}$
-
-     $\inference
-        [\RuleAssign]
-        {\arbitrary{x} & p(args, x)}
-        {\inp (\lab \Longleftarrow p(args, \lab)) \mapsto e, \outw{\lab}{x}}$
+      $\inference
+         [\RuleAssign]
+         {\arbitrary{x} & p(args, x)}
+         {\inp (\lab \Longleftarrow p(args, \lab)) \mapsto e, \outw{\lab}{x}}$
     \caption{\bill{Generation Rules}}
     \label{fig:generation-rules}
 \end{center}

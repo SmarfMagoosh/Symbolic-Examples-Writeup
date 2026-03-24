@@ -42,23 +42,6 @@
 \newcommand{\depshas}[1]{#1 \in \deps}
 \newcommand{\depshasnt}[1]{#1 \notin \deps}
 
-% inputs and outputs
-\newcommand{\ginp}{(\env, \pathvar) \;}
-\newcommand{\ginpwe}[2]{(\envput{#1}{#2}, \pathvar) \;}
-\newcommand{\ginpwp}[2]{(\env, \pathput{#1}{#2}) \;}
-\newcommand{\ginpwb}[4]{(\envput{#1}{#2}, \pathput{\pathvar}{#3}{#4}) \;}
-\newcommand{\gout}{\; \env}
-\newcommand{\goutw}[2]{\; \envput{#1}{#2}}
-
-\newcommand{\vinp}{(\env, \pathvar, \constraints) \;}
-\newcommand{\vinpwe}[2]{(\envput{#1}{#2}, \pathvar, \constraints) \;}
-\newcommand{\vinpwp}[2]{(\env, \pathput{#1}{#2}, \constraints) \;}
-\newcommand{\vinpwc}[2]{(\env, \pathvar, \constraintsput{#1}{#2}) \;}
-\newcommand{\vinpwb}[4]{(\envput{#1}{#2}, \pathput{\pathvar}{#3}{#4}, \constraints) \;}
-\newcommand{\vout}{\; (\env, \constraints) \;}
-\newcommand{\voutwe}[2]{\; (\envput{#1}{#2}, \constraints)}
-\newcommand{\voutwc}[2]{\; (\envput, \constraintsput{#1}{#2})}
-
 % Other
 \newcommand{\lab}{\ensuremath{\ell}\xspace}
 \newcommand{\nil}{[\;]}
@@ -67,16 +50,15 @@
 \newcommand{\arbitrary}[1]{#1 \; arbitrary}
 
 % Inputs and Outputs
-\newcommand{\inp}{(\env, \pathvar) \;}
-\newcommand{\dinp}{(\env', \pathvar') \;}
-\newcommand{\inpwe}[2]{(\envput{\env}{#1}{#2}, \pathvar) \;}
-\newcommand{\inpwp}[2]{(\env, \envput{\pathvar}{#1}{#2}) \;}
-\newcommand{\inpwb}[4]{(\envput{\env}{#1}{#2}, \envput{\pathvar}{#1}{#2}) \;}
-\newcommand{\zout}{\; \env}
-\newcommand{\out}{\; \env'}
-\newcommand{\dout}{\; \env''}
-\newcommand{\tout}{\; \env'''}
-\newcommand{\outw}[2]{\; \envput{\env}{#1}{#2}}
+\newcommand{\inp}{(\env, \pathvar) \;}                          % input
+\newcommand{\dinp}{(\env', \pathvar) \;}                        % "double input" (input prime)
+\newcommand{\inpwe}[2]{(\envput{#1}{#2}, \pathvar) \;}          % input with modified environment
+\newcommand{\inpwp}[2]{(\env, \pathput{#1}{#2}) \;}             % input with modified path
+\newcommand{\inpwb}[4]{(\envput{#1}{#2}, \pathput{#1}{#2}) \;}  % input with both modified
+\newcommand{\out}{\; \env'}                         % regular output (assumed modification)
+\newcommand{\zout}{\; \env}                         % "zeroth output" (when we no there was no modification)
+\newcommand{\dout}{\; \env''}                       % "double output" assume a second modification
+\newcommand{\outw}[2]{\; \envput{\env}{#1}{#2}}     % output with updated environment
 
 % Type related stuff
 \newcommand{\type}{\ensuremath{\tau}\xspace}
@@ -97,8 +79,6 @@
 
 % host language
 \newcommand{\expr}{\ensuremath{e}\xspace}
-
-
 
 % Rules
 \newcommand{\rulename}[1]{{{\footnotesize{\textsc{#1}}}}\xspace}
