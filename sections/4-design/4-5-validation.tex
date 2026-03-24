@@ -47,10 +47,11 @@ this is not notably different then the corresponding generation rule,
 
 \mypara{Assignment and Variables}
 \ValidateVarOne, \ValidateVarTwo, and \ValidateAssignment
-\bill{...}
+\bill{Evan, \ValidateAssignment seems wrong as is, because shouln't be generating a random value?
+But I don't understand enough about how dependency map is working to fix.}
 
 \mypara{Union}
-We have four rules to handle a union $r_1 \|_\lab r_2$.
+We have four rules to handle a union $r_1 |_\lab r_2$.
 Two of these rules,
 \ValidateUnionSolveLeft and \ValidateUnionSolveRight,
 handle the case where $\lab$ is not bound in the environment.

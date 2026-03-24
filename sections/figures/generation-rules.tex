@@ -25,9 +25,9 @@
          [\RuleStar]
          { \envget{\lab} = n
             & \env_0 = \env
-            & xs = \forall 1 \leq i \leq n . (\env_{i - 1}, \pathput{\lab}{i}) r \gens xs_i, \env_i
+            & xs = \forall 0 \leq i < n . (\env_{i}, \pathput{\lab}{i}) r \gens xs_{i + 1}, \env_{i + 1}
          }
-         {\inp r*_{\lab} \gens \foldconcat{xs}, \env_n}$
+         {\inp r*_{\lab} \gens \foldconcat{xs}, \env_{n}}$
 
       % by design, r_1 and r_2 have a non-zero depth for concat
       $\inference
