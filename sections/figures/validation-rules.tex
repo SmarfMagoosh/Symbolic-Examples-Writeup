@@ -1,0 +1,64 @@
+\begin{figure*}
+\begin{center}
+    % the big change from generation to validation
+    $\inference
+        [Assignment]
+        {\vinpwc{\lab}{\mathit{constraint}} x \gennedby e, \vout}
+        {\vinp x \gennedby (\lab \Longleftarrow \mathit{constraint}) \mapsto e, \vout}$
+
+    % No constraints necessary
+
+    % list operations
+    $\inference
+        [Cons]
+        {\vinp x \gennedby r_1, \vout & \vinp xs \gennedby r_2, \vout}
+        {\vinp x :: xs \gennedby r_1 :> r_2, \vout}$
+    $\inference
+        [Concat]
+        {\exists n, \vinp xs[0..n] \gennedby r_1, \vout & \vinp xs[n..] \gennedby r_2, \vout}
+        {\vinp xs \gennedby r_1 :++ r_2, \vout}$
+    $\inference
+        [Empty]
+        {}
+        {\vinp \nil \gennedby \nil, \vout}$
+
+    % literals
+    $\inference
+        [Literals]
+        {}
+        {\vinp c \gennedby <c>, \vout}$
+    $\inference
+        [Application]
+        {args' = \forall 0 \leq i < n. \ginp args_{i} \gens args'_{i} \gout & x = f(args')}
+        {\vinp x \gennedby <f \; args>, \vout}$
+
+    % variables
+    $\inference
+        [Variable1]
+        {\envget{\lab} = x}
+        {\vinp x \gennedby \lab, \vout}$
+    $\inference
+        [Variable2]
+        {\envhasnt{\env}{\lab} & \constraintsget{\lab}{x}}
+        {\vinp x \gennedby \lab, \voutwe{\lab}{x}}$
+
+    $\inference
+        [UnionSolveLeft]
+        {\envhasnt{\lab} & \constraintsget{\lab}{0} & x \gennedby r_1}
+        {\vinp x \gennedby r_1 |_{\lab} r_2, \voutwe{\lab}{0}}$
+    $\inference
+        [UnionSolveLeft]
+        {\envhasnt{\lab} & \constraintsget{\lab}{1} & x \gennedby r_2}
+        {\vinp x \gennedby r_1 |_{\lab} r_2, \voutwe{\lab}{1}}$
+    
+    $\inference
+        [StarSolve]
+        {\envhasnt{\lab} & \exists n. \constraintsget{n} & \vinpwe{\lab}{n} xs \gennedby r*_{\lab}}
+        {\vinp xs \gennedby r*_{lab}, \voutwe{\lab}{n}}$
+
+    % NOTE: for stars and unions, if the environment has a value for the label the rule approximately the same as for generation
+    % so for the sake of redundancy those rules are omitted.
+    \caption{Validation Rules}
+    \label{fig:validation-rules}
+\end{center}
+\end{figure*}

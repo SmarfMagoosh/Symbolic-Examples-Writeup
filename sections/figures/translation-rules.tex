@@ -1,4 +1,5 @@
 \begin{figure*}
+<<<<<<< HEAD
       \begin{subfigure}[t]{1\textwidth}
    $\inference
         [\UnlabelledStarBaseTrans]
@@ -43,6 +44,23 @@
    %      [UnlabelledUnionTrans]
    %      {\hastype{x}{\complex} & \hastype{y}{\complex} & x \translate x' & y \translate y' & \fresh{\lab'}}
    %      {x \; | \; y \translate (\lab' \Longleftarrow True) \mapsto x' \; |_{\lab'} \; y'}$
+=======
+\begin{center}
+    % Data
+   $\inference
+      [AppTrans]
+      {\forall arg_i \in args, }
+      {<f\;args> \translate <f\;args'>}$
+   % Union
+   $\inference
+      [UnionTrans]
+      {\hastype{x}{\complex} & \hastype{y}{\complex} & x \translate x' & y \translate y'}
+      {x |\{\lab\} y \translate x' \; |_{\lab} \; y'}$
+     $\inference
+        [UnlabelledUnionTrans]
+        {\hastype{x}{\complex} & \hastype{y}{\complex} & x \translate x' & y \translate y' & \fresh{\lab'}}
+        {x \; | \; y \translate (\lab' \Longleftarrow True) \mapsto x' \; |_{\lab'} \; y'}$
+>>>>>>> Evan
 
     % Star
      $\inference
@@ -104,9 +122,15 @@
         [EmptyTrans]
         {}
         {\nil \translate \nil}$
+<<<<<<< HEAD
       \label{fig:translation-rules-phase2}
       \caption{\bill{Translation Rules Phase 2}}
       \end{subfigure}
 \caption{\bill{Translation Rules}}
 \label{fig:translation-rules}
+=======
+   \caption{Translation Rules}
+   \label{fig:translation-rules}
+\end{center}
+>>>>>>> Evan
 \end{figure*}

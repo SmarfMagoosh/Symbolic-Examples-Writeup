@@ -1,17 +1,25 @@
 \begin{figure*}
-    % we assume all values are generated at assignment and therefore the environment contains them
+\begin{center}
+     % we assume all values are generated at assignment and therefore the environment contains them
      $\inference
+<<<<<<< HEAD
         [\RuleVariable]
         {\envget{\env}{\lab} = x}
         {\inp \lab \matches x, \zout}$
+=======
+        [Variable]
+        {\envget{\lab} = x}
+        {\ginp \lab \gens x, \gout}$
+>>>>>>> Evan
 
      $\inference
         [\RuleEmpty]
         {}
-        {\inp \nil \matches \nil, \zout}$
+        {\ginp \nil \gens \nil, \gout}$
 
     % by design, the depth of r_1 and r_2 are equal
      $\inference
+<<<<<<< HEAD
         [\RuleUnionLeft]
         {\envget{\env}{\lab} \mod 2 = 0 & \inp r_1 \matches x, \out}
         {\inp r_1 |_{\lab} r_2 \matches x, \out}$
@@ -50,23 +58,70 @@
         [\RuleCons]
         {\inp r_1 \matches x, \out & \out r_1 \matches xs, \dout}
         {\inp r_{1} :> r_{2} \matches x : xs, \dout}$
+=======
+        [UnionLeft]
+        {\envget{\lab} = 0 & \ginpwp{\lab}{0} r_1 \gens x, \gout}
+        {\ginp r_1 |_{\lab} r_2 \gens x, \gout}$
+     $\inference
+        [UnionRight]
+        {\envget{\lab} = 1 & \ginpwp{\lab}{0} r_2 \gens x, \gout}
+        {\ginp r_1 |_{\lab} r_2 \gens x, \gout}$
+
+    % Is it possible to pass the that label for the star when we switch it out for a constant label?
+     $\inference
+        [StarInit]
+        {\envhasnt{\pathvar}{\lab} & \envget{\lab} = n & \ginpwp{\lab}{0} r*_{\lab} \gens xs, \gout}
+        {\ginp r*_{\lab} \gens xs, \gout}$
+     $\inference
+        [Star]
+        {\envget{\pathvar}{\lab} < n & \envget{\lab} = n & \ginp r \gens xs, \gout & \ginpwp{\lab}{\envget{\pathvar}{\lab} + 1} r*_{\lab} \gens ys}
+        {\ginp r*_{\lab} \gens xs ++ ys}$
+     $\inference
+        [StarEnd]
+        {\envget{\lab} \leq 0 \lor \envget{\pathvar}{\lab} \geq \envget{\lab}}
+        {\ginp r*_{\lab} \gens \nil, \gout}$
+
+    % by design, r_1 and r_2 have a non-zero depth for concat
+     $\inference
+        [Concat]
+        {\ginp r_{1} \gens xs, \gout & r_{2} \gens ys, \gout}
+        {\ginp r_{1} :++ r_{2} \gens xs ++ ys, \gout}$
+     $\inference
+        [Cons]
+        {\ginp r_1 \gens x, \gout & \gout r_1 \gens xs, \gout}
+        {\ginp r_{1} :> r_{2} \gens x : xs, \gout}$
+>>>>>>> Evan
 
     % TODO be more clear about difference between this and apply maybe?
      $\inference
         [\RuleLiteral]
         {}
-        {\inp <c> \matches c, \out}$
+        {\ginp<c> \gens c, \gout}$
 
      $\inference
+<<<<<<< HEAD
         [\RuleApply]
         {\inp args \matches args' \env}
         {\inp <f \; args> \matches f(args'), \env}$
+=======
+        [Apply]
+        {\ginp args \gens args' \env}
+        {\ginp <f \; args> \gens f(args'), \env}$
+>>>>>>> Evan
 
      $\inference
         [\RuleAssign]
         {\arbitrary{x} & p(args, x)}
+<<<<<<< HEAD
         {\inp (\lab \Longleftarrow p(args, \lab)) \mapsto e, \outw{\lab}{x}}$
     \caption{\bill{Generation Rules}}
     \label{fig:generation-rules}
+=======
+        {\ginp (\lab \Longleftarrow p(args, \lab)) \mapsto e, \goutw{\lab}{x}}$
+         
+   \caption{Generation Rules}
+   \label{fig:generation-rules}
+\end{center}
+>>>>>>> Evan
 \end{figure*}
 
