@@ -7,15 +7,7 @@
     Since a single variable may take on multiple values in different contexts, 
     the environment really label-context pairs to values.
     
-    \item $\deps$ is our dependency map. 
-    Since certain variable are only defined in the context of other variables, 
-    we need a map to tell us which other variable must be defined to bring another variable into scope. 
-    So the dependency maps labels to lists of labels for this purpose. 
-    For instance, consider the symbolic expression $a -> (b -> b)*_{a}$. 
-    Since $b$ is defined in the star expression labelled ``$a$'' then $b$ is only defined if $a$ is defined in the current context of an expression. 
-    Thus, $\depsget{b}=[a]$. 
-    When using the environment, we assume the dependency map is precomputed. 
-    We also assume the dependency map is consulted before looking up a variables specific value in the environment.
+    \item 
     
     \item $E[k \rightarrow v]$ inserts the key-value pair $(k, v)$ into dictionary $E$. 
     If $E$ already has an entry for $k$, then this operation updates the entry.

@@ -11,11 +11,7 @@
 
 \input{sections/4-design/4-3-design-translation.tex}
 
-\subsection{Dependency Map Computation} \label{subsec:dependency-map-computation}
-\par the dependency map function is a bit complex and I'm not sure if we need rules for it anyways or if its sufficient to just describe the algorithm. Since we build the dependency map from a whole series of expressions representing a function I designed it so that it could be a fold function (i.e its type is dmap -> ast n a -> dmap)
-\begin{enumerate}
-    \item TODO: rules go here
-\end{enumerate}
+\input{sections/4-design/4-x-dependency-map.tex}
 
 \subsection{Scope Checking Rules} \label{subsec:scope-checking-rules}
 \par The scope checking rules aim to check if every label used in a tree is used in an appropriate place which really boils down to two rules

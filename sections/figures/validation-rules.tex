@@ -65,7 +65,7 @@
          [Star]
          { \envget{\lab} = n
             & \env_0 = \env
-            & xs = \forall 1 \leq i \leq n . (\env_{i - 1}, \pathput{\lab}{i}) xs_i \gennedby r, \env_i
+            & xs = \forall 1 \leq i \leq n. (\env_{i - 1}, \pathput{\lab}{i}) xs_i \gennedby r, \env_i
          }
          {\inp \foldconcat{xs} \gennedby r*_{\lab}, \env_n}$
 
