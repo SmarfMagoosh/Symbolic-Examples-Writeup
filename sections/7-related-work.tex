@@ -1,31 +1,94 @@
 \section{Related Work}
 
 \mypara{Property-Based Testing}
-QuickCheck~\cite{claessen2000quickcheck}
+In this work, we consider a new approach to property-based testing
+based on writing function specifications in a \textit{symbolic expressions} eDSL.
+We explore this direction in the functional programming world,
+where in particular QuickCheck~\cite{claessen2000quickcheck},
+alongside other approaches such as SmallCheck~\cite{runciman2008smallcheck}
+and Target~\cite{seidel2015type},
+has led to property-based testing becoming a popular paradigm.
 
-Target~\cite{seidel2015type}
+QuickCheck~\cite{claessen2000quickcheck} is often credited as popularizing
+property-based testing and inspiring
+property-based testing libraries~\cite{maciver2019hypothesis,benac2014jsongen,denes2014quickchick,seidel2015type}.
+However,
+the earliest work on property-based testing~\cite{fink1994property,fink1997property}
+was actually on C code in the Unix community,
+where property based testing was used to check security properties and search for exploits.
+It introduced a specialized language, TASPEC, for writing testing oracles and specifications,
+with an eye specifically toward security.
 
-SmallCheck~\cite{runciman2008smallcheck}
+Despite this, the statement that QuickCheck~\cite{claessen2000quickcheck},
+a Haskell property-based testing library,
+was highly influential on much, if not all,
+of the work that follows is quite fair.
+As shown earlier in the paper \bill{Where?}
+QuickCheck allows writing specifications over functions using mostly ordinary Haskell code,
+using typeclass instances to specify how to generate random input values.
+\bill{More on QuickCheck}
+SmallCheck~\cite{runciman2008smallcheck} and Target~\cite{seidel2015type}
+are alternative Haskell property-based testing library.
+The design of SmallCheck resembles the design of QuickCheck,
+except that, instead of being tested on randomly chosen inputs,
+functions are tested on inputs of increasing size.
+Target tests specifications written as \textit{refinement types}
+i.e. regular types annotated with decidbale predicates.
+This refinement types can also be verified with the LiquidHaskell~\cite{vazou2014refinement} verifier;
+a major motivation of Target is to act as a complementary tool to LiquidHaskell;
+for example, by allowing mixing of verification on ``easy to verify'' code
+and testing on ``hard to verify'' code,
+and by finding counterexample when verification is failing because of an \textit{actual} bug.
 
-Isabelle QuickCheck~\cite{bulwahn2012new}
+Adaptions of the core ideas of QuickCheck
+exist for a wide variety of other languages, both functional and imperative;
+as a (much abbreviated) list,
+we note QuickCheck for Isabelle~\cite{bulwahn2012new},
+QuickCh\textit{i}ck for Rocq~\cite{denes2014quickchick},
+QuickCheck for Rust~\cite{derbenwick2025property},
+Hypothesis for Python~\cite{maciver2019hypothesis},
+PyModel for Python~\cite{jacky2011pymodel},
+and 
+Jsongen for json web services~\cite{benac2014jsongen}.
 
-QuickChick-- PBT for Rocq~\cite{denes2014quickchick}
+% \mypara{White box and black box Input Selection}
+% As an alternative to property-based testing,
+% functions may be tested by selecting fixed input/output pairs to check in a test suite.
+% Methods for selecting such pairs have been studied,
+% and can broadly be split into \textit{white box} and \textit{black box} methods~
+% \cite{nidhra2012black}.
 
-QuickCheck for Rust~\cite{derbenwick2025property}
+\mypara{Symbolic Expressions}
+Symbolic expressions can be viewed as mini-programs
+that generate (related) function inputs and outputs.
+Alternatively, they can be seens as abstractions or generalizations
+of the inputs themselves.
+This second view,
+of the expressions as abstractions,
+suggests a relation to the manipulation of symbolic program values performed
+by program analysis tools.
+The most direct link to our work
+in this domain is synthesis with abstract examples~\cite{drachsler2017synthesis}.
+The ``abstract examples'' in question
+represent
+strings using a regular expression like language,
+extended with labeled kleene stars
+and variables.
+Unlike \ourDSL, these examples are used purely as an \textit{output mechanism}--
+the synthesizer asks the user if certain abstract example input/output pairs
+correspond to the function being synthesized, and the user answers yes or no.
+The abstract example language in~\cite{drachsler2017synthesis}
+is also significantly less sophisticated than ours;
+kleene stars are only allowed to repeat a single character,
+variables correspond to a single character,
+and there are no further features
+(i.e. no labeled unions or nested lists.)
 
-Hypothesis-- property based testing in Python~\cite{maciver2019hypothesis}
-
-PyModel-- model based testing in Python~\cite{jacky2011pymodel}
-
-JSon web services~\cite{benac2014jsongen}
-
-\mypara{White box and black box Input Selection}
-As an alternative to property-based testing,
-functions may be tested by selecting fixed input/output pairs to check in a test suite.
-Methods for selecting such pairs have been studied,
-and can broadly be split into \textit{white box} and \textit{black box} methods.
-\bill{Expand, figure out what to cite here}
-
-\mypara{Symbolic Examples}
-
-Synthesis with abstract examples~\cite{drachsler2017synthesis}
+Other uses of symbolic representations are further removed,
+but still worth considering.
+In the world of functional programming,
+symbolic execution tools such as
+Rosette~\cite{torlak2014lightweight}, G2~\cite{hallahan2019lazy}, SmtEn~\cite{uhler2014smten}, and CutEr~\cite{giantsios2015concolic}
+exploit such reasoning to support finding program bugs and (in some cases) verify programs.
+These tools general reserve symbolic representations for \textit{internal} use,
+communicating information to the user by generating corresponding concrete values.
