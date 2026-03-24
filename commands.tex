@@ -36,6 +36,11 @@
 \newcommand{\pathhas}[1]{#1 \in \pathvar}
 \newcommand{\pathhasnt}[1]{#1 \notin \pathvar}
 
+\newcommand{\depsput}[2]{\deps [#1 \rightarrow #2]}
+\newcommand{\depsget}[1]{\deps(#1)}
+\newcommand{\depshas}[1]{#1 \in \deps}
+\newcommand{\depshasnt}[1]{#1 \notin \deps}
+
 % inputs and outputs
 \newcommand{\ginp}{(\env, \pathvar) \;}
 \newcommand{\ginpwe}[2]{(\envput{#1}{#2}, \pathvar) \;}
@@ -84,6 +89,8 @@
 % core language
 \newcommand{\core}{\ensuremath{c}\xspace}
 \newcommand{\cons}{\ensuremath{:>}\xspace}
+\newcommand{\append}{\ensuremath{++}\xspace}
+\newcommand{\ccons}{\ensuremath{::}\xspace}
 \newcommand{\concat}{\ensuremath{:++}\xspace}
 \newcommand{\foldconcat}[1]{\ensuremath{\mathit{concat}(#1)}\xspace}
 

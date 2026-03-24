@@ -1,11 +1,13 @@
 Must have!
     - checking rules
 
-1. do merge, resolve merge conflict, reify commands, make sure it makes
-2. go through rules and make sure its consistent
-3. do the implementation section
+1. go through rules and make sure its consistent
+2. do the implementation section
     - FnType args a
     - Asts a
     - Ast n a
     - NestedList n a
     - QuasiQuoter
+3. address me addressings
+    - 4-4-generation.tex line 72
+    - 

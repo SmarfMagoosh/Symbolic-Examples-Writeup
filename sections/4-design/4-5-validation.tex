@@ -1,12 +1,13 @@
 \subsection{Validation Rules} \label{subsec:validation-rules}
 
-\par Validation happens differently than generation. For generation, when a variable is declared we generate a random value for it that satisfies its constraint and insert that into our environment. For validation, we are given a list and a core expression. So when a variable is declared we have to find if there is some value for the label such that the computed output would be generated from the core expression. Because of this we will have to be splitting lists to see if two expressions can fully match each half. We do that using this syntax $x[i..j]$ which is a sublist of the list $x$ containing all the elements from indices $i$ to $j$ (right exclusive) in order; $x[i..]$ is a special version of this that takes all element from $i$ to the end of the list.
-
-% \par $\constraints$ is a new environment introduced for validation. It stores the constraint for each label declared in the output. Some constraints use the label as a variable making it more like a predicate (i.e $(\lab \Longleftarrow \lab < 5)$). So when we look up constraints in $\constraints$ we must pass in a second value that gets subsituted in for the label in the constraint expression before it gets evaluated. In cases where the label is not used as a variable in its constraint the extra value we pass in is simply not used. Thus, $\constraintsget{\lab}{x}$ is a boolean in all cases.
-
-% \par The constraint rules are designed such that 
-
-% \[\forall e, x. \ginp e \gens x \gout \Longleftrightarrow \vinp x \gennedby e \vout\]
+\par Validation happens slightly different than generation.
+Firstly, there are no constraints on variables during the validation phase.
+The purpose of validation is, given a symbolic expression and a list, to determine if
+it is possible (following the rules of generation) that the symbolic expression could
+generate the list (i.e $\forall e, xs. e \gens xs \Longleftrightarrow xs \gennedby e$).
+When we come across a label that has no value, we must try every value that label could
+take and check if one of them lets the output match the expression. If it can, we say the
+list was validated by the expression.
 
 \input{sections/figures/validation-rules}
 
