@@ -28,7 +28,7 @@
 
 % environment interactions
 \newcommand{\envput}[2]{\env [(\pathvar, #1) \rightarrow #2]}
-\newcommand{\envget}[1]{\env(\pathvar, #1)}
+\newcommand{\envget}[1]{\env_\pathvar(#1)}
 \newcommand{\envhas}[1]{#1 \in \env}
 \newcommand{\envhasnt}[1]{#1 \notin \env}
 
@@ -58,7 +58,7 @@
 \newcommand{\out}{\; \env'}                         % regular output (assumed modification)
 \newcommand{\zout}{\; \env}                         % "zeroth output" (when we no there was no modification)
 \newcommand{\dout}{\; \env''}                       % "double output" assume a second modification
-\newcommand{\outw}[2]{\; \envput{\env}{#1}{#2}}     % output with updated environment
+\newcommand{\outw}[2]{\; \envput{#1}{#2}}     % output with updated environment
 
 % Type related stuff
 \newcommand{\type}{\ensuremath{\tau}\xspace}
