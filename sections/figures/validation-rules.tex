@@ -44,11 +44,11 @@
 
     $\inference
         [UnionSolveLeft]
-        {\envhasnt{\env}{\lab} & \constraintsget{\lab}{0} & x \gennedby r_1}
+        {\envhasnt{\lab} & \constraintsget{\lab}{0} & x \gennedby r_1}
         {\vinp x \gennedby r_1 |_{\lab} r_2, \voutwe{\lab}{0}}$
     $\inference
         [UnionSolveLeft]
-        {\envhasnt{\env}{\lab} & \constraintsget{\lab}{1} & x \gennedby r_2}
+        {\envhasnt{\lab} & \constraintsget{\lab}{1} & x \gennedby r_2}
         {\vinp x \gennedby r_1 |_{\lab} r_2, \voutwe{\lab}{1}}$
     
     $\inference

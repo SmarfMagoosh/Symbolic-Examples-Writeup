@@ -1,17 +1,12 @@
 Must have!
     - checking rules
 
-Order
-    - fill out the rest of the design sections (paragraphs ideal but at least get something, especially the core!)
-        - except translation rules (handled by bill)
-    - implementation
-        - this is where we talk about the tricks we had to use to get it to work
-            - GADTs
-            - Type families
-            - QuasiQuoter
-            - what if we were in a different language?
-            - 3/4s a page at most + 1/2 page for what if it was in a different language
-
-next section:
-    - check rules
-    - work on narrative text explaining any part that's up and running
+1. do merge, resolve merge conflict, reify commands, make sure it makes
+2. go through rules and make sure its consistent
+3. do the implementation section
+    - FnType args a
+    - Asts a
+    - Ast n a
+    - NestedList n a
+    - QuasiQuoter
+    - 
