@@ -5,51 +5,6 @@
 \par 
 We now consider generating random input values from symbolic expressions. 
 To do this, we define a relation $\inp \lab \gens x, \zout$. 
-$\pathvar$ is the \textit{path} and $\env$ is the \textit{environment}; we elaborate on each of these in the following. 
-Understanding the path requires noting that, in generating lists (or, when we come to it later in Section~\bill{whatever}, validating lists) 
-we may repeatedly use an expression via a kleene closure, i.e. given $r*_\lab$,
-the expression $r$ may be repeated an arbitrary number of times. 
-The path is a set of label-to-int mappings that tracks this repetition--
-on first entering a kleene closure $r*_\lab$,
-$\lab \rightarrow 1$ is entered into the path.
-On each successive $n^{th}$ iteration, this mapping is updated to $n$.
-
-The environment tracks how generation is assigning labels to values via bindings,
-$(lab \Longleftarrow p(args, \lab)) \mapsto e$
-however note that the same label may be re-assigned different values in each iteration of a
-(possibly nested) kleene closure,
-thus, the environment is really a mapping of (label, path) pairs to values.
-
-\begin{example}
-Consider the expression:
-
-\[
-(n \Longleftarrow \mathit{True}) \mapsto ((x \Longleftarrow \mathit{True}) \mapsto x)*_n
-\]
-
-One list that could be generated from this would be:
-
-\[
-[8, 4, 17]
-\]
-
-The corresponding environment would be:
-\begin{align*}
-    \{  &(n, \{\}) \rightarrow 3, \\
-        &(x, \{ n \rightarrow 1 \}) \rightarrow 8, \\
-        &(x, \{ n \rightarrow 2 \}) \rightarrow 4, \\
-        &(x, \{ n \rightarrow 3 \}) \rightarrow 17 \\ 
-    \}
-\end{align*}
-
-$n$ occurs outside of all kleene closures, and thus has an empty context.
-$x$ is chosen to be $8$, $4$, and $17$, respectively,
-on the $1^{st}$, $2^{nd}$ and $3^{rd}$ iterations of the unrolling of the kleene closure indexed by $n$,
-and thus has a separate value for each of these three contexts.
-\end{example}
-% Since a single variable may take on multiple values in different contexts,
-% the environment really maps labels to dictionaries which map contexts to values.
-
 Figure~\ref{fig:generation-rules}
 shows the generation rules.
 

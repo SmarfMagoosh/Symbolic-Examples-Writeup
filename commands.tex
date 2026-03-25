@@ -26,9 +26,10 @@
 \newcommand{\translate}{\longrightarrow_2}
 
 \newcommand{\asgnarrow}{\mapsto}
-\newcommand{\env}{\Gamma}
+\newcommand{\env}{\ensuremath{\Gamma}\xspace}
 \newcommand{\pathvar}{\Pi}
-\newcommand{\deps}{\Delta}
+\newcommand{\deps}{\ensuremath{\Delta}\xspace}
+\newcommand{\depscontext}{\ensuremath{\delta}\xspace}
 
 % environment interactions
 \newcommand{\envput}[2]{\env [(\pathvar, #1) \rightarrow #2]}
@@ -48,7 +49,7 @@
 
 % Other
 \newcommand{\lab}{\ensuremath{\ell}\xspace}
-\newcommand{\nil}{[\;]}
+\newcommand{\nil}{[\;]\xspace}
 \newcommand{\OR}{\ |\ }
 \newcommand{\fresh}[1]{#1 \; fresh}
 \newcommand{\arbitrary}[1]{#1 \; arbitrary}
@@ -86,8 +87,13 @@
 \newcommand{\expr}{\ensuremath{e}\xspace}
 \newcommand{\testEq}{\ensuremath{\usp\mathit{==}\usp}\xspace}
 
+\newcommand{\testpasses}{\ensuremath{{\color{evancolor} \checkmark}}\xspace}
+\newcommand{\testfails}{\ensuremath{{\color{red} \times}}\xspace}
+
 % Rules
 \newcommand{\rulename}[1]{{{\footnotesize{\textsc{#1}}}}\xspace}
+
+\newcommand{\ruletest}{\rulename{Test}}
 
 %Translation Phase 1
 \newcommand{\UnlabelledStarBaseTrans}{\rulename{UnlabelledStarBaseTrans}}
@@ -143,7 +149,7 @@
 \ifdefined\withcolor
 	\definecolor{haskellblue}{rgb}{0.0, 0.0, 1.0}
 	\definecolor{haskellred}{rgb}{1.0, 0.0, 0.0}
-	\definecolor{lightgray}{gray}{0.925}
+	\definecolor{lightgray}{gray}{0.7}
 	\definecolor{gray_ulisses}{gray}{0.45}
 	\definecolor{castanho_ulisses}{rgb}{0.71,0.33,0.14}
 	\definecolor{preto_ulisses}{rgb}{0.41,0.20,0.04}
