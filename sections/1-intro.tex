@@ -17,17 +17,83 @@ including libraries for Python~\cite{maciver2019hypothesis},
 Rust~\cite{derbenwick2025property},
 \bill{C++? Java? 2 or 3 more here maybe}
 
-A traditional style of
-property based test
-ensures that two expressions return
-the same result when applied to equal inputs.
-For example
-\bill{Show something in quickcheck}
-\bill{While undoubtedly useful,
+\begin{figure}
+\begin{subfigure}[t]{1\linewidth}
+\begin{hskcode}
+zip [] _ = []
+zip _ [] = []
+zip (x:xs) (y:ys) = (x, y):zip xs ys
+\end{hskcode}
+\caption{Haskell \hskin{zip} function}
+\label{fig:zip-code}
+\end{subfigure}
+
+\begin{subfigure}[t]{1\linewidth}
+\begin{hskcode}
+zipTest = test2 "zip"
+      (zip :: [Int] -> [Int] -> [(Int, Int)]) 
+        [ex| n -> b -> x -> x*{n}(.* |{b} []) |] 
+        [ex| y -> y*{n}([] |{b} .*) |] 
+  .== [ex| (<(x, y)>)*{n} |]
+\end{hskcode}
+\caption{\hskin{zip} \ourDSL test}
+\end{subfigure}
+
+\caption{Haskell \hskin{zip} function and test}
+\label{fig:zip-example}
+\label{fig:zip-test}
+\end{figure}
+
+Property based tests
+typically ensure that two expressions satisfy some kind of relation
+(often, equality)
+when applied to similar inputs.
+For example,
+consider the \hskin{zip} function defined in
+Figure~\ref{fig:zip-code}.
+This function ``zips'' two lists together
+by putting each corresponding pair of values into a tuple.
+If one list is longer than the other, the longer list is cut off.
+To apply property-based testing,
+one would aim to find (expected to be true)
+properties of \hskin{zip},
+and then test those properties.
+For example, one can say that forall \hskin{xs} and \hskin{ys},
+we have that \hskin{length (zip xs ys) <= length xs}
+and \hskin{length (zip xs ys) <= length ys}.
+Perhaps more interestingly, one can also write something like
+\hskin{map fst (zip xs ys) == take (length ys) xs},
+which (roughly) says that zipping \hskin{xs} and \hskin{ys}
+preserves the values and orders of the first \hskin{length ys} elements in \hskin{xs}.
+
+Property-based testing is incredibly useful for testing,
+as evidenced by its proliferation to a wide array of language.
+However,
+both writing and understanding properties can also be challenging,
+as it requires determining how various functions in a codebase interrelate.
+In this paper,
+we propose a specialized DSL \ourDSL
+which allows writing property-based unit tests, focused on a single function.
+Once a programmer understands the language,
+the DSL thus allows writing tests for particular functions independently of
+other program code.
+This also has implications for other programmers, who might be trying to read the code later:
+tests written in \ourDSL can be viewed as a sort of testable specification,
+and therefore aid in \textit{understanding} (wholly) unfamilar code.
+
+% Of the three \hskin{zip} properties above,
+% we expect the two involving only \hskin{length} were fairly straightforward to understand.
+% However, for readers unfamiliar with functional programming
+% (or even some details of the Haskell standard library)
+% the third example involving \hskin{map}, \hskin{fst}, and \hskin{take} is likely more challenging.
+
+\bill{
 ... why might we prefer \ourDSL?
 (1) \ourDSL works as a specification
 (2) \ourDSL is independent of existing code-- I'm thinking one good example
 here could be that zip/zipWith have similar behavior- but also these might have very similar implementations}
+
+Figure~\ref{fig:zip-example}\bill{...}
 
 In this work,
 we propose a
