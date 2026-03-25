@@ -5,7 +5,6 @@
          [\RuleVariable]
          {\envget{\lab} = x}
          {\inp \lab \gens x, \zout}$
-
       $\inference
          [\RuleEmpty]
          {}
@@ -38,7 +37,6 @@
          [\RuleCons]
          {\inp r_1 \gens x, \out & \dinp r_1 \gens xs, \dout}
          {\inp r_{1} \cons r_{2} \gens x \ccons xs, \dout}$
-
       % TODO be more clear about difference between this and apply maybe?
       $\inference
          [\RuleLiteral]
@@ -50,12 +48,11 @@
          {\env_0 = \env
             & args' = \forall 1 \leq i \leq n. \; (\env_{i - 1}, \pathvar) arg_i \gens arg'_i, \env_i}
          {\inp <f \; args> \gens f(args'), \out}$
-
       $\inference
          [\RuleAssign]
          {\arbitrary{x} & p(args, x)}
          {\inp (\lab \Longleftarrow p(args, \lab)) \mapsto e, \outw{\lab}{x}}$
-    \caption{\bill{Generation Rules}}
+    \caption{Generation Rules}
     \label{fig:generation-rules}
 \end{center}
 \end{figure*}

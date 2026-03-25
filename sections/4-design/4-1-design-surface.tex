@@ -95,7 +95,7 @@ handles when \textit{both} $\surface_1$ and $\surface_2$ are the same non-list t
 by combining them into the list $\surface_1 \cons [\surface_2]$.
 Any other combination of types
 (for example, if $\surface_1$ has type \type and $\surface_2$
-has type $[[\type]]$) is rejected with a compile-time \bill{I think? Evan, is it compile time?} \evan{correct, see Quoter.hs line 67 on commit "fixed names in QuasiQuoter"} error message.
+has type $[[\type]]$) is rejected with a compile-time error message.
 \bill{More motivation of design choices?}
 
 This difference in the representation of lists does have some slight impact 

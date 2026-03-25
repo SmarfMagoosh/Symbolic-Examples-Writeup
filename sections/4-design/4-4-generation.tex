@@ -69,17 +69,7 @@ and composes them with \cons.
 Finally, \RuleConcat generates
 two separate lists,
 and concatenates them together with \concat.
-For 
-\bill{Evan, it looks like the recursive
-applications of $\gens$ on the top
-of \RuleConcat and \RuleCons
-are a bit malformed--
-can you please look at those?
-Also, we need to explain in this paragraph
-why the context is ``threaded through'' the recursive calls.
-(Is the environment threaded through? I think we don't need to have it threaded?
-But explain that also.)}
-\evan{rules have been fixed but please double check my work because I did it when I was very sleepy.}
+
 
 \mypara{Literals}
 \RuleLiteral matches on a specific literal--
@@ -127,5 +117,3 @@ by, on each iteration, setting the label \lab to point to the current iteration 
 To do this, the Apply constructor must have a function, 
 and list of symbolic expressions representing the arguments such that when the arguments are used to generate values, 
 the functions can be applied to those values in order to produce an output.
-\bill{Evan, the rule might need to be adjusted a bit? Maybe you could also take a stab at writing something here?}
-\evan{Something like that?}

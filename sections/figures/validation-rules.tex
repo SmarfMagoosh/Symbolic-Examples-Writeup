@@ -6,8 +6,8 @@
     %     {\inp xs \gennedby (\lab \Longleftarrow \mathit{True}) \mapsto e, \out}$
     $\inference
         [\ValidateAssignment]
-        {\arbitrary{v} & \inpwe{\lab}{v} x \gennedby e, \out}
-        {\inp xs \gennedby (\lab \Longleftarrow \mathit{True}) \mapsto e \gennedarrow \bill{???}, \out}$
+        {\inp x \gennedby e \gennedarrow xs, \out}
+        {\inp xs \gennedby (\lab \Longleftarrow \mathit{True}) \mapsto e \gennedarrow xs, \out}$
 
     % list operations
     $\inference
@@ -31,8 +31,8 @@
     $\inference
         [\ValidateApplication]
         {\env_0 = \env
-            & args' = \forall 1 \leq i \leq n. \; (\env_{i - 1}, \pathvar) arg'_i \gennedby arg_i \gennedarrow \bill{...}, \env_i}
-         {\inp <f \; args> \gens f(args') \gennedarrow \bill{...}, \out}$
+            & args' = \forall 1 \leq i \leq n. \; (\env_{i - 1}, \pathvar) arg'_i \gennedby arg_i \gennedarrow \nil, \env_i}
+         {\inp <f \; args> \gens f(args') \gennedarrow \nil, \out}$
 
     % variables
     $\inference
