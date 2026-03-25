@@ -1,3 +1,15 @@
 \subsection{NestedList and FnType Families}
-\subsubsection{What is a type family?}
+\subsubsection{What is a type family}
+
+\subsection{Nested Lists}
+\par One way that \ourDSL uses type families is by indexing the depth of a list with a type family called \code{NestedList n a} 
+where $n$ is the nested depth and $a$ is the type of the root element. 
+A matrix, for instance, would be \code{NestedList 2 Int}.
+Nested lists and core expressions have a direct correspondence in their indexed depths in that a core expression of depth $n$ will always generate
+a nested list of depth $n$ with the same root element type.
+This allows generated values to be passed to functions during generation so that an output can be computed.
 \evan{Bill, if you think we need this section I think you should be the one to write it because you have a much better understanding of these things than me}
+
+\subsection{FnType}
+\par The other type family used by \ourDSL is \code{FnType args r}. 
+This type family is essentially a ``folded function'' type that is used when data constructors are applied to core expressions during generation.

@@ -1,0 +1,7 @@
+\subsection{Core expressions and Nested Lists}
+\par Our first use of GADTs and type families is to create a correspondence between core expressions and the values they generate.
+core expressions are parametrized with two types $n$ and $a$, 
+where $n$ is the depth index of the expression and $a$ is the root element type.
+An expression generates a \code{NestedList n a} where $n$ and $a$ have the same values as the expression that generated it.
+This correspondence allows generated values to be passed to functions as arguments so that the generator can compute the output of
+    testing function before handing it to the validator.

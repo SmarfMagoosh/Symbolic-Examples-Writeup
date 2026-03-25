@@ -1,0 +1,8 @@
+\subsection{FnType and Asts List}
+\par The other place where GADTs and type families are needed are for applying constructors to core expression arguments.
+We accomplish that by first making an ``\code{Asts args}'' GADT which is a list of core expressions.
+This list keeps track of each elements depth and root element type in order as its polymorphic type $\mathit{args}$.
+After that, we have a ``FnType args r'' to act as a folded function to be applied with the list of cores. The polymorphic
+$\mathit{args}$ means the same thing for the list of cores and the type $r$ is the final return type of the function.
+So with \code{FnType args r} and \code{Asts args}, \ourDSL can generate values from the cores in the list and pass them
+to the function to get a value of type $r$ in the end.
