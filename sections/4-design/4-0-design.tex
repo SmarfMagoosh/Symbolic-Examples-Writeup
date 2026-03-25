@@ -1,17 +1,25 @@
 
 \section{Design} \label{sec:design}
 
-\input{sections/4-design/notes}
+\input{sections/4-design/4-01-design-overview}
+
+\bill{Talk about host language Figure~\ref{fig:the-host-language}}
 
 \input{sections/figures/type-language}
 
-\input{sections/4-design/4-1-design-surface}
+\input{sections/4-design/4-x-dependency-map.tex}
 
 \input{sections/4-design/4-2-design-core}
 
-\input{sections/4-design/4-3-design-translation.tex}
+\input{sections/4-design/4-4-generation}
 
-\input{sections/4-design/4-x-dependency-map.tex}
+\input{sections/4-design/4-5-validation}
+
+% \input{sections/4-design/4-3-design-translation.tex}
+
+\input{sections/4-design/4-1-design-surface}
+
+
 
 \subsection{Scope Checking Rules} \label{subsec:scope-checking-rules}
 \par The scope checking rules aim to check if every label used in a tree is used in an appropriate place which really boils down to two rules
@@ -29,6 +37,3 @@
     \item TODO: add rules
 \end{enumerate}
 
-\input{sections/4-design/4-4-generation}
-
-\input{sections/4-design/4-5-validation}

@@ -1,0 +1,40 @@
+% \section{Overview}
+\input{sections/figures/host-language}
+
+Our approach to property-based testing
+uses an embedded domain specific language (eDSL), \ourDSL,
+into a \textit{host language}-- 
+a traditional programming language that a user wishes to test code in
+(our practical implementation uses Haskell as its host language, for example.)
+The users write eDSL code in what we refer to as the \textit{surface language}--
+this language is designed to be expressive and ergonomic to program in.
+The surface language is then compiled to a smaller \textit{core language},
+which is then used to actually generate tests.
+We use \expr to denote generic host language expressions,
+\surface to denote generic surface language expressions,
+and \core to denote generic core language expressions.
+
+
+Figure~\ref{fig:the-host-language}
+shows a small snippet of the essential elements in the host language.
+\bill{Do we want to show data constructors here?}
+The most straightforward of these is
+standard \textit{cons-lists},
+where we write \ccons for cons and \nil for the empty list.
+DSL compilation, $\compileDSL{\surface}$,
+and tests, $f\usp\vec{\core} \testEq \core$,
+really represent functions we implement in the host language to interface with the eDSL.
+DSL compilation, $\compileDSL{\surface}$ translates the surface language expression
+$\surface$ into a corresponding core language expression $\core$.
+A test $f\usp\vec{\core_1} \testEq \core_2$,
+takes a host language function $f$,
+a list of (core) symbolic expressions $\vec{\core_1}$ corresponding to
+the function's arguments,
+and a core symbolic expression $\core_2$ corresponding to the function's output.
+The test indicates that $f$ should be run on random host language inputs,
+\textit{generated} according to $\vec{\core_1}$,
+and then the returned value should be \textit{validated}, or checked for correctness,
+according to the output $\core_2$.
+
+
+
