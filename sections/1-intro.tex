@@ -29,13 +29,13 @@ zip (x:xs) (y:ys) = (x, y):zip xs ys
 \end{subfigure}
 
 \begin{subfigure}[t]{1\linewidth}
-\begin{hskcode}
+\begin{numhskcode}
 zipTest = test2 "zip"
       (zip :: [Int] -> [Int] -> [(Int, Int)]) 
-        [ex| n -> b -> x -> x*{n}(.* |{b} []) |] 
-        [ex| y -> y*{n}([] |{b} .*) |] 
-  .== [ex| (<(x, y)>)*{n} |]
-\end{hskcode}
+        [ex| n -> b -> x -> x*{n}(.* |{b} []) |] (* \label{lne:zip-input1} *)
+        [ex| y -> y*{n}([] |{b} .*) |]           (* \label{lne:zip-input2} *)
+  .== [ex| (<(x, y)>)*{n} |]                     (* \label{lne:zip-out} *)
+\end{numhskcode}
 \caption{\hskin{zip} \ourDSL test}
 \label{fig:zip-test}
 \end{subfigure}
@@ -98,7 +98,15 @@ Figure~\ref{fig:zip-test}
 shows a test of \hskin{zip} written in \ourDSL.
 The DSL allows writing \textit{symbolic expressions}
 to specify expected inputs and outputs of functions.
+As \hskin{zip} takes two inputs,
+we apply a function \hskin{test2}
+to \hskin{zip}.
+We also pass two symbolic expressions (lines~\ref{lne:zip-input1} and~\ref{lne:zip-input2})
+specifying \hskin{zip}'s input.
+We then specify a third symbolic expression (line~\ref{lne:zip-out})
+to specify \hskin{zip}'s output.
 
+\bill{...}
 
 In this work,
 we propose a
@@ -107,7 +115,7 @@ new embedded Domain Specific Language (eDSL),
 for the purpose of writing property-based tests.
 A test for \bill{function from QuickCheck example}
 written in \ourDSL is \bill{shown in a figure}.
-bill{Talk about example, call back to points (1) and (2) above}
+\bill{Talk about example, call back to points (1) and (2) above}
 
 Our contributions are as follow:
 \begin{itemize}
