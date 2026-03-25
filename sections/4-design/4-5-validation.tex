@@ -1,11 +1,32 @@
 \subsection{Validation Rules} \label{subsec:validation-rules}
+\input{sections/figures/validation-rules}
 
 Once we have a run a function on randomly generated inputs,
 we must \textit{validate} that the function's output
 matches the output symbolic expression.
 We define a relation
-$\inp xs \gennedby e, \out$,
-where $xs$ is a concrete list and $e$ is a symbolic expression to do this.
+$\inp xs \gennedby e \gennedarrow ys, \out$,
+such that $xs$ is a concrete list and $e$ is a symbolic expression
+that we try to match to a \textit{prefix} of $xs$.
+$ys$ is then the \textit{suffix} of $xs$ that was not matched to $e$.
+Another way of looking at this
+is that
+$\inp xs \gennedby e \gennedarrow ys, \out$
+says that there is some $xs'$ such that $xs = xs' :++ ys$,
+and $xs'$ matches the symbolic expression $e$.
+This allows, ``chaining'' together validation steps:
+to check if some concrete list $xs$ matches a regular
+expression $(r_1 \concat r_2) \concat r_3$,
+we would first check if, for some $ys$
+$\inp xs \gennedby r_1 \concat r_2 \gennedarrow ys, \out$,
+and then pass $ys$ to $r_3$,
+$(\env', \pathvar) ys \gennedby r_3 \gennedarrow zs, \env''$.
+We would then know the match on $(r_1 \concat r_2) \concat r_3$ succeeded as a whole
+if and only if $zs$ is the empty list--
+\textit{every value} of $xs$ was matched to the symbolic expression,
+with no suffix left over.
+
+
 When validating,
 we do not allow variables bindings to have constraints other than \text{True};
 besides this, we construct the rules such that a list will be validated against a symbolic expression
@@ -33,12 +54,23 @@ or, (2) all possible rules, and thus the test as a whole, fail.
 \mypara{List Constructors}
 \ValidateCons, \ValidateConcat, and \ValidateEmpty
 structurally match on a symbolic expression and a concrete list.
-\ValidateCons and \ValidateEmpty
-work very similarly to the corresponding generation rules,
-\RuleCons and \RuleEmpty.
-\bill{Evan, change the above sentence, put that example tyou showed me here}
-\ValidateConcat differs more significantly in that
-it must non-deterministically split the list \bill{...}
+\ValidateCons
+works very similarly to the corresponding generation rules,
+\RuleCons, requiring the head and tail of the concrete list to match
+against a head and tail in the symbolic expression.
+Note that we require the head to \textit{completely} match
+(the leftover suffix must be the empty list),
+while the tail may pass on some elements to following pieces of the symbolic expression.
+\ValidateEmpty allows an empty symbolic expression to match on any list,
+returning the entire list as a suffix.
+\bill{Why? We might want to actually show an inference tree}
+\ValidateConcat ``non-deterministically'' splits the list $xs$
+to match to each of the two sub-expressions in $r_1 \concat r_2$,
+passing the suffix obtained from $r_1$ to the expression for $r_2$.
+In practice, this non-determinism corresponds to an implementation sequentially (or in parallel)
+trying every possible point to split.
+While this might seem potentially expensive,
+in practice most split points can be quickly discarded based on matching failures in the sub-expressions.
 
 \mypara{Literals}
 \ValidateLiteral matches a literal $c$ in the list to that same literal $c$ in the symbolic expression.
@@ -47,9 +79,29 @@ this is not notably different then the corresponding generation rule,
 \RuleLiteral
 
 \mypara{Assignment and Variables}
-\ValidateVarOne, \ValidateVarTwo, and \ValidateAssignment
-\bill{Evan, \ValidateAssignment seems wrong as is, because shouln't be generating a random value?
-But I don't understand enough about how dependency map is working to fix.}
+\ValidateVarOne and \ValidateVarTwo
+handle matching labels, $v \gennedby \lab$.
+\ValidateVarOne applies if the label being matched
+is contained is already in the environment--
+in this case,
+the rule checks that $\envget{\label}$ is indeed $v$.
+\ValidateVarTwo allows a label that is not the environment
+to match \textit{any} value,
+and inserts that value in the environment to ensure that
+mapping of the label is consistent
+(i.e. if the variable appears elsewhere in the expression, then \ValidateVarOne will be applied.)
+
+\ValidateAssignment
+essentially treats assignment
+$(\lab \Longleftarrow \mathit{True}) \mapsto e$
+as a no-op,
+simply directly continuing
+matching on $e$.
+This is because we want to put off assigning variables
+in order to better align them to the concrete expression via, i.e. \ValidateVarTwo.
+Note that assignments do still have an impact on
+the meaning of an expression because they impact the computation of the dependency map--
+thus, we do not omit assignments altogether. 
 
 \mypara{Union}
 We have four rules to handle a union $r_1 |_\lab r_2$.
@@ -71,28 +123,48 @@ will determine which of the two rules is applicable.
 
 \mypara{Kleene Closure}
 Much like for the union,
-we have two rules for kleene closures $r*_\lab$
+we have seperate rules for kleene closures $r*_\lab$
 depending on whether \lab is bound in the environment.
-\ValidateStarSolve
-
-\ValidateStar
-\bill{...}
+\ValidateStarSolve handles the case where
+the label is not bound.
+Given a concrete list $xs$
+and the symoblic expression $r*_\lab$,
+the rule
+allows matching $r$ against $x$
+some arbitrary number $n$ times,
+i.e. setting $\env_0 = \env$,
+the match is computed as
+$\forall 1 \leq i < n . (\env_{i}, \pathput{\lab}{i}) ys_i \gennedby r \gennedarrow ys_{i + 1}, \env_{i + 1}$.
+This roughly corresponds to a loop in which
+(1) $xs$ is matched to $r$, obtaining some unmatched suffix $ys$,
+and then (2) $xs$ is assigned the value $ys$, allowing another match to occur.
+The system branches to explore each possible value of
+$n$.
+\ValidateStar handles matches on stars $*_\lab$ when \lab is mapped in the environment.
+This works essentially the same way as in \ValidateStarSolve,
+except that no branching is needed, as the value of $n$ is known.
 
 \mypara{Apply}
 \ValidateApplication
-\bill{...}
+validates data constructor applications.
+The rule works by checking that each
+concrete argument matches each symbolic expression \textit{completely};
+that is, we require that there be no left over suffix,
+as there are no sub-expressions following the arguments to pass this suffix onto.
+(Note that a use of the \ValidateApplication rule is typically
+going to occur as either the root of a tree,
+or a subtree following directly from matching a list head in \ValidateCons.)
 
-\bill{Somewhere note that predicates not usable in output}
+% \bill{Somewhere note that predicates not usable in output}
 
-\par Validation happens slightly different than generation.
-Firstly, there are no constraints on variables during the validation phase.
-The purpose of validation is, given a symbolic expression and a list, to determine if
-it is possible (following the rules of generation) that the symbolic expression could
-generate the list (i.e $\forall e, xs. e \gens xs \Longleftrightarrow xs \gennedby e$).
-When we come across a label that has no value, we must try every value that label could
-take and check if one of them lets the output match the expression. If it can, we say the
-list was validated by the expression.
+% \par Validation happens slightly different than generation.
+% Firstly, there are no constraints on variables during the validation phase.
+% The purpose of validation is, given a symbolic expression and a list, to determine if
+% it is possible (following the rules of generation) that the symbolic expression could
+% generate the list (i.e $\forall e, xs. e \gens xs \Longleftrightarrow xs \gennedby e$).
+% When we come across a label that has no value, we must try every value that label could
+% take and check if one of them lets the output match the expression. If it can, we say the
+% list was validated by the expression.
 
 
-\input{sections/figures/validation-rules}
 
