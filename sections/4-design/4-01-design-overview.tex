@@ -1,5 +1,6 @@
 % \section{Overview}
 \input{sections/figures/host-language}
+\input{sections/figures/host-test-rule}
 
 Our approach to property-based testing
 uses an embedded domain specific language (eDSL), \ourDSL,
@@ -26,6 +27,7 @@ and tests, $f\usp\vec{\core} \testEq \core$,
 really represent functions we implement in the host language to interface with the eDSL.
 DSL compilation, $\compileDSL{\surface}$ translates the surface language expression
 $\surface$ into a corresponding core language expression $\core$.
+
 A test $f\usp\vec{\core_1} \testEq \core_2$,
 takes a host language function $f$,
 a list of (core) symbolic expressions $\vec{\core_1}$ corresponding to
@@ -35,6 +37,32 @@ The test indicates that $f$ should be run on random host language inputs,
 \textit{generated} according to $\vec{\core_1}$,
 and then the returned value should be \textit{validated}, or checked for correctness,
 according to the output $\core_2$.
+\ruletest, in Figure~\ref{fig:test-call-rule},
+formalizes this process,
+using relations that we will introduce in \bill{...}.
+For now,
+ignore the grayed out sections of the rule.
+\gens is used to \textit{randomly generate}
+host language values that correspond to a symbolic expression. 
+Thus $c_1 \gens e_1$ to $c_k \gens e_k$
+says that
+host language values are generated for each argument to the function being tested.
+The function is then applied to these arguments,
+yielding a host language expression $e_\mathit{out}$.
+\gennedby is used to validate that
+a host language list matches a symbolic expression.
+In particular,
+$e_{\mathit{out}} \gennedby \core_{\mathit{out}}$
+returns a host language list $xs$,
+we write this as
+$e_{\mathit{out}} \gennedby \core_{\mathit{out}} \gennedarrow xs$.
+If this list is empty,
+the test passed (\testpasses),
+if the list is not empty the test fails (\testfails),
+and
+$xs$ corresponds to some suffix of $e_{\mathit{out}}$ that could not be validated.
 
-
-
+We now consider generation and validation in depth.
+Section~\ref{sec:mappings}
+introduces key \bill{mappings} that we use throughout,
+Section~\ref{}\bill{...}
