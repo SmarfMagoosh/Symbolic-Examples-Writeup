@@ -37,6 +37,7 @@ zipTest = test2 "zip"
   .== [ex| (<(x, y)>)*{n} |]
 \end{hskcode}
 \caption{\hskin{zip} \ourDSL test}
+\label{fig:zip-test}
 \end{subfigure}
 
 \caption{Haskell \hskin{zip} function and test}
@@ -93,7 +94,11 @@ and therefore aid in \textit{understanding} (wholly) unfamilar code.
 (2) \ourDSL is independent of existing code-- I'm thinking one good example
 here could be that zip/zipWith have similar behavior- but also these might have very similar implementations}
 
-Figure~\ref{fig:zip-example}\bill{...}
+Figure~\ref{fig:zip-test}
+shows a test of \hskin{zip} written in \ourDSL.
+The DSL allows writing \textit{symbolic expressions}
+to specify expected inputs and outputs of functions.
+
 
 In this work,
 we propose a
