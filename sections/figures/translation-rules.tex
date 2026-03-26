@@ -19,7 +19,6 @@
          [\DotNoPredTrans]
          {\fresh{\lab'}}
          {. \translateOne (\lab' \Longleftarrow True) \mapsto \lab'}$
-
       $\inference
          [\AssignmentNoPredTrans]
          {}
@@ -33,15 +32,14 @@
       \begin{center}
       % Data
       $\inference
-         [AppTrans]
-         {\mathit{args}' = \forall 0 \leq i < n. \; \mathit{arg}_i \translate \mathit{arg}'_i }
-         {<f\;\mathit{args}> \translate <f\;\mathit{args}'>}$
+         [\AppTrans]
+         {\mathit{as}' = \forall 0 \leq i < n. \; \mathit{a}_i \translate \mathit{a}'_i }
+         {<\dc\;\mathit{as}> \translate <\dc\;\mathit{as}'>}$
          % Union
       $\inference
-         [UnionTrans]
-         {\hastype{x}{\complex} & \hastype{y}{\complex} & x \translate x' & y \translate y'}
+         [\UnionTrans]
+         {x \translate x' & y \translate y'}
          {x |\{\lab\} y \translate x' \; |_{\lab} \; y'}$
-
       % Star
       $\inference
          [\StarBaseTrans]
@@ -72,23 +70,22 @@
 
       % Assignment
       $\inference
-         [AssignmentWithPredTrans]
-         {\mathit{args}' = \forall 0 \leq i < n. \; \mathit{arg}_i \translate \mathit{arg}'_i & x \translate x'}
-         {(\lab \Longleftarrow p(args, \lab)) \mapsto x \translate (\lab \Longleftarrow p(args', \lab)) \mapsto x'}$
-      
+         [\AssignmentWithPredTrans]
+         {\mathit{as}' = \forall 0 \leq i < n. \; \mathit{as}_i \translate \mathit{as}'_i & x \translate x'}
+         {(\lab \Longleftarrow p(as, \lab)) \mapsto x \translate (\lab \Longleftarrow p(as', \lab)) \mapsto x'}$
       % Variables
       $\inference
-         [Variable]
+         [\Variable]
          {}
          {\lab \translate \lab}$
       % Literals
       $\inference
-         [LitTrans]
+         [\LitTrans]
          {}
          {<c> \translate <c>}$
       % Empty
       $\inference
-         [EmptyTrans]
+         [\EmptyTrans]
          {}
          {\nil \translate \nil}$
       \end{center}
