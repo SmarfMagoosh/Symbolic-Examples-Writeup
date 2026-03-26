@@ -8,7 +8,7 @@
         & {\color{lightgray} (\env_{k - 1}, \{\})} c_k \gens e_k{\color{lightgray}, \env_k}
         \\ 
         \text{let } e_{\mathit{out}} = f\usp\expr_1\usp\expr_2\ldots\expr_k
-        & {\color{lightgray} (\env_{k}, \{\})} e_{\mathit{out}} \gennedby \core_{\mathit{out}} \gennedarrow xs{\color{lightgray} , \env'}
+        & {\color{lightgray} (\env_{k}, \{\}, \{\})} e_{\mathit{out}} \gennedby \core_{\mathit{out}} \gennedarrow xs{\color{lightgray} , (\env', \predtrack')}
         }
         {       f \usp \core_1\usp\core_2\usp\ldots\usp\core_k \testEq \core_{\mathit{out}}
             \Rightarrow

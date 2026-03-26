@@ -2,81 +2,81 @@
 \begin{center}
     % $\inference
     %     [Assignment]
-    %     {\arbitrary{v} & \inpwe{\lab}{v} x \gennedby e, \out}
-    %     {\inp xs \gennedby (\lab \Longleftarrow \mathit{True}) \mapsto e, \out}$
+    %     {\arbitrary{v} & \valinpwe{\lab}{v} x \gennedby e, \valout}
+    %     {\valinp xs \gennedby (\lab \Longleftarrow \mathit{True}) \mapsto e, \valout}$
     $\inference
         [\ValidateAssignment]
-        {\inp x \gennedby e \gennedarrow xs, \out}
-        {\inp xs \gennedby (\lab \Longleftarrow \mathit{True}) \mapsto e \gennedarrow xs, \out}$
+        {\valinp xs \gennedby e \gennedarrow ys, \valout}
+        {\valinp xs \gennedby (\lab \Longleftarrow p(args, \lab)) \mapsto e \gennedarrow ys, \valout}$
 
     % list operations
     $\inference
         [\ValidateCons]
-        {\inp x \gennedby r_1 \gennedarrow [], \out & \dinp xs \gennedby r_2 \gennedarrow ys, \dout}
-        {\inp x \ccons xs \gennedby r_1 \cons r_2 \gennedarrow ys, \dout}$
+        {\valinp x \gennedby r_1 \gennedarrow [], \valout & \dinp xs \gennedby r_2 \gennedarrow ys, \dvalout}
+        {\valinp x \ccons xs \gennedby r_1 \cons r_2 \gennedarrow ys, \dvalout}$
     $\inference
         [\ValidateConcat]
-        {\inp xs \gennedby r_1 \gennedarrow ys, \out & \dinp ys \gennedby r_2 \gennedarrow zs, \dout}
-        {\inp xs  \gennedby r_1 \concat r_2 \gennedarrow zs, \dout}$
+        {\valinp xs \gennedby r_1 \gennedarrow ys, \valout & \dinp ys \gennedby r_2 \gennedarrow zs, \dvalout}
+        {\valinp xs  \gennedby r_1 \concat r_2 \gennedarrow zs, \dvalout}$
     $\inference
         [\ValidateEmpty]
         {}
-        {\inp ys \gennedby \nil \gennedarrow ys, \out}$
+        {\valinp ys \gennedby \nil \gennedarrow ys, \valinp}$
 
     % literals
     $\inference
         [\ValidateLiteral]
         {}
-        {\inp c \gennedby <c> \gennedarrow [], \env}$
+        {\valinp c \gennedby <c> \gennedarrow [], \valout}$
     $\inference
         [\ValidateApplication]
-        {\env_0 = \env
-            & args' = \forall 1 \leq i \leq n. \; (\env_{i - 1}, \pathvar) arg'_i \gennedby arg_i \gennedarrow \nil, \env_i}
-         {\inp <f \; args> \gens f(args') \gennedarrow \nil, \out}$
+        {\env_0 = \env & \predtrack_0 = \predtrack
+            & args' = \forall 1 \leq i \leq n. \; (\env_{i - 1}, \pathvar, \predtrack_{i - 1}) arg'_i \gennedby arg_i \gennedarrow \nil, (\env_i, \predtrack_i)}
+         {\valinp <f \; args> \gens f(args') \gennedarrow \nil, \valout}$
 
     % variables
     $\inference
         [\ValidateVarOne]
         {\envget{\lab} = x}
-        {\inp x \gennedby \lab \gennedarrow [], \out}$
+        {\valinp x \gennedby \lab \gennedarrow [], \valinp}$
     $\inference
         [\ValidateVarTwo]
         {\envhasnt{\lab} & \arbitrary{x}}
-        {\inp x \gennedby \lab \gennedarrow [], \outw{\lab}{x}}$
+        {\valinp x \gennedby \lab \gennedarrow [], (\out{\lab}{x}, \predtrack)}$
 
     $\inference
         [\ValidateUnionSolveLeft]
-        {\envhasnt{\lab} & \inp xs \gennedby r_1 \gennedarrow ys, \out}
-        {\inp xs \gennedby r_1 |_{\lab} r_2 \gennedarrow ys, \outw{\lab}{0}}$
+        {\envhasnt{\lab} & \valinp xs \gennedby r_1 \gennedarrow ys, \valout}
+        {\valinp xs \gennedby r_1 |_{\lab} r_2 \gennedarrow ys, (\out{\lab}{0},\predtrack)}$
     $\inference
         [\ValidateUnionSolveRight]
-        {\envhasnt{\lab} & \inp xs \gennedby r_2 \gennedarrow ys, \out}
-        {\inp xs \gennedby r_1 |_{\lab} r_2 \gennedarrow ys, \outw{\lab}{1}}$
+        {\envhasnt{\lab} & \valinp xs \gennedby r_2 \gennedarrow ys, \valout}
+        {\valinp xs \gennedby r_1 |_{\lab} r_2 \gennedarrow ys, (\out{\lab}{1}, \predtrack)}$
     $\inference
         [\ValidateUnionLeft]
-        {\envget{\lab} \mod 2 = 0 & \inp xs \gennedby r_1 \gennedarrow ys, \out}
-        {\inp xs \gennedby r_1 |_{\lab} r_2 \gennedarrow ys, \out}$
+        {\envget{\lab} \mod 2 = 0 & \valinp xs \gennedby r_1 \gennedarrow ys, \valout}
+        {\valinp xs \gennedby r_1 |_{\lab} r_2 \gennedarrow ys, \valout}$
     $\inference
         [\ValidateUnionRight]
-        {\envget{\lab} \mod 2 = 1 & \inp xs \gennedby r_2 \gennedarrow ys, \out}
-        {\inp xs \gennedby r_1 |_{\lab} r_2 \gennedarrow ys, \out}$
+        {\envget{\lab} \mod 2 = 1 & \valinp xs \gennedby r_2 \gennedarrow ys, \valout}
+        {\valinp xs \gennedby r_1 |_{\lab} r_2 \gennedarrow ys, \valout}$
     
     $\inference
         [\ValidateStarSolve]
         { \envhasnt{\lab}
             & \env_0 = \env
             & \text{choose } n \geq 0
-            &\forall 1 \leq i < n . (\env_{i}, \pathput{\lab}{i}) ys_i \gennedby r \gennedarrow ys_{i + 1}, \env_{i + 1}
+            &\forall 1 \leq i < n . (\env_{i - 1}, \pathput{\lab}{i - 1}) ys_i \gennedby r \gennedarrow ys_{i}, (\env_{i}, \predtrack_i)
          }
-        % {\envhasnt{\lab} & \exists n. \inpwe{\lab}{n} xs \gennedby r*_{\lab}, \out}
-        {\inp xs \gennedby r*_{lab} \gennedarrow ys_n, \out}$
+        % {\envhasnt{\lab} & \exists n. \valinpwe{\lab}{n} xs \gennedby r*_{\lab}, \valout}
+        {\valinp xs \gennedby r*_{lab} \gennedarrow ys_n, \valout}$
     $\inference
          [\ValidateStar]
          { \envget{\lab} = n
-            & \env_0 = \env
-            & \forall 1 \leq i < n . (\env_{i}, \pathput{\lab}{i}) ys_i \gennedby r \gennedarrow ys_{i + 1}, \env_{i + 1}
+            & \env_0 = \env & \predtrack_0 = \predtrack
+            & \forall 1 \leq i < n . (\env_{i - 1}, \pathput{\lab}{i - 1}, \predtrack{i - 1}) ys_i \gennedby r \gennedarrow ys_{i}, (\env_{i}, \predtrack_i)
          }
-         {\inp xs \gennedby r*_{\lab} \gennedarrow ys_n, \env_n}$
+         {\valinp xs \gennedby r*_{\lab} \gennedarrow ys_n, (\env_n, \predtrack_n)}$
 
     \caption{Validation Rules}
     \label{fig:validation-rules}

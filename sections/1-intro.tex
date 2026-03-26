@@ -32,8 +32,8 @@ zip (x:xs) (y:ys) = (x, y):zip xs ys
 \begin{numhskcode}
 zipTest = test2 "zip"
       (zip :: [Int] -> [Int] -> [(Int, Int)]) 
-        [ex| n -> b -> x -> x*{n}(.* |{b} []) |] (* \label{lne:zip-input1} *)
-        [ex| y -> y*{n}([] |{b} .*) |]           (* \label{lne:zip-input2} *)
+        [ex| x*{n}(.* |{b} []) |] (* \label{lne:zip-input1} *)
+        [ex| y*{n}([] |{b} .*) |]           (* \label{lne:zip-input2} *)
   .== [ex| (<(x, y)>)*{n} |]                     (* \label{lne:zip-out} *)
 \end{numhskcode}
 \caption{\hskin{zip} \ourDSL test}
