@@ -1,0 +1,27 @@
+\section{Case Studies}
+
+In this section, we discuss some case studies that we performed on
+Haskell's libaries. We collected 25 functions from \hskin{Data.List}
+and 10 frunctions from \hskin{Data.Map} library to test (\abha{what?})
+
+\subsection{Data.List}
+\input{sections/figures/case-study-list-ex.tex}
+Figure~\ref{fig:list-append-ex} shows the test written to generate 
+input-output examples for the \hskin{append} function from \hskin{Data.List}. 
+To clarify the process, \hskin{test2} serves as a higher-order 
+function accepting three arguments: (1) the function under test, 
+(2) a core expression representing the input arguments, 
+and (3) a core expression representing the output. 
+
+In the append example, the first argument to test2 is \hskin{(++)}, which is 
+the list concatenation function of type \hskin{[Int] -> [Int] -> [Int]}. 
+The second argument, \hskin;[ex| b*{a} |];, is the core expression for the 
+first input to \hskin{(++)}, generating a random list of integers of length a. 
+Similarly, the third argument \hskin;[ex| d*{c} |]; generates a random list 
+of integers of length c. Lastly, the core expression \hskin;[ex| b*{a} d*{c} |]; 
+stands for the concatenated output of these two lists.
+
+\mypara{Higher-order functions}
+
+\subsection{Data.Map}
+\input{sections/figures/case-study-lookup-ex.tex}

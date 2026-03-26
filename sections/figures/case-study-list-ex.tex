@@ -1,0 +1,33 @@
+\begin{figure}
+    \begin{subfigure}[t]{1\textwidth}
+        \begin{hskcode}
+            appendTest :: TestResult
+            appendTest = test2
+                (++)
+                [ex| b*{a} |] 
+                [ex| d*{c} |] 
+                .== 
+                [ex| b*{a} d*{c} |]
+        \end{hskcode}
+        \caption{\hskin{append}}
+        \label{fig:list-append-ex}
+    \end{subfigure}
+
+\begin{subfigure}[t]{1\textwidth}
+
+        \begin{hskcode}
+            filterTest :: TestResult
+            filterTest = test2
+                ((\x -> filter (/= x)) 
+                :: Int -> [Int] -> [Int])
+                    [ex| x |]
+                    [ex| (x |{b} (y /= x))*{n} |] 
+                    .==
+                    [ex| ([] |{b} y)*{n} |]
+        \end{hskcode}
+        \caption{\hskin{filter}}
+        \label{fig:list-filter-ex}
+    \end{subfigure}
+    \caption{\hskin{Data.List} example tests in \tool}
+    \label{fig:list-ex}
+\end{figure}
