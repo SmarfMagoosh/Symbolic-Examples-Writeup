@@ -1,0 +1,26 @@
+\begin{abstract}
+Property-based testing is a testing approach in which
+a programmer specifies properties
+(specifications)
+that should always be true
+of their functions, and tests these properties
+on randomly generated values.
+In this work,
+we propose a new approach to property-based testing
+based on describing the desired function behavior via an eDSL, SymCheck.
+As opposed to traditional property-based tests,
+which typically rely on relating multiple function calls together,
+SymCheck allows writing tests
+which focus on describing the behavior of a single function.
+We believe this offers some clear advantages over
+traditional property based testing:
+it reduces the (sometimes difficult) burden of finding properties that hold
+between multiple functions;
+the tests are more focused, making it clearer which function has a bug when a test fails,
+and SymCheck tests can more cleanly act as a form of specification
+for other programmers trying to read and understand the program.
+\bill{Eval}
+
+\bill{Write abstract... I feel like some of the above should be used to tweak the introduction,
+might be clearer as I wrote it in the abstract.}
+\end{abstract}

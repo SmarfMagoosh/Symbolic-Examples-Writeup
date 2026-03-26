@@ -41,7 +41,7 @@ zip (x:xs) (y:ys) = (x, y):zip xs ys
 \begin{numhskcode}
 zipTest = test2 "zip"
       (zip :: [Int] -> [Int] -> [(Int, Int)]) 
-        [ex| x*{n} |]  [ex| y*{n} |]           (* \label{lne:zip-input} *)
+      [ex| x*{n} |]    [ex| y*{n} |]           (* \label{lne:zip-input} *)
   .== [ex| (<(x, y)>)*{n} |]                     (* \label{lne:zip-out} *)
 \end{numhskcode}
 \caption{\hskin{zip} \ourDSL test}
@@ -52,7 +52,7 @@ zipTest = test2 "zip"
 \end{figure}
 
 Property based tests
-typically ensure that two expressions satisfy some kind of relation
+often ensure that two expressions satisfy some kind of relation
 (often, equality)
 when applied to similar inputs.
 For example,
@@ -100,6 +100,7 @@ and therefore aid in \textit{understanding} (wholly) unfamilar code.
 % (2) \ourDSL is independent of existing code-- I'm thinking one good example
 % here could be that zip/zipWith have similar behavior- but also these might have very similar implementations}
 
+\mypara{Example}
 Figure~\ref{fig:zip-test}
 shows a test of \hskin{zip} written in \ourDSL.
 The DSL allows writing \textit{symbolic expressions}
@@ -144,6 +145,7 @@ but probably only in motivating example.}
 % written in \ourDSL is \bill{shown in a figure}.
 % \bill{Talk about example, call back to points (1) and (2) above}
 
+\mypara{Contributions}
 In short, our contributions are as follow:
 \begin{itemize}
 \item An novel design for a property-based testing library,
