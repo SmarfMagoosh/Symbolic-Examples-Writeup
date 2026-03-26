@@ -6,19 +6,17 @@ A \code{Core n a} generates a \code{NestedList n a} where $n$ and $a$ have the s
 The definition for the NestedList type family can be seen in figure \ref{fig:nestedlist}.
 The correspondence between these two allows generated values to be passed to functions as arguments so that the generator can compute the output of
     the testing function before handing it to the validator.
-For example, consider the test 
-\begin{hskn} 
-    test ((:) :: Int -> [Int] -> [Int]) (x) (y*{z}) .== (x y*{z}) 
-\end{hskn}. 
+\par For example, consider the test 
+\begin{hskcode}
+    test (:) (x) (y*{z}) .== (x y*{z}) 
+\end{hskcode}
 If the core expressions were not depth indexed (i.e \code{Ast a} instead of \code{Ast n a}), 
 then the generator could make a value for the expression 
-\begin{hskn}
-    (x -> x)
-\end{hskn},
+\hskin{x},
 but the typechecker would have no way of knowing it can pass that value as the first argument of list cons.
 But with the GADT and type family, the type checker sees \code{x :: Ast 0 Int}. 
 That generates some value \code{i :: NestedList 0 Int}. 
-Through the rules of the type family function it deduces \codeln{NestedList 0 Int = Int}.
+Through the rules of the type family function it deduces \codeln{NestedList 0 Int = Int.}
 Since it knows $i$ is an Int it can safely pass it to the list cons function and repeat the process for the second expression.
 
 \input{sections/figures/nestedlist.tex}
