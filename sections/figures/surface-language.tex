@@ -1,19 +1,13 @@
 \begin{figure}
 \begin{center}
     \begin{align*}
-       \surface &\to [\surface ]                     & \text{list} \\
-            &\OR\surface\; '|'\;\surface              & \text{union}    \\
-            &\OR\surface\; '|\{\lab\}'\;\surface      & \text{labeled union}    \\
-            &\OR\surface*                                     & \text{kleene closure}    \\
-            &\OR\surface*\{\lab\}                             & \text{labeled kleene closure}    \\
+       \surface &\to [\surface ]  \OR \nil                   & \text{list} \OR \text{empty list}  \\
+            &\OR\surface\; '|'\;\surface \OR\surface\; '|'\{\lab\}\;\surface              & \text{union} \OR \text{labeled union}   \\
+            &\OR\surface* \OR\surface*\{\lab\}                                      & \text{kleene closure} \OR \text{labeled kleene closure}     \\
+            &\OR \lab \asgnarrow\surface   \OR (\lab \Longleftarrow b) \asgnarrow\surface                   & \text{binding} \OR \text{constrained binding}    \\
+            &\OR .    \OR (. \Longleftarrow b)                                                   & \text{any value} \OR \text{constrained value}   \\
+            &\OR \lab  \OR  <\dc\usp\vec{\surface}>                                                & \text{label} \OR \text{constructor application}    \\
             &\OR\surface\;\surface                   & \text{sequencing}    \\
-            &\OR \lab \asgnarrow\surface                      & \text{binding}    \\
-            &\OR (\lab \Longleftarrow b) \asgnarrow\surface   & \text{constrained binding}    \\
-            &\OR \lab                                                  & \text{label}    \\
-            &\OR .                                                     & \text{any value}    \\
-            &\OR (. \Longleftarrow b)                                  & \text{constrained value}    \\
-            &\OR <\dc\usp\vec{\surface}>                                                   & \text{constructor application}    \\ 
-            &\OR \nil                                                  & \text{empty list}    \\
     \end{align*}
     \caption{Surface Language Grammar}
     \label{fig:the-surface-language}
