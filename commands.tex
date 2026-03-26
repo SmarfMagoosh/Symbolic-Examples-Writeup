@@ -109,59 +109,75 @@
 
 \newcommand{\ruletest}{\rulename{Test}}
 
+% Types
+\newcommand{\tyunion}{\rulename{Ty-Union}}
+\newcommand{\tystar}{\rulename{Ty-Kl}}
+\newcommand{\tycons}{\rulename{Ty-Cons}}
+\newcommand{\tybind}{\rulename{Ty-Bind}}
+
 %Translation Phase 1
-\newcommand{\UnlabelledStarBaseTrans}{\rulename{UnlabelledStarBaseTrans}}
-\newcommand{\UnlabelledUnionTrans}{\rulename{UnlabelledUnionTrans}}
-\newcommand{\DotWithPredTrans}{\rulename{DotWithPredTrans}}
-\newcommand{\DotNoPredTrans}{\rulename{DotNoPredTrans}}
-\newcommand{\AssignmentNoPredTrans}{\rulename{AssignmentNoPredTrans}}
+\newcommand{\UnlabelledStarBaseTrans}{\rulename{T1-Kl}}
+\newcommand{\UnlabelledUnionTrans}{\rulename{T1-Union}}
+\newcommand{\DotWithPredTrans}{\rulename{T1-Dot-Pr}}
+\newcommand{\DotNoPredTrans}{\rulename{T1-Dot}}
+\newcommand{\AssignmentNoPredTrans}{\rulename{T1-Assign}}
 
 %Translation Phase 2
-\newcommand{\ConcatBaseTrans}{\rulename{ConcatBaseTrans}}
-\newcommand{\ConcatConsTrans}{\rulename{ConcatConsTrans}}
-\newcommand{\ConcatSnocTrans}{\rulename{ConcatSnocTrans}}
-\newcommand{\ConcatTrans}{\rulename{ConcatTrans}}
-\newcommand{\StarBaseTrans}{\rulename{StarBaseTrans}}
-\newcommand{\StarTrans}{\rulename{StarTrans}}
+\newcommand{\AppTrans}{\rulename{T2-App}}
+
+\newcommand{\UnionTrans}{\rulename{T2-Union}}
+
+\newcommand{\ConcatBaseTrans}{\rulename{T2-Cat-B}}
+\newcommand{\ConcatConsTrans}{\rulename{T2-Cat-Cons}}
+\newcommand{\ConcatSnocTrans}{\rulename{T2-Cat-Snoc}}
+\newcommand{\ConcatTrans}{\rulename{T2-Cat}}
+\newcommand{\StarBaseTrans}{\rulename{T2-Kl-B}}
+\newcommand{\StarTrans}{\rulename{T2-Kl}}
+
+
+\newcommand{\AssignmentWithPredTrans}{\rulename{T2-Assign}}
+\newcommand{\Variable}{\rulename{T2-Var}}
+\newcommand{\LitTrans}{\rulename{T2-Lit}}
+\newcommand{\EmptyTrans}{\rulename{T2-Emp}}
 
 %Translation Phase 3
-\newcommand{\UnknownLabel}{\rulename{T3-Unknown}}
-\newcommand{\ThrBind}{\rulename{T3-Bind}}
-\newcommand{\ThrCons}{\rulename{T3-Cons}}
+\newcommand{\UnknownLabel}{\rulename{T3-Uk}}
+\newcommand{\ThrBind}{\rulename{T3-Bd}}
+\newcommand{\ThrCons}{\rulename{T3-C}}
 
 %Generation
-\newcommand{\RuleVariable}{\rulename{Variable}}
-\newcommand{\RuleEmpty}{\rulename{Empty}}
-\newcommand{\RuleConcat}{\rulename{Concat}}
-\newcommand{\RuleCons}{\rulename{Cons}}
-\newcommand{\RuleUnionLeft}{\rulename{UnionLeft}}
-\newcommand{\RuleUnionRight}{\rulename{UnionRight}}
-\newcommand{\RuleStarInit}{\rulename{StarInit}}
-\newcommand{\RuleStar}{\rulename{Star}}
-\newcommand{\RuleStarEnd}{\rulename{StarEnd}}
-\newcommand{\RuleLiteral}{\rulename{Literal}}
-\newcommand{\RuleApply}{\rulename{Apply}}
-\newcommand{\RuleAssign}{\rulename{Assign}}
+\newcommand{\RuleVariable}{\rulename{G-Var}}
+\newcommand{\RuleEmpty}{\rulename{G-Emp}}
+\newcommand{\RuleConcat}{\rulename{G-Cat}}
+\newcommand{\RuleCons}{\rulename{G-Cons}}
+\newcommand{\RuleUnionLeft}{\rulename{G-UnionL}}
+\newcommand{\RuleUnionRight}{\rulename{G-UnionR}}
+\newcommand{\RuleStarInit}{\rulename{G-KlInit}}
+\newcommand{\RuleStar}{\rulename{G-Kl}}
+\newcommand{\RuleStarEnd}{\rulename{G-KlEnd}}
+\newcommand{\RuleLiteral}{\rulename{G-Literal}}
+\newcommand{\RuleApply}{\rulename{G-Apply}}
+\newcommand{\RuleAssign}{\rulename{G-Assign}}
 
 %Validation
-\newcommand{\ValidateAssignment}{\rulename{Assignment}}
-\newcommand{\ValidateCons}{\rulename{Cons}}
-\newcommand{\ValidateConcat}{\rulename{Concat}}
-\newcommand{\ValidateEmpty}{\rulename{Empty}}
-\newcommand{\ValidateLiteral}{\rulename{Literal}}
-\newcommand{\ValidateApplication}{\rulename{ValidateApplication}}
+\newcommand{\ValidateAssignment}{\rulename{V-Assign}}
+\newcommand{\ValidateCons}{\rulename{V-Cons}}
+\newcommand{\ValidateConcat}{\rulename{V-Cat}}
+\newcommand{\ValidateEmpty}{\rulename{V-Emp}}
+\newcommand{\ValidateLiteral}{\rulename{V-Literal}}
+\newcommand{\ValidateApplication}{\rulename{V-App}}
 
 
-\newcommand{\ValidateVarOne}{\rulename{Variable1}}
-\newcommand{\ValidateVarTwo}{\rulename{Variable2}}
-\newcommand{\ValidateUnionSolveLeft}{\rulename{UnionSolveLeft}}
-\newcommand{\ValidateUnionSolveRight}{\rulename{UnionSolveRight}}
+\newcommand{\ValidateVarOne}{\rulename{V-Var1}}
+\newcommand{\ValidateVarTwo}{\rulename{V-Var2}}
+\newcommand{\ValidateUnionSolveLeft}{\rulename{V-UnionSolveL}}
+\newcommand{\ValidateUnionSolveRight}{\rulename{V-UnionSolveR}}
 
-\newcommand{\ValidateUnionLeft}{\rulename{UnionLeft}}
-\newcommand{\ValidateUnionRight}{\rulename{UnionRight}}
+\newcommand{\ValidateUnionLeft}{\rulename{V-UnionL}}
+\newcommand{\ValidateUnionRight}{\rulename{V-UnionR}}
 
-\newcommand{\ValidateStarSolve}{\rulename{StarSolve}}
-\newcommand{\ValidateStar}{\rulename{Star}}
+\newcommand{\ValidateStarSolve}{\rulename{V-KlSolve}}
+\newcommand{\ValidateStar}{\rulename{V-Kl}}
 
 \def\withcolor{}
 

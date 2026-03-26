@@ -83,7 +83,7 @@ The surface language does away with these operators,
 using whitespace to denote sequencing--
 \texttt{5 6 7} would represent the list $[5, 6, 7]$, for example.
 Square brackets are used to represent nested lists--
-for instance \texttt{[5 6] [7] [8 9]} represents the nested list $[5, 6], [7], [8, 9]$.
+for instance \texttt{[5 6] [7] [8 9]} represents the nested list $[[5, 6], [7], [8, 9]]$.
 \bill{Maybe elaborate on motivation/design choices somewhere}
 
 The rules \ConcatBaseTrans, \ConcatConsTrans,\ConcatSnocTrans, and \ConcatTrans implement this.
