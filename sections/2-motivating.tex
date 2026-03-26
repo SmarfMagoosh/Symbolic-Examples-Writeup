@@ -1,0 +1,16 @@
+\section{Motivating Example} \label{sec:motivating-example}
+
+\begin{figure}
+\begin{hskcode}
+zipTest = test2 "zip complete"
+    (zip :: [Int] -> [Int] -> [(Int, Int)])
+        [ex| x*{n}(.* |{b} []) |] (* \label{lne:comp-zip-input1} *)
+        [ex| y*{n}([] |{b} .*) |]           (* \label{lne:comp-zip-input2} *)
+  .== [ex| (<(x, y)>)*{n} |]                     (* \label{lne:comp-zip-out} *)
+\end{hskcode}
+\caption{A complete \hskin{zip} test in \ourDSL}
+\label{fig:zip-complete-test}
+\end{figure}
+
+
+Figure~\ref{fig:zip-complete-test}

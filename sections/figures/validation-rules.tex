@@ -32,8 +32,8 @@
     $\inference
         [\ValidateApplication]
         {\env_0 = \env & \predtrack_0 = \predtrack
-            & args' = \forall 1 \leq i \leq n. \; (\env_{i - 1}, \pathvar, \predtrack_{i - 1}) arg'_i \gennedby arg_i \gennedarrow \nil, (\env_i, \predtrack_i)}
-         {\valinp <f \; args> \gens f(args') \gennedarrow \nil, \valout}$
+            & args' = \forall 0 \leq i < n. \; (\env_{i - 1}, \pathvar, \predtrack_{i - 1}) arg'_i \gennedby arg_i \gennedarrow \nil, (\env_i, \predtrack_i)}
+         {\valinp <f \; args> \gens f(args') \gennedarrow \nil, (\env_n,\predtrack_n)}$
 
     % variables
     $\inference
@@ -47,12 +47,12 @@
 
     $\inference
         [\ValidateUnionSolveLeft]
-        {\envhasnt{\lab} & (\predtrack_\pathvar(\lab))(0) & \valinp xs \gennedby r_1 \gennedarrow ys, \valout}
-        {\valinp xs \gennedby r_1 |_{\lab} r_2 \gennedarrow ys, (\outw{\lab}{0},\predtrack)}$
+        {\envhasnt{\lab} & (\predtrack_\pathvar(\lab))(0) & (\envput{\lab}{0}, \pathvar, \predtrack) xs \gennedby r_1 \gennedarrow ys, \valout}
+        {\valinp xs \gennedby r_1 |_{\lab} r_2 \gennedarrow ys, \valout}$
     $\inference
         [\ValidateUnionSolveRight]
-        {\envhasnt{\lab} & (\predtrack_\pathvar(\lab))(1) & \valinp xs \gennedby r_2 \gennedarrow ys, \valout}
-        {\valinp xs \gennedby r_1 |_{\lab} r_2 \gennedarrow ys, (\outw{\lab}{1}, \predtrack)}$
+        {\envhasnt{\lab} & (\predtrack_\pathvar(\lab))(1) & (\envput{\lab}{0}, \pathvar, \predtrack) xs \gennedby r_2 \gennedarrow ys, \valout}
+        {\valinp xs \gennedby r_1 |_{\lab} r_2 \gennedarrow ys, \valout}$
     $\inference
         [\ValidateUnionLeft]
         {\envget{\lab} \mod 2 = 0 & \valinp xs \gennedby r_1 \gennedarrow ys, \valout}
@@ -68,15 +68,15 @@
             & \env_0 = \env
             & \text{choose } n \geq 0
             & \predtrack_\pathvar(\lab)(n)
-            &\forall 1 \leq i < n . (\env_{i - 1}, \pathput{\lab}{i - 1}) ys_i \gennedby r \gennedarrow ys_{i}, (\env_{i}, \predtrack_i)
+            &\forall 0 \leq i < n . (\env_{i - 1}, \pathput{\lab}{i - 1}) ys_i \gennedby r \gennedarrow ys_{i}, (\env_{i}, \predtrack_i)
          }
         % {\envhasnt{\lab} & \exists n. \valinpwe{\lab}{n} xs \gennedby r*_{\lab}, \valout}
-        {\valinp xs \gennedby r*_{lab} \gennedarrow ys_n, \valout}$
+        {\valinp xs \gennedby r*_{lab} \gennedarrow ys_n, (\env_{n}, \predtrack_n)}$
     $\inference
          [\ValidateStar]
          { \envget{\lab} = n
             & \env_0 = \env & \predtrack_0 = \predtrack
-            & \forall 1 \leq i < n . (\env_{i - 1}, \pathput{\lab}{i - 1}, \predtrack{i - 1}) ys_i \gennedby r \gennedarrow ys_{i}, (\env_{i}, \predtrack_i)
+            & \forall 0 \leq i < n . (\env_{i - 1}, \pathput{\lab}{i - 1}, \predtrack{i - 1}) ys_i \gennedby r \gennedarrow ys_{i}, (\env_{i}, \predtrack_i)
          }
          {\valinp xs \gennedby r*_{\lab} \gennedarrow ys_n, (\env_n, \predtrack_n)}$
 

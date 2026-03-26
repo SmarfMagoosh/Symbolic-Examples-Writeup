@@ -46,8 +46,8 @@
       $\inference
          [\RuleApply]
          {\env_0 = \env
-            & args' = \forall 1 \leq i \leq n. \; (\env_{i - 1}, \pathvar) arg_i \gens arg'_i, \env_i}
-         {\inp <f \; args> \gens f(args'), \out}$
+            & args' = \forall 0 \leq i < n. \; (\env_{i - 1}, \pathvar) arg_i \gens arg'_i, \env_i}
+         {\inp <f \; args> \gens f(args'), \env_n}$
       $\inference
          [\RuleAssign]
          {\arbitrary{x} & p(args, x)}
