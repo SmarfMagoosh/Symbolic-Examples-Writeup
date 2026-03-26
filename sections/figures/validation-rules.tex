@@ -32,8 +32,8 @@
     $\inference
         [\ValidateApplication]
         {\env_0 = \env & \predtrack_0 = \predtrack
-            & args' = \forall 0 \leq i < n. \; (\env_{i - 1}, \pathvar, \predtrack_{i - 1}) arg'_i \gennedby arg_i \gennedarrow \nil, (\env_i, \predtrack_i)}
-         {\valinp <f \; args> \gens f(args') \gennedarrow \nil, (\env_n,\predtrack_n)}$
+            & as' = \forall 0 \leq i < n. \; (\env_{i - 1}, \pathvar, \predtrack_{i - 1}) a_i \gennedby a'_i \gennedarrow \nil, (\env_i, \predtrack_i)}
+         {\valinp <\dc \; as> \gennedby \dc(as') \gennedarrow \nil, (\env_n,\predtrack_n)}$
 
     % variables
     $\inference
