@@ -7,7 +7,7 @@ its type had to be computed with a type family (see figure \ref{fig:fntype}).
 The FnType is parametrized with $\mathit{args}$ and $r$ where $\mathit{args}$ is a list of $n$ and $a$ pairs describing
 the depths and root element type of each argument in order, and $r$ is result type.
 For example, the list cons constructor has type \code{FnType [(0, Int), (1, Int)] (NestedList 1 Int)}. 
-To get its actual type, the typechecker applies the FnType rules \code{(NestedList 0 Int) -> (NestedList 1 Int) -> (NestedList 1 Int)}.
+To get its actual type, the typechecker applies the FnType rules to get \code{(NestedList 0 Int) -> (NestedList 1 Int) -> (NestedList 1 Int)}.
 Then it applies the NestedList rules to get the final computed type of \code{Int -> [Int] -> [Int]}.
 
 This type family is used in conjunction with the Asts List GADT (see figure \ref{fig:astslist}) to fully realize this functionality.
@@ -16,3 +16,6 @@ This means that the the constructor for data can look like this:
 \codeln{Data :: FnType args a -> Asts args -> Ast 0 a}
 Since the $\mathit{args}$ from FnType and the Asts list are the same, the typechecker knows that when the elements of the list
 are used to generate values, those values can be passed to the function in order.
+
+\input{sections/figures/fntype.tex}
+\input{sections/figures/astslist.tex}

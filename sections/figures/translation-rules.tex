@@ -10,14 +10,14 @@
          {\fresh{\lab'}}
          {x \; | \; y \translateOne (\lab' \Longleftarrow True) \mapsto x \; |_{\lab'} \; y}$
 
-         % Dot
+      % Dot
       $\inference
          [\DotWithPredTrans]
          { \fresh{\lab'}}
          {(. \Longleftarrow p \; args) \translateOne (\lab' \Longleftarrow p(args, \lab)) \mapsto \lab'}$
       $\inference
          [\DotNoPredTrans]
-         {\fresh(\lab')}
+         {\fresh{\lab'}}
          {. \translateOne (\lab' \Longleftarrow True) \mapsto \lab'}$
 
       $\inference
