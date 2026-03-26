@@ -24,12 +24,15 @@
 \newcommand{\gennedarrow}{\ensuremath{\leadsto}\xspace}
 \newcommand{\translateOne}{\longrightarrow_1}
 \newcommand{\translate}{\longrightarrow_2}
+\newcommand{\translateThree}{\longrightarrow_3}
 
 \newcommand{\asgnarrow}{\mapsto}
 \newcommand{\env}{\ensuremath{\Gamma}\xspace}
 \newcommand{\pathvar}{\Pi}
 \newcommand{\deps}{\ensuremath{\Delta}\xspace}
 \newcommand{\depscontext}{\ensuremath{\delta}\xspace}
+
+\newcommand{\context}{\ensuremath{\delta}\xspace}
 
 % environment interactions
 \newcommand{\envput}[2]{\env [(\pathvar, #1) \rightarrow #2]}
@@ -115,6 +118,11 @@
 \newcommand{\ConcatTrans}{\rulename{ConcatTrans}}
 \newcommand{\StarBaseTrans}{\rulename{StarBaseTrans}}
 \newcommand{\StarTrans}{\rulename{StarTrans}}
+
+%Translation Phase 3
+\newcommand{\UnknownLabel}{\rulename{T3-Unknown}}
+\newcommand{\ThrBind}{\rulename{T3-Bind}}
+\newcommand{\ThrCons}{\rulename{T3-Cons}}
 
 %Generation
 \newcommand{\RuleVariable}{\rulename{Variable}}

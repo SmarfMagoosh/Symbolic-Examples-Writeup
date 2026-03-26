@@ -27,17 +27,21 @@ rather than the explicit \cons and \concat of the core language.
 
 \input{sections/figures/translation-rules}
 \mypara{Translation}
-The surface-to-core translation is split into two phases.
+The surface-to-core translation is split into three phases.
 The first phase rewrites the surface language to a subset of the surface language,
 in which we have only
 labeled features (no unlabeled features),
-and all labels have associated predicates.
-The second phase rewrites this subset of the surface language to the core language.
+and
+all labels have associated predicates.
+The second phase rewrites this subset of the surface language to the core language syntax.
+Finally, the third phase rewrites the core language syntax
+to ensure all labels are explicitly bound.
+
 
 \textit{Phase 1}
 We define the first translation phase as a relation $\translateOne$,
-where $\surface_1 \translate \surface_1$ denotes
-that the expression $\surface$ is translated to the core language expression $\surface_2$. 
+where $\surface_1 \translateOne \surface_1$ denotes
+that the expression $\surface$ is translated to the surface language expression $\surface_2$. 
 Figure~\ref{fig:translation-rules-phase1}
 shows \bill{a selection of?} the rules
 used in the phase 1 translation.
@@ -64,11 +68,12 @@ labels with predicates
 via the \AssignmentNoPredTrans and \DotNoPredTrans rules.
 It does this by simply setting such predicates to $True$,
 which is trivially satisfied by any value.
-\bill{Not technically a predicate}
+
 
 \mypara{Phase 2}
 Phase 2 translates the surface language to the core language,
-$\surface \translate \core$.
+$\surface \translate \core$,
+as shown in Figure~\ref{fig:translation-rules-phase2}.
 In doing so,
 it resolves arguably the largest semantic deviation between the surface and core language:
 the two languages representations of lists.
@@ -115,16 +120,33 @@ by simply translating $x \translate x'$ and then returning $x'*_{\lab}$.
 and works by translating of $x$ to $x'$, and then wrapping $x'$ in a list in the star,
 $[x']*_{\lab}$.
 
+\mypara{Phase 3}
+Phrase 3 ensures that all labels have explicit bindings,
+via a translation step from the core language to the core language,
+$\context, \core \translateThree \core, \context'$.
+Representative rules for this step of the translation
+are shown in Figure~\ref{fig:translation-rules-phase3}.
+The rules track a set of seen bindings,
+\context.
+\ThrBind
+adds a binding to this set whenever it encounters a mappings.
+\UnknownLabel
+adds an explicit binding whenever it reaches a variable
+that has not yet been given a binding.
+There are rules similar to \UnknownLabel to handle
+bindings on unions and Kleene closures.
+Other rules
+simply recursively
+walk over their sub-expressions,
+\ThrCons is shown as an example of such a rule.
 
 
-\bill{...}
 
 
-
-\par \bill{Incorporate} The surface language is the language that the user interacts with.
-Their expressions are defined in terms of the surface language so they can be translated to the core language.
-In this specification, $\lab$ is a label (i.e a string), $x$ is any arbitrary expression, and $b$ is some expression that evaluates to a boolean.
-The $b$ expression exists so that the user can constrain the domains of variables so that the generation process isn't completely random. If $b$ is just ``$True$'' then SymCheck will use the first value it generates for the label.
-It is possible, however, to include a predicate here which can include surface expressions as arguments so that labels can be constrained in terms of other labels.
-If this is done, it is assumed that the arguments are translated to the core language (see section \ref{subsec:translation-rules}) and evaluated (see section \ref{subsec:generation-rules}) before being passed to the predicate.
+% \par \bill{Incorporate} The surface language is the language that the user interacts with.
+% Their expressions are defined in terms of the surface language so they can be translated to the core language.
+% In this specification, $\lab$ is a label (i.e a string), $x$ is any arbitrary expression, and $b$ is some expression that evaluates to a boolean.
+% The $b$ expression exists so that the user can constrain the domains of variables so that the generation process isn't completely random. If $b$ is just ``$True$'' then SymCheck will use the first value it generates for the label.
+% It is possible, however, to include a predicate here which can include surface expressions as arguments so that labels can be constrained in terms of other labels.
+% If this is done, it is assumed that the arguments are translated to the core language (see section \ref{subsec:translation-rules}) and evaluated (see section \ref{subsec:generation-rules}) before being passed to the predicate.
 

@@ -95,6 +95,26 @@
       \label{fig:translation-rules-phase2}
       \caption{Phase 2 Translation Rules}
    \end{subfigure}
+   \begin{subfigure}[t]{1\textwidth}
+   \begin{center}
+      $\inference
+         [\ThrBind]
+         {\lab \notin \context}
+         {\context, \lab \translateThree (\lab \Longleftarrow \mathit{True}) \mapsto \lab, \context}$
+      $\inference
+         [\UnknownLabel]
+         {\context \cup \{\lab\}, \core \translateThree \core', \context'}
+         {\context, (\lab \Longleftarrow \mathit{True}) \mapsto \core \translateThree (\lab \Longleftarrow \mathit{True}) \mapsto \core', \context'}$
+      $\inference
+         [\ThrCons]
+         {\context, c \translateThree c', \context'
+         & \context', cs \translateThree cs', \context''}
+         {\context, c \cons cs \translateThree c' \cons cs', \context''}$
+   \end{center}
+      \caption{Phase 3 Translation Rules}
+      \label{fig:translation-rules-phase3}
+   \end{subfigure}
+ 
    \caption{Translation Rules}
    \label{fig:translation-rules}
 \end{figure*}
