@@ -120,10 +120,10 @@
 
 \newcommand{\UnionTrans}{\rulename{T2-Union}}
 
-\newcommand{\ConcatBaseTrans}{\rulename{T2-Concat-B}}
-\newcommand{\ConcatConsTrans}{\rulename{T2-Concat-Cons}}
-\newcommand{\ConcatSnocTrans}{\rulename{T2-Concat-Snoc}}
-\newcommand{\ConcatTrans}{\rulename{T2-Concat}}
+\newcommand{\ConcatBaseTrans}{\rulename{T2-Cat-B}}
+\newcommand{\ConcatConsTrans}{\rulename{T2-Cat-Cons}}
+\newcommand{\ConcatSnocTrans}{\rulename{T2-Cat-Snoc}}
+\newcommand{\ConcatTrans}{\rulename{T2-Cat}}
 \newcommand{\StarBaseTrans}{\rulename{T2-Kl-B}}
 \newcommand{\StarTrans}{\rulename{T2-Kl}}
 
@@ -134,17 +134,17 @@
 \newcommand{\EmptyTrans}{\rulename{T2-Emp}}
 
 %Translation Phase 3
-\newcommand{\UnknownLabel}{\rulename{T3-Unknown}}
-\newcommand{\ThrBind}{\rulename{T3-Bind}}
-\newcommand{\ThrCons}{\rulename{T3-Cons}}
+\newcommand{\UnknownLabel}{\rulename{T3-Uk}}
+\newcommand{\ThrBind}{\rulename{T3-Bd}}
+\newcommand{\ThrCons}{\rulename{T3-C}}
 
 %Generation
 \newcommand{\RuleVariable}{\rulename{G-Var}}
 \newcommand{\RuleEmpty}{\rulename{G-Emp}}
-\newcommand{\RuleConcat}{\rulename{G-Concat}}
+\newcommand{\RuleConcat}{\rulename{G-Cat}}
 \newcommand{\RuleCons}{\rulename{G-Cons}}
-\newcommand{\RuleUnionLeft}{\rulename{G-UnionLeft}}
-\newcommand{\RuleUnionRight}{\rulename{G-UnionRight}}
+\newcommand{\RuleUnionLeft}{\rulename{G-UnionL}}
+\newcommand{\RuleUnionRight}{\rulename{G-UnionR}}
 \newcommand{\RuleStarInit}{\rulename{G-KlInit}}
 \newcommand{\RuleStar}{\rulename{G-Kl}}
 \newcommand{\RuleStarEnd}{\rulename{G-KlEnd}}
@@ -155,7 +155,7 @@
 %Validation
 \newcommand{\ValidateAssignment}{\rulename{V-Assign}}
 \newcommand{\ValidateCons}{\rulename{V-Cons}}
-\newcommand{\ValidateConcat}{\rulename{V-Concat}}
+\newcommand{\ValidateConcat}{\rulename{V-Cat}}
 \newcommand{\ValidateEmpty}{\rulename{V-Emp}}
 \newcommand{\ValidateLiteral}{\rulename{V-Literal}}
 \newcommand{\ValidateApplication}{\rulename{V-App}}
@@ -163,11 +163,11 @@
 
 \newcommand{\ValidateVarOne}{\rulename{V-Var1}}
 \newcommand{\ValidateVarTwo}{\rulename{V-Var2}}
-\newcommand{\ValidateUnionSolveLeft}{\rulename{V-UnionSolveLeft}}
-\newcommand{\ValidateUnionSolveRight}{\rulename{V-UnionSolveRight}}
+\newcommand{\ValidateUnionSolveLeft}{\rulename{V-UnionSolveL}}
+\newcommand{\ValidateUnionSolveRight}{\rulename{V-UnionSolveR}}
 
-\newcommand{\ValidateUnionLeft}{\rulename{V-UnionLeft}}
-\newcommand{\ValidateUnionRight}{\rulename{V-UnionRight}}
+\newcommand{\ValidateUnionLeft}{\rulename{V-UnionL}}
+\newcommand{\ValidateUnionRight}{\rulename{V-UnionR}}
 
 \newcommand{\ValidateStarSolve}{\rulename{V-KlSolve}}
 \newcommand{\ValidateStar}{\rulename{V-Kl}}

@@ -1,4 +1,4 @@
-\begin{figure*}
+\begin{figure*}\small
 \begin{center}
       % we assume all values are generated at assignment and therefore the environment contains them
       $\inference
@@ -9,6 +9,13 @@
          [\RuleEmpty]
          {}
          {\inp \nil \gens \nil, \zout}$
+      $\inference
+         [\RuleStar]
+         { \envget{\lab} = n
+            & \env_0 = \env
+            & xs = \forall 0 \leq i < n . (\env_{i}, \pathput{\lab}{i}) r \gens xs_{i + 1}, \env_{i + 1}
+         }
+         {\inp r*_{\lab} \gens \foldconcat{xs}, \env_{n}}$
 
       % by design, the depth of r_1 and r_2 are equal
       $\inference
@@ -20,13 +27,6 @@
          {\envget{\lab} \mod 2 = 1 & \inp r_2 \gens x, \out}
          {\inp r_1 |_{\lab} r_2 \gens x, \out}$
 
-      $\inference
-         [\RuleStar]
-         { \envget{\lab} = n
-            & \env_0 = \env
-            & xs = \forall 0 \leq i < n . (\env_{i}, \pathput{\lab}{i}) r \gens xs_{i + 1}, \env_{i + 1}
-         }
-         {\inp r*_{\lab} \gens \foldconcat{xs}, \env_{n}}$
 
       % by design, r_1 and r_2 have a non-zero depth for concat
       $\inference
