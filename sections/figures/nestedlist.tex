@@ -1,9 +1,14 @@
 \begin{figure}
     \begin{hskcode}
-    type family NestedList n a where
-        NestedList 0 a = a
-        NestedList x a = [NestedList (x - 1) a]
+type family NestedList n a where
+ NestedList 0 a = a
+ NestedList x a = [NestedList (x - 1) a]
+data Core n a where
+ (:>)::Core n a -> Core (S n) a -> Core (S n) a
+ Star::Label -> Ast (Core n) a -> Ast (Core n) a
+ Var::Label -> Core Z a
+ ...
     \end{hskcode}
-    \caption{Haskell code for the NestedList type family}
+    \caption{\hskin{NestedList} type family and \hskin{Core} GADT}
     \label{fig:nestedlist}
 \end{figure}
