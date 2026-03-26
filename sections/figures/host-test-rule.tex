@@ -1,0 +1,19 @@
+\begin{figure}
+\scalebox{0.85}{
+    \inference[\ruletest]
+        { 
+            {\color{lightgray} (\{\}, \{\})} c_1 \gens e_1{\color{lightgray}, \env_1}
+        & {\color{lightgray} (\env_1, \{\})} c_2 \gens e_2{\color{lightgray}, \env_2}
+        & \ldots
+        & {\color{lightgray} (\env_{k - 1}, \{\})} c_k \gens e_k{\color{lightgray}, \env_k}
+        \\ 
+        \text{let } e_{\mathit{out}} = f\usp\expr_1\usp\expr_2\ldots\expr_k
+        & {\color{lightgray} (\env_{k}, \{\})} e_{\mathit{out}} \gennedby \core_{\mathit{out}} \gennedarrow xs{\color{lightgray} , \env'}
+        }
+        {       f \usp \core_1\usp\core_2\usp\ldots\usp\core_k \testEq \core_{\mathit{out}}
+            \Rightarrow
+                \text{if } xs = \nil \text{ then } \testpasses \text{ else } \testfails}
+}
+\caption{Test Evaluation}
+\label{fig:test-call-rule}
+\end{figure}
