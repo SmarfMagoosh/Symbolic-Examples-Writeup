@@ -1,0 +1,9 @@
+\begin{figure}
+    \begin{hskcode}
+    data Asts (args :: [(Nat, Type)]) where
+        AstsN     :: Asts '[]
+        (::>)     :: Ast n a -> Asts xs -> Asts ('(n, a) ': xs)
+    \end{hskcode}
+    \caption{Haskell code for the NestedList type family}
+    \label{fig:nestedlist}
+\end{figure}

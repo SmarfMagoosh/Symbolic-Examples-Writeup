@@ -1,0 +1,9 @@
+\begin{figure}
+    \begin{hskcode}
+    type family FnType (args :: [(Nat, Type)]) r where
+        FnType '[] r = r
+        FnType ('(n, a) ': xs) r = NestedList n a -> FnType xs r
+    \end{hskcode}
+    \caption{Haskell code for the FnType}
+    \label{fig:fntype}
+\end{figure}

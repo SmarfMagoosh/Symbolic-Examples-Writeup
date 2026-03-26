@@ -1,8 +1,18 @@
 \subsection{FnType and Asts List}
 \par The other place where GADTs and type families are needed are for applying constructors to core expression arguments.
-We accomplish that by first making an ``\code{Asts args}'' GADT which is a list of core expressions.
-This list keeps track of each elements depth and root element type in order as its polymorphic type $\mathit{args}$.
-After that, we have a ``FnType args r'' to act as a folded function to be applied with the list of cores. The polymorphic
-$\mathit{args}$ means the same thing for the list of cores and the type $r$ is the final return type of the function.
-So with \code{FnType args r} and \code{Asts args}, \ourDSL can generate values from the cores in the list and pass them
-to the function to get a value of type $r$ in the end.
+In order for the typechecker to allow this, it needs to know the type of the constructor 
+(i.e what arguments it needs for construction and what the result of the construction is).
+Since the constructor could take an arbitrary number of arguments, 
+its type had to be computed with a type family (see figure \ref{fig:fntype}).
+The FnType is parametrized with $\mathit{args}$ and $r$ where $\mathit{args}$ is a list of $n$ and $a$ pairs describing
+the depths and root element type of each argument in order, and $r$ is result type.
+For example, the list cons constructor has type \code{FnType [(0, Int), (1, Int)] (NestedList 1 Int)}. 
+To get its actual type, the typechecker applies the FnType rules \code{(NestedList 0 Int) -> (NestedList 1 Int) -> (NestedList 1 Int)}.
+Then it applies the NestedList rules to get the final computed type of \code{Int -> [Int] -> [Int]}.
+
+This type family is used in conjunction with the Asts List GADT (see figure \ref{fig:astslist}) to fully realize this functionality.
+The Asts list encodes the depth an root element types of each of its elements in its own type as the type argument $\mathit{args}$.
+This means that the the constructor for data can look like this:
+\codeln{Data :: FnType args a -> Asts args -> Ast 0 a}
+Since the $\mathit{args}$ from FnType and the Asts list are the same, the typechecker knows that when the elements of the list
+are used to generate values, those values can be passed to the function in order.
