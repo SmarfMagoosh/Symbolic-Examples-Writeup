@@ -6,8 +6,9 @@
     %     {\valinp xs \gennedby (\lab \Longleftarrow \mathit{True}) \mapsto e, \valout}$
     $\inference
         [\ValidateAssignment]
-        {\valinp xs \gennedby e \gennedarrow ys, \valout}
-        {\valinp xs \gennedby (\lab \Longleftarrow p(args, \lab)) \mapsto e \gennedarrow ys, \valout}$
+        { args' = \forall 1 \leq i \leq n. \; (\env, \pathvar) arg_i \gens arg'_i, \env_i
+        & (\env, \pathvar, \predtrack [(\pathvar, \lab) \rightarrow p(args')]) xs \gennedby e \gennedarrow ys, (\env', \predtrack'')}
+        {\valinp xs \gennedby (\lab \Longleftarrow p(args, \lab)) \mapsto e \gennedarrow ys, (\env', \predtrack'')}$
 
     % list operations
     $\inference
@@ -41,17 +42,17 @@
         {\valinp x \gennedby \lab \gennedarrow [], \valinp}$
     $\inference
         [\ValidateVarTwo]
-        {\envhasnt{\lab} & \arbitrary{x}}
-        {\valinp x \gennedby \lab \gennedarrow [], (\out{\lab}{x}, \predtrack)}$
+        {\envhasnt{\lab} & (\predtrack_\pathvar(\lab))(x)}
+        {\valinp x \gennedby \lab \gennedarrow [], (\outw{\lab}{x}, \predtrack)}$
 
     $\inference
         [\ValidateUnionSolveLeft]
-        {\envhasnt{\lab} & \valinp xs \gennedby r_1 \gennedarrow ys, \valout}
-        {\valinp xs \gennedby r_1 |_{\lab} r_2 \gennedarrow ys, (\out{\lab}{0},\predtrack)}$
+        {\envhasnt{\lab} & (\predtrack_\pathvar(\lab))(0) & \valinp xs \gennedby r_1 \gennedarrow ys, \valout}
+        {\valinp xs \gennedby r_1 |_{\lab} r_2 \gennedarrow ys, (\outw{\lab}{0},\predtrack)}$
     $\inference
         [\ValidateUnionSolveRight]
-        {\envhasnt{\lab} & \valinp xs \gennedby r_2 \gennedarrow ys, \valout}
-        {\valinp xs \gennedby r_1 |_{\lab} r_2 \gennedarrow ys, (\out{\lab}{1}, \predtrack)}$
+        {\envhasnt{\lab} & (\predtrack_\pathvar(\lab))(1) & \valinp xs \gennedby r_2 \gennedarrow ys, \valout}
+        {\valinp xs \gennedby r_1 |_{\lab} r_2 \gennedarrow ys, (\outw{\lab}{1}, \predtrack)}$
     $\inference
         [\ValidateUnionLeft]
         {\envget{\lab} \mod 2 = 0 & \valinp xs \gennedby r_1 \gennedarrow ys, \valout}
@@ -66,6 +67,7 @@
         { \envhasnt{\lab}
             & \env_0 = \env
             & \text{choose } n \geq 0
+            & \predtrack_\pathvar(\lab)(n)
             &\forall 1 \leq i < n . (\env_{i - 1}, \pathput{\lab}{i - 1}) ys_i \gennedby r \gennedarrow ys_{i}, (\env_{i}, \predtrack_i)
          }
         % {\envhasnt{\lab} & \exists n. \valinpwe{\lab}{n} xs \gennedby r*_{\lab}, \valout}
