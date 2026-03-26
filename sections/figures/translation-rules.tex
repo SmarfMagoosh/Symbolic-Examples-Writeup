@@ -49,23 +49,40 @@
          [\StarTrans]
          {\hastype{x}{[\complex]} & x \translate x'}
          {x*\{\lab\} \translate x'*_{\lab}}$
-
+      
+      \vspace{0.5em}
       % Concat
       $\inference
          [\ConcatBaseTrans]
-         {\hastype{x}{\base} & \hastype{y}{\base} & x \translate x' & y \translate y'}
+         {
+            \hastype{x}{\base}
+         & \hastype{y}{\base}
+         \\ x \translate x'
+         & y \translate y'}
          {x \; y \translate x' :> [y']}$
       $\inference
          [\ConcatConsTrans]
-         {\hastype{x}{\complex} & \hastype{y}{[\complex]} & x \translate x' & y \translate y'}
+         {
+            \hastype{x}{\complex}
+         & \hastype{y}{[\complex]}
+         \\ x \translate x'
+         & y \translate y'}
          {x \; y \translate x' :> y'}$
       $\inference
          [\ConcatSnocTrans]
-         {\hastype{x}{[\complex]} & \hastype{y}{\complex} & x \translate x' & y \translate y'}
+         {
+            \hastype{x}{[\complex]}
+         & \hastype{y}{\complex}
+         \\ x \translate x'
+         & y \translate y'}
          {x \; y \translate x' :++ [y']}$
       $\inference
          [\ConcatTrans]
-         {\hastype{x}{[\complex]} & \hastype{y}{[\complex]} & x \translate x' & y \translate y'}
+         {
+            \hastype{x}{[\complex]}
+         & \hastype{y}{[\complex]}
+         \\ x \translate x'
+         & y \translate y'}
          {x \; y \translate x' :++ y'}$
 
       % Assignment
