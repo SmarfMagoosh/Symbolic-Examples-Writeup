@@ -46,12 +46,18 @@ in sequence,
 until either (1) it finds a rule application that allows the match to succeed
 or, (2) all possible rules, and thus the test as a whole, fail.
 
+\mypara{Constraint Store}
 Because we are deferring binding of variables until the variable is used,
 we require a different handling of constraints.
 This is the purpose of the additional \predtrack parameter,
 which we call the \textit{constraint store}.
 The constraint store is used to record constraints at assignments,
 and then look up and check those constraints when actually using a variable.
+For the same reasons as the environment,
+the constraint store works as a map on variable names and the path
+(filtered by the dependency map.)
+We use identical syntax for lookups and insertions to the syntax we use for the environment.
+
 Unfortunately, it is not possible to use consume to get the values of the arguments
 that must be passed to the predicate,
 as there are no corresponding expressions in the host language list being validated.
@@ -65,6 +71,7 @@ as the only non-deterministic rule for \gens is \RuleAssign.
 % besides this, we construct the rules such that a list will be validated against a symbolic expression
 % if and only if the list could be generated from the symbolic expression.
 
+We now discuss the rules in Figure~\ref{fig:validation-rules} in detail.
 
 \mypara{List Constructors}
 \ValidateCons, \ValidateConcat, and \ValidateEmpty
