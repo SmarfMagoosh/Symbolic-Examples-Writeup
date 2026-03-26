@@ -1,11 +1,104 @@
 \subsection{The Core Language} \label{subsec:the-core-language}
-\par While the user works with the surface language, the core language (see figure \ref{fig:the-core-language}). 
-The core language is depth-indexed, meaning that the depth of the core AST is part of its type. 
-The depth-index indicates the nested depth of the list it will generate. 
-A depth of 0 indicates that the result will be a singleton not a list. 
-We use this feature to ensure that all expressions are well formed before runtime. 
-Furthermore, we can put constraints on what depths are allowed for each constructor. 
-For example, the $\concat$ operator is for concatenation which requires 2 lists. 
-So we can ensure that its two arguments have the same depth, and that it is non zero.
-
 \input{sections/figures/core-language}
+
+Figure~\ref{fig:the-core-language}
+shows the \textit{core language},
+a minimal language for symbolic expressions.
+Given what we have introduced so far,
+much of the language is likely unsurprising--
+we have labeled unions and kleene closures,
+assignment to introduce labels,
+and labels themselves.
+Constructor applications
+could simply be literals,
+or could be other constructors from other types in the host language--
+we in particular consider algebraic datatypes.
+\bill{Maybe nail down a bit more.}
+
+The core language has a number of simplifications relative to the surface language.
+First, the core language has no
+unlabeled unions or Kleene closures.
+Second,
+all bindings must have a constraint
+(although trivially, the constraint may just be $\mathit{True}$.)
+Third, the core language is more explicit about when
+elements are being cons'ed onto a list (via \cons),
+or when two lists are being concatenated together (via \concat.)
+Finally, we require that all labels are explicitly introduced by a binding
+(in \textit{some} symbolic expression--
+this might be an expression for a previous argument,
+for example)
+before being used.
+In Section~\bill{???},
+we will show how we translate the (more flexible) surface language
+to satisfy the rules of the (more restrictive) core language.
+
+\mypara{Scoping}
+In considering scoping, we must keep in mind that we typically have
+\textit{multiple} symbolic expressions which \textit{share}
+the same symbolic variables.
+For example, the symbolic expressions for an argument and return value
+(in particular, this describes the identity function on lists):
+\[
+\textbf{argument: }(k \Longleftarrow \mathit{True}) \asgnarrow ((x \Longleftarrow \mathit{True}) \asgnarrow x)*_k
+\quad
+\textbf{return: }x*_k
+\]
+are valid, because $k$ and $x$ are both introduced in the first expression,
+and therefore (the same) $k$ and $x$ can be used in the second expression.
+Making this work requires some slightly abnormal--
+but we think still intuitive--
+scoping rules. In particular:
+\begin{itemize}
+\item We require all variable names to be syntactically unique.
+This avoids any confusion from i.e. two $x$'s being bound in one expression,
+and then an $x$ (ambiguously) appear within a later expression.
+\item Within an expression that binds $x$,
+the label $x$ may then only appear in the assignment's subexpression.
+\item \label{item:kleene-union} If $x$ is bound in a expression $c$
+and used in a different expression $c'$,
+the \textit{Kleene-union context} (explained below) of the binding of $x$ in $c$
+must be a (non-strict) subset of the Kleene-union context of the use of $x$ in $c'$.
+\end{itemize}
+
+Point~\ref{item:kleene-union} clearly requires more explanation.
+The \textit{Kleene-union context} if the set of all labels
+on Kleene closures and unions that syntactically surround
+a particular point in a program.
+We write $\kub{c, \lab}$
+to refer to the Kleene-union context of the binding of a label $\lab$ in in core language expression $c$,
+and write $\kuv{c, \lab}$ to refer to the union of the  Kleene-union context of the b.
+For example, if we say that $c$ is (to simplify the expression, we assume that $a$ and $b$ are in scope)
+\[
+((x \Longleftarrow \mathit{True}) \asgnarrow x) |_a ((y \Longleftarrow \mathit{True}) \asgnarrow y*_b)
+\],
+then $\kub(c, x) = \{ a \}$
+and  $\kub(c, y) = \{ a, b \}$.
+In point~\ref{item:kleene-union},
+requiring the Kleene-union context of $x$'s (resp. $y$) binding in $c$ to be a subset of
+the Kleene-union context of $x$'s (resp. $y$) useage in (some) $c'$
+ensures that the labels will actually have a value to refer to.
+For example, with the above $c$, if $c'$ is
+\[
+((x x) |_a (y y)*_b) |_z []
+\]
+This would be allowed (assuming $z$ is in scope),
+as we have $\kub{c}{x} = \{a\} \subset \{a, z\} = \kuv{c'}{x}$
+and we have $\kub{c}{y} = \{a, b\} \subset \{a, b, z\} = \kuv{c'}{y}$.
+On the other hand, if $c'$ was
+\[
+((x y) |_a (y y)*_b) |_z []
+\]
+this would not be allowed,
+as $\kub{c, y} = \{a, b\} \neg\subset \{a, z\} = \kuv{c'}{y}$
+
+
+% \par While the user works with the surface language, the core language (see figure \ref{fig:the-core-language}). 
+% The core language is depth-indexed, meaning that the depth of the core AST is part of its type. 
+% The depth-index indicates the nested depth of the list it will generate. 
+% A depth of 0 indicates that the result will be a singleton not a list. 
+% We use this feature to ensure that all expressions are well formed before runtime. 
+% Furthermore, we can put constraints on what depths are allowed for each constructor. 
+% For example, the $\concat$ operator is for concatenation which requires 2 lists. 
+% So we can ensure that its two arguments have the same depth, and that it is non zero.
+
