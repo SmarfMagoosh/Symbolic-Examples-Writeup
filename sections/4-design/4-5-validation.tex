@@ -15,7 +15,7 @@ is that
 $\valinp xs \gennedby e \gennedarrow ys, \valout$
 says that there is some $xs'$ such that $xs = xs' :++ ys$,
 and $xs'$ matches the symbolic expression $e$.
-This allows, ``chaining'' together validation steps:
+This allows ``chaining'' together validation steps:
 to check if some concrete list $xs$ matches a regular
 expression $(r_1 \concat r_2) \concat r_3$,
 we would first check if, for some $ys$
@@ -63,7 +63,7 @@ that must be passed to the predicate,
 as there are no corresponding expressions in the host language list being validated.
 To get around this when validating, we impose a syntactic condition on constraint arguments that
 we do not impose during generation:
-a constraint argument may contain a variable that was not bound
+a constraint argument may only contain variables that were bound
 during a previous generation step.
 This allows us to \textit{deterministically} evaluate
 arguments via \gens,
@@ -106,12 +106,13 @@ As mentioned above,
 takes a binding
 $(\lab \Longleftarrow p(args, \lab)) \mapsto e$
 but does not really do an assignment,
-as this will be handled when we actually need the variable \lab.
+as this will be handled when we use the variable \lab.
 This is because we want to put off assigning variables
 in order to better align them to the concrete expression via, i.e. \ValidateVarTwo.
 Also as discussed above though,
-we do apply generation \gens to all the arguments $args$,
-and we store $p(args)$ in the constraint store.
+we apply generation \gens to all the arguments $args$,
+obtaining values $args'$
+and we store $p(args')$ in the constraint store.
 This will allow us to check that,
 when we \textit{do} assign \lab a value,
 that value satisfies the constraint.

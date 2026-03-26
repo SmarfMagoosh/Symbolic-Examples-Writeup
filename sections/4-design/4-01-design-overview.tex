@@ -4,7 +4,7 @@
 
 Our approach to property-based testing
 uses an embedded domain specific language (eDSL), \ourDSL,
-into a \textit{host language}-- 
+within a \textit{host language}-- 
 a traditional programming language that a user wishes to test code in
 (our practical implementation uses Haskell as its host language, for example.)
 The users write eDSL code in what we refer to as the \textit{surface language}--
@@ -22,11 +22,16 @@ shows a small snippet of the essential elements in the host language.
 The most straightforward of these is
 standard \textit{cons-lists},
 where we write \ccons for cons and \nil for the empty list.
+We assume the language additionally contains
+other (possibly user defined) data constructors,
+each of which may be applied to some number of arguments,
+$D\usp\vec{\expr}$.
 DSL compilation, $\compileDSL{\surface}$,
 and tests, $f\usp\vec{\core} \testEq \core$,
 really represent functions we implement in the host language to interface with the eDSL.
 DSL compilation, $\compileDSL{\surface}$ translates the surface language expression
 $\surface$ into a corresponding core language expression $\core$.
+(This translation is described in Section~\ref{subsec:the-surface-language}.)
 
 A test $f\usp\vec{\core_1} \testEq \core_2$,
 takes a host language function $f$,
@@ -39,7 +44,7 @@ and then the returned value should be \textit{validated}, or checked for correct
 according to the output $\core_2$.
 \ruletest, in Figure~\ref{fig:test-call-rule},
 formalizes this process,
-using relations that we will introduce in \bill{...}.
+using relations that we will formally define in Sections~\ref{subsec:generation-rules} and~\ref{subsec:validation-rules}.
 For now,
 ignore the grayed out sections of the rule.
 \gens is used to \textit{randomly generate}
@@ -58,7 +63,7 @@ we write this as
 $e_{\mathit{out}} \gennedby \core_{\mathit{out}} \gennedarrow xs$.
 If this list is empty,
 the test passed (\testpasses),
-if the list is not empty the test fails (\testfails),
+if the list is not empty then the test failed (\testfails),
 and
 $xs$ corresponds to some suffix of $e_{\mathit{out}}$ that could not be validated.
 

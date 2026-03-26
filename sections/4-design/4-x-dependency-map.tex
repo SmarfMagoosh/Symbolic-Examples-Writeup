@@ -7,15 +7,22 @@ the \textit{path},
 and the \textit{environment.}
 These three constructs work together
 to allow us to track values of labels in symbolic expressions.
-Note that,
-in a symbolic expression,
+As also discussed when considering scope,
 the value of a variable may depend on the value of surrounding variables.
 In particular, this happens when a variable is assigned inside a Kleene closure.
 For example the expression $a \asgnarrow (b \asgnarrow b)*_{a}$ will match any list of elements. 
-The elements won't necessarily all be equal even though they were all matched against $b$,
-because $b$ is bound within the Kleene closure,
-and is allowed to take on different values depending on which iteration $a$ we are on.
-Thus the value of $b$ \textit{depends on} $a$.
+% The elements won't necessarily all be equal even though they were all matched against $b$,
+% because $b$ is bound within the Kleene closure,
+% and is allowed to take on different values depending on which iteration $a$ we are on.
+% Thus the value of $b$ \textit{depends on} $a$.
+If we use $a$ as a label on multiple Kleene closures,
+and $b$ within each closure,
+the values for $b$ all correspond on each iteration.
+Thus, at runtime, we must track and store what value for $b$ was chosen for each value of $a$.
+The \textit{dependency map} and \textit{path}
+help us do this,
+and the \textit{environment} is where we actually store the runtime values.
+
 % This is why we use the context so that $b$ can take on a different value for each iteration of $a$.
 
 \mypara{Dependency Map} 
@@ -33,10 +40,11 @@ the \textit{Kleene context}--
 analagous to the Kleene-union context in 
 Section~\ref{subsec:the-core-language},
 except considering only labels on Kleene closures, and \textit{not} labels on unions.
-(Note that, as unions do not cause
+Note that, as unions do not cause
 repetition,
 labels bound within a union (but not within a closure,)
-will only take on a single value.)
+will only take on a single value.
+This is why the dependency map ignores the union labels (unlike the scoping rules.)
 
 % \textit{Dependency Map Computation}
 % The dependency map is computed for a group of symbolic expressions that represent a function's
@@ -54,15 +62,15 @@ will only take on a single value.)
 % in multiple contexts throughout all the expressions, but the first use of the variable is the one that ends up in the final
 % dependency map.
 
-\textit{Dependency Map Use}
-The dependency map is used for environment lookups and updates. 
-First, recall that every key in the environment is a context-label pair that gets mapped to a value.
-So whenever a lookup or update occurs, the first thing that happens is we verify that all the label's
-depencies are satisfied by the context that was passed in. Then we filter out all variables from the
-context that are not in the label's dependencies. This gives us $\pathvar'$ which contains only the
-relevant context for the label. This relevant context is what is actually used to lookup values and
-insert pairs into the environment. 
-\evan{Should I give an example here to demonstrate why these steps are necessary?}
+% \textit{Dependency Map Use}
+% The dependency map is used for environment lookups and updates. 
+% First, recall that every key in the environment is a context-label pair that gets mapped to a value.
+% So whenever a lookup or update occurs, the first thing that happens is we verify that all the label's
+% depencies are satisfied by the context that was passed in. Then we filter out all variables from the
+% context that are not in the label's dependencies. This gives us $\pathvar'$ which contains only the
+% relevant context for the label. This relevant context is what is actually used to lookup values and
+% insert pairs into the environment. 
+% \evan{Should I give an example here to demonstrate why these steps are necessary?}
 
 \mypara{Path}
 % $\pathvar$ is the \textit{path} and $\env$ is the \textit{environment}; we elaborate on each of these in the following. 
@@ -70,17 +78,18 @@ insert pairs into the environment.
 % we may repeatedly use an expression via a kleene closure, i.e. given $r*_\lab$,
 % the expression $r$ may be repeated an arbitrary number of times. 
 The path is a set of label-to-int mappings that tracks
-the current values assigned by Kleene closures during either generator or validation.
-On first entering a kleene closure $r*_\lab$,
+the current values assigned by Kleene closures during runtime
+of either generation or validation.
+On first entering a Kleene closure $r*_\lab$,
 $\lab \rightarrow 1$ is entered into the path.
-On each successive $n^{th}$ iteration, this mapping is updated to $n$.
+On each successive iteration, this mapping is incremented.
 
 \mypara{Environment}
 The environment tracks how generation is assigning labels to values via bindings,
-$(lab \Longleftarrow p(args, \lab)) \mapsto e$
-however note that the same label may be re-assigned different values in each iteration of a
+$(lab \Longleftarrow p(args, \lab)) \mapsto e$.
+As the same label may be re-assigned different values in each iteration of a
 (possibly nested) kleene closure,
-thus, the environment is really a mapping of (label, path) pairs to values.
+the environment is really a mapping of (label, path) pairs to values.
 We write $\env^\deps_\pathvar(\lab)$
 to denote looking up the label \lab in \env,
 given some path and dependency map

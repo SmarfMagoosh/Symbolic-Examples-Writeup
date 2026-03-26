@@ -46,34 +46,35 @@ For example, the symbolic expressions for an argument and return value
 \]
 are valid, because $k$ and $x$ are both introduced in the first expression,
 and therefore (the same) $k$ and $x$ can be used in the second expression.
-Making this work requires some slightly abnormal--
+Making this work requires some slightly unusual--
 but we think still intuitive--
 scoping rules. In particular:
-\begin{itemize}
+\begin{enumerate}
 \item We require all variable names to be syntactically unique.
 This avoids any confusion from i.e. two $x$'s being bound in one expression,
 and then an $x$ (ambiguously) appear within a later expression.
-\item Within an expression that binds $x$,
-the label $x$ may then only appear in the assignment's subexpression.
 \item \label{item:kleene-union} If $x$ is bound in a expression $c$
 and used in a different expression $c'$,
 the \textit{Kleene-union context} (explained below) of the binding of $x$ in $c$
 must be a (non-strict) subset of the Kleene-union context of the use of $x$ in $c'$.
-\end{itemize}
+\item Within an expression that binds $x$,
+$x$ may be used anywhere to the right of the binding,
+as long as point~\ref{item:kleene-union} is obeyed.
+\end{enumerate}
 
 Point~\ref{item:kleene-union} clearly requires more explanation.
-The \textit{Kleene-union context} if the set of all labels
+The \textit{Kleene-union context} is the set of all labels
 on Kleene closures and unions that syntactically surround
 a particular point in a program.
-We write $\kub{c, \lab}$
+We write $\kub{c}{\lab}$
 to refer to the Kleene-union context of the binding of a label $\lab$ in in core language expression $c$,
-and write $\kuv{c, \lab}$ to refer to the union of the  Kleene-union context of the b.
+and write $\kuv{c}{\lab}$ to refer to the union of the  Kleene-union contexts of the uses of \lab as a variable in $c$.
 For example, if we say that $c$ is (to simplify the expression, we assume that $a$ and $b$ are in scope)
 \[
 ((x \Longleftarrow \mathit{True}) \asgnarrow x) |_a ((y \Longleftarrow \mathit{True}) \asgnarrow y*_b)
 \],
-then $\kub(c, x) = \{ a \}$
-and  $\kub(c, y) = \{ a, b \}$.
+then $\kub{c}{x} = \{ a \}$
+and  $\kub{c}{y} = \{ a, b \}$.
 In point~\ref{item:kleene-union},
 requiring the Kleene-union context of $x$'s (resp. $y$) binding in $c$ to be a subset of
 the Kleene-union context of $x$'s (resp. $y$) useage in (some) $c'$
@@ -83,14 +84,14 @@ For example, with the above $c$, if $c'$ is
 ((x x) |_a (y y)*_b) |_z []
 \]
 This would be allowed (assuming $z$ is in scope),
-as we have $\kub{c}{x} = \{a\} \subset \{a, z\} = \kuv{c'}{x}$
-and we have $\kub{c}{y} = \{a, b\} \subset \{a, b, z\} = \kuv{c'}{y}$.
+as we have $\kub{c}{x} = \{a\} \subseteq \{a, z\} = \kuv{c'}{x}$
+and we have $\kub{c}{y} = \{a, b\} \subseteq \{a, b, z\} = \kuv{c'}{y}$.
 On the other hand, if $c'$ was
 \[
 ((x y) |_a (y y)*_b) |_z []
 \]
 this would not be allowed,
-as $\kub{c, y} = \{a, b\} \neg\subset \{a, z\} = \kuv{c'}{y}$
+as $\kub{c, y} = \{a, b\} \not\subseteq \{a, z\} = \kuv{c'}{y}$
 
 
 % \par While the user works with the surface language, the core language (see figure \ref{fig:the-core-language}). 
