@@ -1,0 +1,9 @@
+\begin{figure}
+    \begin{hskcode}
+    type family NestedList n a where
+        NestedList 0 a = a
+        NestedList x a = [NestedList (x - 1) a]
+    \end{hskcode}
+    \caption{Haskell code for the NestedList type family}
+    \label{fig:nestedlist}
+\end{figure}
