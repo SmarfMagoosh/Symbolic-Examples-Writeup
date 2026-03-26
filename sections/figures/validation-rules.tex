@@ -1,4 +1,4 @@
-\begin{figure*}
+\begin{figure*}\small
 \begin{center}
     % $\inference
     %     [Assignment]
@@ -45,13 +45,21 @@
         {\envhasnt{\lab} & (\predtrack_\pathvar(\lab))(x)}
         {\valinp x \gennedby \lab \gennedarrow [], (\outw{\lab}{x}, \predtrack)}$
 
+    \vspace{0.5em}
     $\inference
         [\ValidateUnionSolveLeft]
-        {\envhasnt{\lab} & (\predtrack_\pathvar(\lab))(0) & (\envput{\lab}{0}, \pathvar, \predtrack) xs \gennedby r_1 \gennedarrow ys, \valout}
+        {
+            \envhasnt{\lab}
+        & (\predtrack_\pathvar(\lab))(0)
+        \\ (\envput{\lab}{0}, \pathvar, \predtrack) xs \gennedby r_1 \gennedarrow ys, \valout
+        }
         {\valinp xs \gennedby r_1 |_{\lab} r_2 \gennedarrow ys, \valout}$
     $\inference
         [\ValidateUnionSolveRight]
-        {\envhasnt{\lab} & (\predtrack_\pathvar(\lab))(1) & (\envput{\lab}{1}, \pathvar, \predtrack) xs \gennedby r_2 \gennedarrow ys, \valout}
+        {
+            \envhasnt{\lab}
+        & (\predtrack_\pathvar(\lab))(1)
+        \\ (\envput{\lab}{1}, \pathvar, \predtrack) xs \gennedby r_2 \gennedarrow ys, \valout}
         {\valinp xs \gennedby r_1 |_{\lab} r_2 \gennedarrow ys, \valout}$
     $\inference
         [\ValidateUnionLeft]
