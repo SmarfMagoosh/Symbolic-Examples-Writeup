@@ -9,7 +9,7 @@ alongside other approaches such as SmallCheck~\cite{runciman2008smallcheck}
 and Target~\cite{seidel2015type},
 has led to property-based testing becoming a popular paradigm.
 
-QuickCheck~\cite{claessen2000quickcheck} is often credited as popularizing
+QuickCheck~\cite{claessen2000quickcheck}, a Haskell property-based testing library, is often credited as popularizing
 property-based testing and inspiring
 property-based testing libraries~\cite{maciver2019hypothesis,benac2014jsongen,denes2014quickchick,seidel2015type}.
 However,
@@ -20,17 +20,16 @@ It introduced a specialized language, TASPEC, for writing testing oracles and sp
 with an eye specifically toward security.
 
 Despite this, the statement that QuickCheck~\cite{claessen2000quickcheck},
-a Haskell property-based testing library,
 was highly influential on much, if not all,
 of the work that follows is quite fair.
 QuickCheck allows writing specifications over functions using mostly ordinary Haskell code,
-using typeclass instances to specify how to generate random input values.
+using typeclass instances to specify random input generation.
 SmallCheck~\cite{runciman2008smallcheck} and Target~\cite{seidel2015type}
 are alternative Haskell property-based testing library.
-The design of SmallCheck resembles the design of QuickCheck,
-except that, instead of being tested on randomly chosen inputs,
+SmallCheck closely resembles QuickCheck,
+except that
 functions are tested on inputs of increasing size.
-Target tests specifications written as \textit{refinement types}
+Target tests \textit{refinement types}
 i.e. regular types annotated with decidable predicates.
 This refinement types can also be verified with the LiquidHaskell~\cite{vazou2014refinement} verifier;
 a major motivation of Target is to act as a complementary tool to LiquidHaskell.

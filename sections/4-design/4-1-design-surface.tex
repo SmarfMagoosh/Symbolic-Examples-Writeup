@@ -85,7 +85,6 @@ using whitespace to denote sequencing--
 \texttt{5 6 7} would represent the list $[5, 6, 7]$, for example.
 Square brackets are used to represent nested lists--
 for instance \texttt{[5 6] [7] [8 9]} represents the nested list $[[5, 6], [7], [8, 9]]$.
-\bill{Maybe elaborate on motivation/design choices somewhere}
 
 The rules \ConcatBaseTrans, \ConcatConsTrans,\ConcatSnocTrans, and \ConcatTrans implement this.
 They rely on examining the type of the left and right expressions $\surface_1\;\surface_2$ in a sequence.
@@ -103,7 +102,6 @@ by combining them into the list $\surface_1 \cons [\surface_2]$.
 Any other combination of types
 (for example, if $\surface_1$ has type \type and $\surface_2$
 has type $[[\type]]$) is rejected with a compile-time error message.
-\bill{More motivation of design choices?}
 
 This difference in the representation of lists does have some slight impact 
 on the translation of the kleene star, in particular.
