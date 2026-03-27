@@ -116,6 +116,10 @@ and we store $p(args')$ in the constraint store.
 This will allow us to check that,
 when we \textit{do} assign \lab a value,
 that value satisfies the constraint.
+Recall that we also forbid the arguments from binding new variables,
+or using variables bound in the expression being validated--
+as such the input environment to \gens will be exactly the same as the environment output from \gens
+(in the formal rule, both appear as \env.)
 
 \ValidateVarOne and \ValidateVarTwo
 handle matching labels, $v \gennedby \lab$.

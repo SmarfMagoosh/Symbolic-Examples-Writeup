@@ -13,7 +13,7 @@
          [\RuleStar]
          { \envget{\lab} = n
             & \env_0 = \env
-            & xs = \forall 0 \leq i < n . (\env_{i}, \pathput{\lab}{i}) r \gens xs_{i + 1}, \env_{i + 1}
+            & xs = \forall 0 \leq i < n . (\env_{i}, \pathput{\lab}{i}) r \gens xs_{i}, \env_{i + 1}
          }
          {\inp r*_{\lab} \gens \foldconcat{xs}, \env_{n}}$
 
@@ -46,11 +46,14 @@
       $\inference
          [\RuleApply]
          {\env_0 = \env
-            & args' = \forall 0 \leq i < n. \; (\env_{i - 1}, \pathvar) arg_i \gens arg'_i, \env_i}
+            & args' = \forall 0 \leq i < n. \; (\env_i, \pathvar) arg_i \gens arg'_i, \env_{i + 1}}
          {\inp <\dc \; args> \gens \dc(args'), \env_n}$
       $\inference
          [\RuleAssign]
-         {\arbitrary{x} & p(args, x)}
+         {
+            \env_0 = \env
+            & args' = \forall 0 \leq i < n. \; (\env_i, \pathvar) arg_i \gens arg'_i, \env_{i + 1}
+            & \arbitrary{x} & p(args', x)}
          {\inp (\lab \Longleftarrow p(args, \lab)) \mapsto e, \outw{\lab}{x}}$
     \caption{Generation Rules}
     \label{fig:generation-rules}
