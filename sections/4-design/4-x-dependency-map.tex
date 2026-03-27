@@ -77,7 +77,7 @@ This is why the dependency map ignores the union labels (unlike the scoping rule
 % Understanding the path requires noting that, in generating lists (or, when we come to it later in Section~\bill{whatever}, validating lists) 
 % we may repeatedly use an expression via a kleene closure, i.e. given $r*_\lab$,
 % the expression $r$ may be repeated an arbitrary number of times. 
-The path is a set of label-to-int mappings that tracks
+The path $\pathvar$ is a set of label-to-int mappings that tracks
 the current values assigned by Kleene closures during runtime
 of either generation or validation.
 On first entering a Kleene closure $r*_\lab$,
@@ -85,7 +85,7 @@ $\lab \rightarrow 0$ is entered into the path.
 On each successive iteration, this mapping is incremented.
 
 \mypara{Environment}
-The environment tracks how generation is assigning labels to values via bindings,
+The environment $\env$ tracks how generation is assigning labels to values via bindings,
 $(lab \Longleftarrow p(args, \lab)) \mapsto e$.
 As the same label may be re-assigned different values in each iteration of a
 (possibly nested) kleene closure,
@@ -96,8 +96,8 @@ given some path and dependency map
 (because \deps is always the same for any given symbolic expression,
 we omit it in future sections to reduce syntactic clutter.)
 The way this works is that
-we filter out all variables from the
-in the path that are not in the \lab's dependencies.
+we filter out all variables from
+the path that are not in the \lab's dependencies.
 This then gives us a $\pathvar'$ which contains only the
 relevant context for the label,
 and can be used for the lookup in the environment.
@@ -112,7 +112,7 @@ One list that could be generated from this would be $[8, 4, 17]$.
 The corresponding environment would be:
 \begin{align*}
     \{  &(n, \{\}) \rightarrow 3, \\
-        &(x, \{ n \rightarrow 1 \}) \rightarrow 8, (x, \{ n \rightarrow 2 \}) \rightarrow 4, (x, \{ n \rightarrow 3 \}) \rightarrow 17 \}
+        &(x, \{ n \rightarrow 0 \}) \rightarrow 8, (x, \{ n \rightarrow 1 \}) \rightarrow 4, (x, \{ n \rightarrow 2 \}) \rightarrow 17 \}
 \end{align*}
 
 $n$ occurs outside of all kleene closures, and thus has an empty context.

@@ -5,7 +5,7 @@
 zipTest = test2 "zip" (zip :: [Int]->[Int]->[(Int, Int)])
         [ex| x*{n}(.* |{b} []) |] (* \label{lne:comp-zip-input1} *)
         [ex| y*{n}([] |{b} .*) |] (* \label{lne:comp-zip-input2} *)
-  .== [ex| <(x, y)>*{n} |]                     (* \label{lne:comp-zip-out} *)
+    .== [ex| <(x, y)>*{n} |]                     (* \label{lne:comp-zip-out} *)
 \end{smallhskcode}
 \caption{A complete \hskin{zip} test in \ourDSL}
 \label{fig:zip-complete-test}
@@ -26,10 +26,10 @@ shown on line~\ref{lne:comp-zip-input1},
 uses \hskin|x*{n}| to generate $n$ inputs,
 as before, but then follows that with
 a union between an arbitrary suffix and an empty list,
-\hskin|(.* |{b} [])|.
+\hskin+(.* |{b} [])+.
 The second list, on line~\ref{lne:comp-zip-input2},
 is also augmented to allow a suffix,
-\hskin|([] |{b} .*)|.
+\hskin+([] |{b} .*)+.
 Notice that, just as the Kleene closures have a label
 \hskin{n} that links them together,
 the unions also have a label \hskin{b}.
@@ -48,8 +48,8 @@ During the generation phase, it uses the expressions for the arguments to genera
 During the validation phase, it checks if the expression for the output matches the value returned by running the function on the generated inputs.
 
 \mypara{Generation Phase} 
-Firstly, \ourDSL generates a value from the first symbolic expression \code{[ex| x*{n}(.* |{b} []) |]}.
-When it sees \code{x*\{n\}},
+Firstly, \ourDSL generates a value from the first symbolic expression \hskin+[ex| x*{n}(.* |{b} []) |]+.
+When it sees \hskin+x*{n}+,
 the value for \hskin{n} is not specified,
 thus it generates a random value for \hskin{n}.
 We then must repeat the pattern \hskin{x} a total of \hskin{n} times.
@@ -71,7 +71,7 @@ for instance, $x=1$ and then $x=5$. We will then store an environment
 \ourDSL has now used \hskin|x*{n}| to generate the value
 \hskin{[1, 5]}.
 \ourDSL now moves on to the next part of the symbolic expression,
-\hskin|(.* |{b} [])|.
+\hskin+(.* |{b} [])+.
 % so that \code{x*\{n\}} generates the value \code{[1, 5]}.
 To choose which branch of the union to follow,
 \ourDSL will then generate a random value for \hskin{b}.
@@ -102,7 +102,7 @@ At this point, we will add these entries to the environment:
 \end{align*}
 \ourDSL will then go on to generating values
 from the second half of the symbolic expression
-\hskin|([] |{b} .*)|.
+\hskin+([] |{b} .*)+.
 Because \hskin{b} has been assigned the value \hskin{1},
 the right hand side will be evaluated,
 allowing generation of an arbitrary list,

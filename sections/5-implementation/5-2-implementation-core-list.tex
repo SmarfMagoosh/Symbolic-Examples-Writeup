@@ -33,7 +33,7 @@ then, we return any suffix of the list that is left over.
 test ((:) :: Int -> [Int] -> [Int])
     [ex|x] [ex|y*{z}|] .== [ex|x y*{z}|]
 \end{smallhskcode}
-where \hskin{(:)} is Haskell's list con's constructor.
+where \hskin{(:)} is Haskell's list cons constructor.
 Specialized to lists of \hskin{Int}s, \hskin{:} has type \hskin{Int -> [Int] -> [Int]},
 which can also be written using the \hskin{NestedList} type family as \hskin{NestedList 0 Int -> NestedList 1 Int -> NestedList 1 Int}.
 \hskin;[ex|x]; is a lone variable,
@@ -46,10 +46,10 @@ The output is then guaranteed to be a \hskin{NestedList 1 Int} which can be comp
 which has type \hskin{Core 1 Int}.
 
 If the core expressions were not depth indexed (i.e if we had \hskin{Core a} instead of \hskin{Core n a}), 
-then when the generator made a value for  
+then when the generator made a value
 % \hskin{x} or \hskin{y*{z}},
-the typechecker would have no way of knowing it can pass these value as the arguments of cons
-in a type correct way-- both would simply have type \hskin{Core Int}.
+the typechecker would have no way of knowing it can pass these value as the arguments of \hskin{(:)}
+in a typesafe way (all arguments would simply have type \hskin{Core Int}).
 Thus, the use of GADTs and type families is essential to get compile time error messages
 from incorrect arguments to tests.
 % But with the GADT and type family, the type checker sees \code{x :: Ast 0 Int}. 

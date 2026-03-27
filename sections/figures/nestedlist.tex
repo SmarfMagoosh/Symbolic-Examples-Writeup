@@ -4,8 +4,8 @@ type family NestedList n a where
  NestedList 0 a = a
  NestedList x a = [NestedList (x - 1) a]
 data Core n a where
- (:>)::Core n a -> Core (S n) a -> Core (S n) a
- Var::Label -> Core Z a
+ (:>)::Core n a -> Core (n + 1) a -> Core (n + 1) a
+ Var::Label -> Core 0 a
  ...
     \end{smallhskcode}
     \caption{\hskin{NestedList} type family and \hskin{Core} GADT}

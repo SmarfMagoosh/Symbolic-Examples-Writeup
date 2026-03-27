@@ -23,7 +23,7 @@ $\valinp xs \gennedby r_1 \concat r_2 \gennedarrow ys, \valout$.
 We would then pass $ys$ to $r_3$,
 $(\env', \pathvar, \predtrack') ys \gennedby r_3 \gennedarrow zs,( \env'', \predtrack'')$.
 Finally, we would then know the match on $(r_1 \concat r_2) \concat r_3$ succeeded as a whole
-if and only if $zs$ is the empty list--
+if and only if $zs$ is the empty list, i.e.
 \textit{every value} of $xs$ was matched to the symbolic expression,
 with no suffix left over.
 
@@ -165,7 +165,7 @@ allows matching $r$ against $x$
 some arbitrary number $n$ times,
 i.e. setting $\env_0 = \env$,
 the match is computed as
-$\forall 1 \leq i < n . (\env_{i}, \pathput{\lab}{i}) ys_i \gennedby r \gennedarrow ys_{i + 1}, \env_{i + 1}$.
+$\forall 0 \leq i < n . (\env_{i}, \pathput{\lab}{i}) ys_i \gennedby r \gennedarrow ys_{i + 1}, \env_{i + 1}$.
 Again, \ValidateStarSolve use the constraint store to ensure the value selected for $n$ satisfies any stored constraint.
 This roughly corresponds to a loop in which
 (1) $xs$ is matched to $r$, obtaining some unmatched suffix $ys$,

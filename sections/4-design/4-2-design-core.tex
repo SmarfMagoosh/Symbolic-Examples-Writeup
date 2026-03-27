@@ -16,7 +16,8 @@ we in particular consider algebraic datatypes.
 
 The core language has a number of simplifications relative to the surface language.
 First, the core language has no
-unlabeled unions or Kleene closures.
+unlabeled unions or Kleene closures,
+and has no dots.
 Second,
 all bindings must have a constraint
 (although trivially, the constraint may be $\mathit{True}$.)
@@ -66,17 +67,17 @@ The \textit{Kleene-union context} is the set of all labels
 on Kleene closures and unions that syntactically surround
 a particular point in a program.
 We write $\kub{c}{\lab}$
-to refer to the Kleene-union context of the binding of a label $\lab$ in in core language expression $c$,
+to refer to the Kleene-union context of the binding of a label $\lab$ in core language expression $c$,
 and write $\kuv{c}{\lab}$ to refer to the union of the  Kleene-union contexts of the uses of \lab as a variable in $c$.
 For example, if we say that $c$ is (to simplify the expression, we assume that $a$ and $b$ are in scope)
 \[
 ((x \Longleftarrow \mathit{True}) \asgnarrow x) |_a ((y \Longleftarrow \mathit{True}) \asgnarrow y*_b)
-\],
+\]
 then $\kub{c}{x} = \{ a \}$
 and  $\kub{c}{y} = \{ a, b \}$.
 In point~\ref{item:kleene-union},
 requiring the Kleene-union context of $x$'s (resp. $y$) binding in $c$ to be a subset of
-the Kleene-union context of $x$'s (resp. $y$) useage in (some) $c'$
+the Kleene-union context of $x$'s (resp. $y$) usage in (some) $c'$
 ensures that the labels will actually have a value to refer to.
 For example, with the above $c$, if $c'$ is
 \[
@@ -97,7 +98,7 @@ as $\kub{c}{y} = \{a, b\} \not\subseteq \{a, z\} = \kuv{c'}{y}$
 Figure~\ref{fig:the-type-language-grammar}
 shows a small language for types \type.
 We distinguish between \textit{base types}, \base,
-which represent arbitrary types from the host language,
+which represent arbitrary (non-list) types from the host language,
 and \textit{list types}, $[\tau]$.
 Figure~\ref{fig:the-type-language-rules}
 shows a subset of the typing rules.

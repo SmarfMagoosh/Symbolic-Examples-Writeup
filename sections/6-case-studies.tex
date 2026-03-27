@@ -17,14 +17,14 @@ We wrote 25 \ourDSL tests for \texttt{Data.List},
 each involving a single function from the library.
 The \hskin{zip} test, from the motivating example (Section~\ref{sec:motivating-example}),
 is one example of a test for this library.
-A second example, for \hskin{++} (append),
+A second example, for append, \hskin{(++)},
 is shown in Figure~\ref{fig:list-append-ex}.
 % Here, \hskin{test2} acts as a higher-order function, taking four arguments: 
 % (1) the function to test, (2) a symbolic expression for its first argument, 
 % (3) a symbolic expression for its second argument, 
 % and (4) a symbolic expression for the expected output.  
-In the \hskin{++} example, the first symbolic example, \hskin;[ex| b*{a} |];,
-is the core expression for the 
+In the \hskin{(++)} example, the first symbolic example, \hskin;[ex| b*{a} |];,
+is the symbolic expression for the 
 first input to \hskin{(++)}, generating a random list of integers of length a. 
 Similarly, the third argument \hskin;[ex| d*{c} |]; generates a random list 
 of integers of length c. Lastly, the symbolic expression \hskin;[ex| b*{a} d*{c} |]; 
@@ -101,13 +101,13 @@ list contains only one such key-value pair.
 \mypara{Union-Find}
 We further tested \ourDSL on a union-find data structure,
 extracted from an existing academic project~\cite{hallahan2019lazy},
-and (based on a comment in the code) based on the design from~\cite{conchon2007persistent}.
+and (according to a comment in the code) based on the design from~\cite{conchon2007persistent}.
 Union-Find is a specialized data structure for representing a collection of disjoint sets, 
 with each set being assigned one element to represent it.
 The Union-Find data structure has two primary operations that it can perform, union and find.
 The union operation takes 2 elements of the structure as parameters, finds the two sets that they are in, and unions them together.
 The find operation takes 1 element as a parameter, and returns the representative from the set that contains it.
-For example, you can determine if two elements are in the same set by comparing the corresponding representatives returned by the find operation.
+As an example, you can determine if two elements are in the same set by comparing the corresponding representatives returned by the find operation.
 
 \par In Figure~\ref{fig:uf-union-test} we see a symbolic test for the union operation. Similarly to with Maps, we must
 use \hskin{toList} and \hskin{fromList} to convert the data structure we
@@ -133,7 +133,7 @@ the fact that converting the map to the list might change the order of the tuple
 \mypara{External Validity}
 The reason \ourDSL works so well in Haskell is because Haskell has several features;
 GADTs, type level functions, and QuasiQuotations; that allow us to
-to a lot of preprocessing during compilation to help catch errors faster.
+to do preprocessing during compilation to help catch errors faster.
 While these features aren't very common to have in other programming languages,
 these other languages will usually have a way to get around that. For example in a 
 dynamically-typed language like Python, it would be impossible to tell if a symbolic expression is well formed before runtime.

@@ -16,7 +16,7 @@ and a GADT, \hskin{Vec}, which is length-indexed.
 This means that the \textit{length} of the vector is encoded into it's type:
 in the declaration of \hskin{Nil}, we say the \hskin{Vec} has length \hskin{Zero},
 in the declaration of \hskin{:>}, we take a tail of any length \hskin{n},
-and then return a \hskin{Vec} with length \hskin{Succ n}.
+and then return a \hskin{Vec} with length \hskin{S n}.
 
 A type family is a type-level function in Haskell.
 During compilation, all instances of the type family are translated into concrete types according to the function.

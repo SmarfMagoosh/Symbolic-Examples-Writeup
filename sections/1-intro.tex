@@ -10,7 +10,7 @@ a large number of randomly selected values.
 Property-based testing was first popularized in
 the functional programming ecosystem,
 with the Haskell library QuickCheck~\cite{claessen2000quickcheck}
-being a particular influential work.
+being a particularly influential work.
 However, there are now property-based testing libraries
 for many other languages, both imperative and functional,
 such Python~\cite{maciver2019hypothesis},
@@ -82,7 +82,7 @@ In this paper,
 we propose a specialized DSL \ourDSL
 which allows writing property-based unit tests, focused on a single function.
 Once a programmer understands the language,
-the DSL thus allows writing tests for particular functions independently of
+the DSL allows writing tests for particular functions independently of
 other program code.
 This also has implications for other programmers, who might be trying to read the code later:
 tests written in \ourDSL can be viewed as a sort of testable specification,
@@ -111,15 +111,15 @@ to \hskin{zip}.
 We also pass two symbolic expressions (line~\ref{lne:zip-input})
 specifying \hskin{zip}'s input.
 The first of these arguments
-uses a regular expression-like Kleene star \hskin|x*{n}| to build a list.
-However, unlike in traditional regular expression syntax,
-the of annotation \hskin|{n}| annotates that this kleene star must be unrolled \hskin{n} times.
+uses a regular expression-like Kleene closure \hskin|x*{n}| to build a list.
+However, unlike in a traditional regular expression,
+the Kleene closure is annotated with a label \hskin|{n}| denoting that the pattern must be matched \hskin{n} times.
 This gives us a list of length \hskin{n}.
 On each unrolling, a \textit{new} value for \hskin{x} is chosen,
 hence, we essentially end up with an arbitrary list.
 The second argument is specified as \hskin|y*{n}|,
 giving us a different list with randomly generated elements,
-also of length \hskin{y}.
+also of length \hskin{n}.
 
 We then specify the output,
 \hskin|(<(x, y)>)*{n}|.
@@ -127,10 +127,10 @@ This expression says we get a list of tuples
 of length \hskin{n},
 where the first element of the tuple (\hskin{x}) is
 from the first input list
- and the second element of the tuple (\hskin{y}) is from the second input list .
+ and the second element of the tuple (\hskin{y}) is from the second input list.
 The unrollings of the stars are synchronized,
 such that we know that the $i^{th}$ value of \hskin{x} (resp. \hskin{y}) in the input list
-must be equal to the $i^th$ value of \hskin{x} (resp. \hskin{y}) in the output.
+must be equal to the $i^{th}$ value of \hskin{x} (resp. \hskin{y}) in the output.
 We thus have a precise specification for \hskin{zip},
 in the case where the input lists are the same length.
 
@@ -156,7 +156,7 @@ expressions in the eDSL.
 \item Discussion of implementation techniques
 for the eDSL in a statically typed language (in particular, we consider Haskell.)
 Due to the need to ensure that all generated expression typecheck,
-this is non-trivial, require either a somewhat complex encoding or unsafe coercing of values (we describe the former.)
+this is non-trivial, requiring either a somewhat complex encoding or unsafe coercing of values (we describe the former.)
 
 \item An implemention of the eDSL, called \ourDSL,
 and a set of case studies,
