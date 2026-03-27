@@ -4,17 +4,17 @@ diffTest = test2 ((\x y -> toList (difference
                 (fromList x) (fromList y))))
       [ex| .* <(k, .)> .* |] [ex| .* <(k, .)> .*|]
   .== [ex| <((. /= k), .)>* |]
-(*\vspace{-0.3em}*)
+(*\vspace{-0.7em}*)
 inter1Test = test2 ((\x y -> toList (intersection
                 (fromList x) (fromList y))))
       [ex| [<(k, v1)>] |] [ex| .* <(k, v2)> .*|]
   .== [ex| [<(k, v1)>] |]
-(*\vspace{-0.3em}*)
+(*\vspace{-0.7em}*)
 inter2Test = test2 ((\x y -> toList (intersection
                 (fromList x) (fromList y))))
       [ex| [<(k,v)>] |] [ex| <((. /= k), .)>* |]
   .== [ex| [] |]
-(*\vspace{-0.3em}*)
+(*\vspace{-0.7em}*)
 splitTest = test2 ((\x y ->  let (l, r) =
     split x (fromList y) in (toList l, toList r)))
       [ex| k |] [ex| .* |] 

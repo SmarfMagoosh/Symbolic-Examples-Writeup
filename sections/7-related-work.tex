@@ -45,7 +45,6 @@ PyModel for Python~\cite{jacky2011pymodel},
 Quviq QuickCheck for Erlang~\cite{arts2008testing},
 and 
 Jsongen for json web services~\cite{benac2014jsongen}.
-
 % \mypara{White box and black box Input Selection}
 % As an alternative to property-based testing,
 % functions may be tested by selecting fixed input/output pairs to check in a test suite.
@@ -78,6 +77,11 @@ kleene stars are only allowed to repeat a single character,
 variables correspond to a single character,
 and there are no further features
 (i.e. no labeled unions or nested lists.)
+Kleene algebra with tests (KAT)~\cite{kozen1997kleene}
+is a generalization of regular expressions
+which has been applied to network program verification~\cite{anderson2014netkat}.
+The generalization is rather different than ours;
+KAT lacks any equivalent of labels, for example.
 
 Other uses of symbolic representations are further removed,
 but still worth considering.

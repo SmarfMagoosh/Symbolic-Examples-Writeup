@@ -77,13 +77,12 @@ as conversion to and from lists are common.
 
 Figure~\ref{fig:lookup-test} shows a test for the \hskin{Map} function 
 \hskin{lookup}. Here, the function 
-that we pass to \hskin{test2} is \hskin{(\x -> lookup x . fromList)} 
+that we pass to \hskin{test2} is \hskin{(\x -> lookup x . fromList)},
 of type \hskin{Int -> [(Int, Int)] -> Maybe Int}. The original 
 type definition of \hskin{lookup} is \hskin{k -> Map k a -> Maybe a}
-allowing it to look up for the key of type 
-\hskin{k} and returns the value of type \hskin{a} wrapped in a 
-\hskin{Maybe}. It returns \hskin{Nothing} if the key does not exist 
-or returns the value by wrapping it in a \hskin{Just} constructor.
+allowing it to (try to) look up the key and
+either return \hskin{Nothing}, if the key does not exist,
+or return the corresponding value by wrapping it in \hskin{Just}.
 
 Since we generate lists from symbolic expressions,
 we set up the function being tested to convert a generated list to a \hskin{Map} using the 
