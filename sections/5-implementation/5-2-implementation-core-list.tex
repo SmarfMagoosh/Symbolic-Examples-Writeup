@@ -30,7 +30,7 @@ then, we return any suffix of the list that is left over.
 
 \par To see how this all fits together, consider the(trivial) test 
 \begin{smallhskcode}
-test ((:) :: Int -> [Int] -> [Int])
+test2 ((:) :: Int -> [Int] -> [Int])
     [ex|x] [ex|y*{z}|] .== [ex|x y*{z}|]
 \end{smallhskcode}
 where \hskin{(:)} is Haskell's list cons constructor.
