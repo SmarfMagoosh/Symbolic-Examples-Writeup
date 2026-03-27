@@ -44,7 +44,7 @@
       $\inference
          [\StarBaseTrans]
          {\hastype{x}{\base} & x \translate x'}
-         {x*\{\lab\} \translate [x']*_{\lab}}$
+         {x*\{\lab\} \translate (x' \cons \nil)*_{\lab}}$
       $\inference
          [\StarTrans]
          {\hastype{x}{[\complex]} & x \translate x'}

@@ -26,13 +26,13 @@ We assume the language additionally contains
 other (possibly user defined) data constructors,
 each of which may be applied to some number of arguments,
 $D\usp\vec{\expr}$.
+
 DSL compilation, $\compileDSL{\surface}$,
 and tests, $f\usp\vec{\core} \testEq \core$,
-really represent functions we implement in the host language to interface with the eDSL.
+represent functions we implement in the host language to interface with the eDSL.
 DSL compilation, $\compileDSL{\surface}$ translates the surface language expression
 $\surface$ into a corresponding core language expression $\core$.
 (This translation is described in Section~\ref{subsec:the-surface-language}.)
-
 A test $f\usp\vec{\core_1} \testEq \core_2$,
 takes a host language function $f$,
 a list of (core) symbolic expressions $\vec{\core_1}$ corresponding to
@@ -68,6 +68,12 @@ and
 $xs$ corresponds to some suffix of $e_{\mathit{out}}$ that could not be validated.
 
 We now consider generation and validation in depth.
-Section~\ref{sec:mappings}
-introduces key \bill{mappings} that we use throughout,
-Section~\ref{}\bill{...}
+Sections~\ref{subsec:the-core-language} and~\ref{sec:mappings}
+introduce the core language over which generation and validation work,
+and introduce key parameters used during generation and validation.
+Section~\ref{subsec:generation-rules}
+describes how we generate random values,
+and Section~\ref{subsec:validation-rules}
+describes how we validate output values.
+Finally, Section~\ref{subsec:the-surface-language}
+covers how we convert the surface language into the core language.

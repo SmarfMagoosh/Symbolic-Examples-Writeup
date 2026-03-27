@@ -37,8 +37,7 @@ can only generate exactly that literal.
 handles binding of a new label,
 $(\lab \Longleftarrow p(args, \lab)) \mapsto e$.
 To do this,
-it repeatedly generates arbitrary values of the appropriate type
-\bill{how do we know appropriate type?},
+it repeatedly generates arbitrary values of the appropriate type,
 until it finds a value that satisfies the constraint $p(args, \lab)$.
 Once such a value is found,
 the label is bound and returned in a new environment,
@@ -56,7 +55,7 @@ value of $\lab$,
 hence getting us an (indirectly) non-deterministic choice.
 
 \mypara{Kleene Closure}
-\RuleStar handles kleene closures, $r*_\lab$.
+\RuleStar handles Kleene closures, $r*_\lab$.
 To do this, it looks up $\envget{\lab} = n$ in the environment,
 and then recursive applies \gens to generate $n$ lists that match $r$,
 i.e.
@@ -69,6 +68,6 @@ by, on each iteration, setting the label \lab to point to the current iteration 
 
 \mypara{Apply}
 \RuleApply allows data constructors to be applied to symbolic expression arguments.
-To do this, the Apply constructor must have a function, 
-and list of symbolic expressions representing the arguments such that when the arguments are used to generate values, 
-the functions can be applied to those values in order to produce an output.
+To do this, all symbolic expressions representing the arguments
+must be used to generate values.
+The data constructor can then be applied to those values in order to produce an output.

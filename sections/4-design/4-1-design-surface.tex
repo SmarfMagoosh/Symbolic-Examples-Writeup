@@ -30,9 +30,9 @@ rather than the explicit \cons and \concat of the core language.
 The surface-to-core translation is split into three phases.
 The first phase rewrites the surface language to a subset of the surface language,
 in which we have only
-labeled features (no unlabeled features),
+labeled features,
 and
-all labels have associated predicates.
+all labels have associated constraints.
 The second phase rewrites this subset of the surface language to the core language syntax.
 Finally, the third phase rewrites the core language syntax
 to ensure all labels are explicitly bound.
@@ -43,8 +43,9 @@ We define the first translation phase as a relation $\translateOne$,
 where $\surface_1 \translateOne \surface_1$ denotes
 that the expression $\surface$ is translated to the surface language expression $\surface_2$. 
 Figure~\ref{fig:translation-rules-phase1}
-shows \bill{a selection of?} the rules
-used in the phase 1 translation.
+shows the rules
+used in the phase 1 translation
+(excluding rules which simply recurse on the syntax.)
 % Besides the difference in the representation of lists,
 % many features of the core language closely resemble the core language--
 % we have labels, as well as labeled unions, labeled kleene closures, and labeled bindings, for instance.
@@ -63,10 +64,10 @@ Similarly, fresh labels are introduced and bound to each unlabeled union and kle
 by rules \UnlabelledUnionTrans and \UnlabelledStarBaseTrans, respectively.
 
 Phase 1 also translates
-labels that do not have predicates into
-labels with predicates
+labels that do not have constraints into
+labels with constraints
 via the \AssignmentNoPredTrans and \DotNoPredTrans rules.
-It does this by simply setting such predicates to $True$,
+It does this by simply setting such constraints to $True$,
 which is trivially satisfied by any value.
 
 
@@ -89,7 +90,7 @@ for instance \texttt{[5 6] [7] [8 9]} represents the nested list $[[5, 6], [7], 
 The rules \ConcatBaseTrans, \ConcatConsTrans,\ConcatSnocTrans, and \ConcatTrans implement this.
 They rely on examining the type of the left and right expressions $\surface_1\;\surface_2$ in a sequence.
 In the case that both $\surface_1$ and $\surface_2$
- both have type $[\type]$,
+have type $[\type]$,
 \ConcatTrans concatenates the two lists into a single list with type $[\type]$.
 If $\surface_1$ has type \type and $\surface_2$ has type $[\type]$,
 then  \ConcatConsTrans says that $\surface_1$ is cons-ed onto the list $\surface_2$.
@@ -118,7 +119,7 @@ kleene stars,
 by simply translating $x \translate x'$ and then returning $x'*_{\lab}$.
 \StarBaseTrans translates stars $x*\{\lab\}$ where $x$ is a base type,
 and works by translating of $x$ to $x'$, and then wrapping $x'$ in a list in the star,
-$[x']*_{\lab}$.
+$(x' \cons \nil)*_{\lab}$.
 
 \mypara{Phase 3}
 Phrase 3 ensures that all labels have explicit bindings,

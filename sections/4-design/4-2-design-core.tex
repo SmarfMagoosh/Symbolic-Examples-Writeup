@@ -29,9 +29,9 @@ Finally, we require that all labels are explicitly introduced by a binding
 this might be an expression for a previous argument,
 for example)
 before being used.
-In Section~\bill{???},
-we will show how we translate the (more flexible) surface language
-to satisfy the rules of the (more restrictive) core language.
+% In Section~\bill{???},
+% we will show how we translate the (more flexible) surface language
+% to satisfy the rules of the (more restrictive) core language.
 
 \mypara{Scoping}
 In considering scoping, we must keep in mind that we typically have
@@ -91,20 +91,20 @@ On the other hand, if $c'$ was
 ((x y) |_a (y y)*_b) |_z []
 \]
 this would not be allowed,
-as $\kub{c, y} = \{a, b\} \not\subseteq \{a, z\} = \kuv{c'}{y}$
+as $\kub{c}{y} = \{a, b\} \not\subseteq \{a, z\} = \kuv{c'}{y}$
 
 \input{sections/figures/type-language}
 \mypara{Typing}
 Figure~\ref{fig:the-type-language-grammar}
-shows a small language for types \type
+shows a small language for types \type.
 We distinguish between \textit{base types}, \base,
 which represent arbitrary types from the host language,
 and \textit{list types}, $[\tau]$.
 Figure~\ref{fig:the-type-language-rules}
 shows a subset of the typing rules.
-The core language really desribes the ability to generate (or match to) lists,
+The core language describes the ability to generate (or match to) lists,
 as such,
-the typing rules are really giving the type of a list generatable from the expression.
+the typing rules are thus giving the type of a list generatable from the expression.
 \tyunion
 states that a union type must choose between two values of the same type.
 \tystar says that a Kleene closure must be applied

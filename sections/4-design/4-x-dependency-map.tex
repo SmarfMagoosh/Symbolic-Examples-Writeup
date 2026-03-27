@@ -81,7 +81,7 @@ The path is a set of label-to-int mappings that tracks
 the current values assigned by Kleene closures during runtime
 of either generation or validation.
 On first entering a Kleene closure $r*_\lab$,
-$\lab \rightarrow 1$ is entered into the path.
+$\lab \rightarrow 0$ is entered into the path.
 On each successive iteration, this mapping is incremented.
 
 \mypara{Environment}
@@ -96,7 +96,7 @@ given some path and dependency map
 (because \deps is always the same for any given symbolic expression,
 we omit it in future sections to reduce syntactic clutter.)
 The way this works is that
- vwe filter out all variables from the
+we filter out all variables from the
 in the path that are not in the \lab's dependencies.
 This then gives us a $\pathvar'$ which contains only the
 relevant context for the label,
