@@ -1,19 +1,19 @@
 \section{Implementation}
-% \input{sections/figures/test2-eq}
-We implement our approach to property based testing
+\input{sections/figures/test2-eq}
+We implement our property-based testing approach
 in \ourDSL, an eDSL for Haskell.
 The eDSL provides functions \hskin{testN}
 (for $N$ from 1 to 6)
 to run a function with $N$ arguments
 on $N$ expression specified by symbolic expressions,
 and check if the value returned can be validated by another symbolic expressions.
-(Examples of what this looks like are shown earlier in the
-paper, in Figures~\bill{where?}.)
+(Examples of this are shown earlier in the
+paper, in Figure~\ref{fig:zip-test}, for example.)
 
 We now briefly consider the details of how this works.
 We will consider \hskin{test2} in particular
 (the other \hskin{testN} functions are similar.)
-The type of \hskin{test2} is shown in Figure~\ref{fig:test2-eq}
+The type of \hskin{test2} is shown in Figure~\ref{fig:test2-eq}.
 Understanding this type requires an understanding of GADTs and TypeFamilies,
 two advanced type features in Haskell.
 (Note \ourDSL can be \textit{used} without an understanding of GADTs, type families,

@@ -15,14 +15,14 @@ is that
 $\valinp xs \gennedby e \gennedarrow ys, \valout$
 says that there is some $xs'$ such that $xs = xs' :++ ys$,
 and $xs'$ matches the symbolic expression $e$.
-This allows ``chaining'' together validation steps:
-to check if some concrete list $xs$ matches a regular
-expression $(r_1 \concat r_2) \concat r_3$,
-we would first check if, for some $ys$
-$\valinp xs \gennedby r_1 \concat r_2 \gennedarrow ys, \valout$,
-and then pass $ys$ to $r_3$,
+This allows ``chaining'' together validation steps.
+For example, consider checking if some concrete list $xs$ matches a symbolic expression
+$(r_1 \concat r_2) \concat r_3$.
+We would first check if, for some $ys$
+$\valinp xs \gennedby r_1 \concat r_2 \gennedarrow ys, \valout$.
+We would then pass $ys$ to $r_3$,
 $(\env', \pathvar, \predtrack') ys \gennedby r_3 \gennedarrow zs,( \env'', \predtrack'')$.
-We would then know the match on $(r_1 \concat r_2) \concat r_3$ succeeded as a whole
+Finally, we would then know the match on $(r_1 \concat r_2) \concat r_3$ succeeded as a whole
 if and only if $zs$ is the empty list--
 \textit{every value} of $xs$ was matched to the symbolic expression,
 with no suffix left over.
@@ -58,7 +58,7 @@ the constraint store works as a map on variable names and the path
 (filtered by the dependency map.)
 We use identical syntax for lookups and insertions to the syntax we use for the environment.
 
-Unfortunately, it is not possible to use consume to get the values of the arguments
+Unfortunately, it is not possible to use \gennedby to get the values of the arguments
 that must be passed to the predicate,
 as there are no corresponding expressions in the host language list being validated.
 To get around this when validating, we impose a syntactic condition on constraint arguments that
@@ -108,7 +108,8 @@ $(\lab \Longleftarrow p(args, \lab)) \mapsto e$
 but does not really do an assignment,
 as this will be handled when we use the variable \lab.
 This is because we want to put off assigning variables
-in order to better align them to the concrete expression via, i.e. \ValidateVarTwo.
+in order to better align them to the concrete expression
+(we will see how this works shortly when discussing \ValidateVarTwo.)
 Also as discussed above though,
 we apply generation \gens to all the arguments $args$,
 obtaining values $args'$
@@ -120,7 +121,7 @@ that value satisfies the constraint.
 \ValidateVarOne and \ValidateVarTwo
 handle matching labels, $v \gennedby \lab$.
 \ValidateVarOne applies if the label being matched
-is contained is already in the environment--
+is already in the environment--
 in this case,
 the rule checks that $\envget{\label}$ is indeed $v$.
 \ValidateVarTwo allows a label $\lab$ that is not the environment
@@ -159,7 +160,7 @@ depending on whether \lab is bound in the environment.
 \ValidateStarSolve handles the case where
 the label is not bound.
 Given a concrete list $xs$
-and the symoblic expression $r*_\lab$,
+and the symbolic expression $r*_\lab$,
 the rule
 allows matching $r$ against $x$
 some arbitrary number $n$ times,
