@@ -19,9 +19,11 @@ two advanced type features in Haskell.
 (Note \ourDSL can be \textit{used} without an understanding of GADTs, type families,
 or the details of how the \hskin{testN} works--
 this section is providing an ``under the hood'' look at how the eDSL works internally.)
-We first provide a brief overview of
+We also use QuasiQuoters to allow specifying symbolic expressions.
+We first discuss our urse of Quasiquoters.
+Then we provide a brief overview of
 GADTs and Type Families~\cite{sulzmann2007system},
-and then elaborate on how they are used in \ourDSL.
+and elaborate on how they are used in \ourDSL.
 
 
 \input{sections/5-implementation/5-x-implementation-quasiquoter.tex}
