@@ -60,6 +60,7 @@ should be missing, and all other elements should be present,
 % and accepting extra arguments that we can randomly generate to construct them.
  
 \input{sections/figures/case-study-lookup-ex.tex}
+\input{sections/figures/further-case-studies}
 
 \mypara{Map} \label{subsec:case-studies-map}
 To test the effectiveness of \ourDSL with other data structures, 
@@ -114,6 +115,13 @@ matching the output symbolic expression.
 % expression in the mentioned way, make sure the input 
 % list contains only one such key-value pair.
 
+Figure~\ref{fig:additional-map} shows additional
+tests for \hskin{Map} functions which compute intersection and difference on keys,
+as well as the function \hskin{split k m},
+which divides \hskin{m} into a \hskin{Map} of keys smaller than \hskin{k}
+and a \hskin{Map} of keys larger than \hskin{k}
+(keys that are exactly \hskin{k} are not in either \hskin{Map}.)
+
 \input{sections/figures/case-study-uf.tex}
 \mypara{Union-Find}
 We further tested \ourDSL on a union-find data structure,
@@ -135,26 +143,37 @@ For example, if after initializing a union-find the operations \hskint{union 1 1
 The test above shows a function taking two integer inputs that are not equal. 
 The third parameter takes a two dimensional list representing a union find. It is an arbitrary set containing \hskin{x} and an arbitrary set containing y, with any number of arbitrary sets between and around them. The output shows \hskin{x} and \hskin{y} in the same set, having been unioned together.
 
-\par Since the output contains many dots, we call this a partially specific test, in that while certain properties of the output are known, namely \hskin{x} and \hskin{y} being in the same set, the exact value of the output is not entirely clear.
+% \par Since the output contains many dots, we call this a partially specific test, in that while certain properties of the output are known, namely \hskin{x} and \hskin{y} being in the same set, the exact value of the output is not entirely clear.
 
-\subsection{Threats to Validity}
+\mypara{Threats to Validity}
 
-\mypara{Internal Validity}
-The primary limitation of \ourDSL is its inability to reference label's outisde of its current evaluation context.
-In other words, if it is working with the expression \hskin|x*{y}|, 
-then it only ever has access to one value for $x$ which is determined by the context of $y$. 
-This makes it impossible to consider permutations of \hskin|x*{y}|, find the minimum $x$ generated, or determine if there are duplicate $x$ values.
-These issues caused significant problems when writing tests for \hskin{Data.Map} since we couldn't ensure uniqueness in the key sets or account for
-the fact that converting the map to the list might change the order of the tuples around.
+\textit{Internal Validity}
+A primary limitation of \ourDSL is its inability to reference label's outside of its current evaluation context.
+In other words, when working with the expression \hskin|x*{y}|, 
+\ourDSL only has access to one value for $x$, determined by the value of $y$.
+This does not stop us from writing many useful tests
+for a variety of data structures, but does make it hard or impossible to (usefully)
+test certain functions (\hskin{sort}, for example.)
+While we considered three data structures, and were able to write useful tests for some functions in all of them,
+it is possible the library could be less applicable to other data structures.
+% This makes it impossible to consider permutations of \hskin|x*{y}|, find the minimum $x$ generated, or determine if there are duplicate $x$ values.
+% A problem when writing tests for certain functions in \hskin{Data.Map}
+% was that we couldn't ensure uniqueness of \textit{all} keys being inserted or account for
+% the fact that converting the map to the list might change the order of the tuples around.
 
-\mypara{External Validity}
-The reason \ourDSL works so well in Haskell is because Haskell has several features;
-GADTs, type level functions, and QuasiQuotations; that allow us to
-to do preprocessing during compilation to help catch errors faster.
-While these features aren't very common to have in other programming languages,
-these other languages will usually have a way to get around that. For example in a 
+\textit{External Validity}
+\ourDSL benefits from several features of Haskell:
+GADTs, type level functions, and QuasiQuotations.
+% that allow us to
+% to do preprocessing during compilation to help catch errors faster.
+While these features are not universally accessible in other programming languages,
+we believe the overall approach of \ourDSL could still be adapted for many other languages.
+For example, in a 
 dynamically-typed language like Python, it would be impossible to tell if a symbolic expression is well formed before runtime.
-At the same time however, its unnecessary to check anything before runtime since Python's philosophy is to keep running until
-something forces it to crash. This means that \ourDSL could be implemented in a language like Python its just that most of the
-compile time errors we get in Haskell would be runtime errors instead. We could achieve similar results in statically typed languages
-such as Java via type casting and proper error handling with try-catch blocks.
+At the same time, it seems unnecessary to check anything before runtime, since dynamic typings overall philosophy is to keep running until
+something forces it to crash.
+This means that \ourDSL could be implemented in a dynamically types language
+with all
+compile time errors shifted runtime errors instead.
+We could achieve similar results in a (different) statically typed languages
+via type casting and proper error handling with try-catch blocks.

@@ -1,0 +1,25 @@
+\begin{figure}
+\begin{smallhskcode}
+diffTest = test2 ((\x y -> toList (difference
+                (fromList x) (fromList y))))
+      [ex| .* <(k, .)> .* |] [ex| .* <(k, .)> .*|]
+  .== [ex| <((. /= k), .)>* |]
+
+inter1Test = test2 ((\x y -> toList (intersection
+                (fromList x) (fromList y))))
+      [ex| [<(k, v1)>] |] [ex| .* <(k, v2)> .*|]
+  .== [ex| [<(k, v1)>] |]
+
+inter2Test = test2 ((\x y -> toList (intersection
+                (fromList x) (fromList y))))
+      [ex| [<(k,v)>] |] [ex| <((. /= k), .)>* |]
+  .== [ex| [] |]
+
+splitTest = test2 ((\x y ->  let (l, r) =
+    split x (fromList y) in (toList l, toList r)))
+      [ex| k |] [ex| .* |] 
+  .== [ex| <(<((. < k), .)>*, <((. > k), .)>*)> |]
+\end{smallhskcode}
+\caption{Additional Map Tests}
+\label{fig:additional-map}
+\end{figure}
