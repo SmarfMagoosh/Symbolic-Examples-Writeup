@@ -59,6 +59,7 @@
 
 \newcommand{\kub}[2]{\ensuremath{\mathit{ku}_b}(#1, #2)\xspace}
 \newcommand{\kuv}[2]{\ensuremath{\mathit{ku}_v}(#1, #2)\xspace}
+\newcommand{\tool}{SymCheck\xspace} 
 
 % Inputs and Outputs
 \newcommand{\inp}{(\env, \pathvar) \;}                          % input
@@ -93,7 +94,7 @@
 \newcommand{\ccons}{\ensuremath{::}\xspace}
 \newcommand{\concat}{\ensuremath{:++}\xspace}
 \newcommand{\foldconcat}[1]{\ensuremath{\mathit{concat}(#1)}\xspace}
-\newcommand{\dc}[1]{\ensuremath{D}\xspace}
+\newcommand{\dc}[1]{\ensuremath{D}\usp\xspace}
 
 % host language
 \newcommand{\compileDSL}[1]{\ensuremath{\llbracket #1 \rrbracket}\xspace}
@@ -107,6 +108,12 @@
 \newcommand{\rulename}[1]{{{\footnotesize{\textsc{#1}}}}\xspace}
 
 \newcommand{\ruletest}{\rulename{Test}}
+
+% Types
+\newcommand{\tyunion}{\rulename{Ty-Union}}
+\newcommand{\tystar}{\rulename{Ty-Kl}}
+\newcommand{\tycons}{\rulename{Ty-Cons}}
+\newcommand{\tybind}{\rulename{Ty-Bind}}
 
 %Translation Phase 1
 \newcommand{\UnlabelledStarBaseTrans}{\rulename{T1-Kl}}

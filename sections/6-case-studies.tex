@@ -1,0 +1,31 @@
+\section{Case Studies}
+
+In this section, we discuss some case studies that we performed on
+Haskell's libaries. We collected 25 functions from \hskin{Data.List}
+and 10 frunctions from \hskin{Data.Map} library to test (\abha{what?})
+
+\subsection{Data.List}
+\input{sections/figures/case-study-list-ex.tex}
+Figure~\ref{fig:list-append-ex} presents the test used to generate 
+input-output examples for the \hskin{append} function from \hskin{Data.List}. 
+Here, \hskin{test2} acts as a higher-order function, taking four arguments: 
+(1) the function to test, (2) a symbolic expression for its first argument, 
+(3) a symbolic expression for its second argument, 
+and (4) a symbolic expression for the expected output.  
+
+In the append example, the first argument to test2 is \hskin{(++)}, which is 
+the list concatenation function of type \hskin{[Int] -> [Int] -> [Int]}. 
+The second argument, \hskin;[ex| b*{a} |];, is the core expression for the 
+first input to \hskin{(++)}, generating a random list of integers of length a. 
+Similarly, the third argument \hskin;[ex| d*{c} |]; generates a random list 
+of integers of length c. Lastly, the symbolic expression \hskin;[ex| b*{a} d*{c} |]; 
+stands for the concatenated output of these two lists. 
+
+\tool generates random inputs for input symbolic expressions and 
+runs the \hskin{(++)} with those inputs. 
+It then compares the output against the output symbolic expression. 
+
+\mypara{Higher-order functions}
+
+\subsection{Data.Map}
+\input{sections/figures/case-study-lookup-ex.tex}

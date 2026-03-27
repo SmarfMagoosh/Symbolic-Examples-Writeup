@@ -1,0 +1,13 @@
+\begin{figure}
+    \begin{hskcode}
+        lookupTest :: TestResult
+        lookupTest = test2
+            ((\x -> lookup x . fromList))
+            [ex| k |]
+            [ex| <((. /= k), .)>* <(k,v -> v)> <((. /= k), .)>* |] 
+            .==
+            [ex| <Just v> |]
+    \end{hskcode}
+    \caption{\hskin{lookup} test in \tool}
+    \label{fig:lookup-test}
+\end{figure}

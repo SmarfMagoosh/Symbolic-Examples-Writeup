@@ -1,10 +1,38 @@
 \begin{figure}
+\begin{subfigure}[t]{1\linewidth}\small
 \begin{center}
     \begin{align*}
         \mathit{\type} & \to \base && \text{Base type}    \\
             & \OR [\tau] && \text{List of $\tau$}    \\
     \end{align*}
-    \caption{Types \bill{Not sure where we want to first talk about this}}
-    \label{fig:the-type-language}
+\caption{Types Grammar}
+\label{fig:the-type-language-grammar}
 \end{center}
+
+\end{subfigure}
+\begin{subfigure}[t]{1\linewidth}\small
+\begin{center}
+$\inference
+    [\tyunion]
+    {\hastype{\core_1}{\type} & \hastype{\core_2}{\type}}
+    {\hastype{\core_1 |_{\lab}\core_2}{\type}}$
+$\inference
+    [\tystar]
+    {\hastype{\core}{[\type]}}
+    {\hastype{\core*_{\lab}}{[\type]}}$
+$\inference
+    [\tycons]
+    {\hastype{\core_1}{\type} & \hastype{\core_2}{[\type]}}
+    {\hastype{\core_1 \cons \core_2}{[\type]}}$
+$\inference
+    [\tybind]
+    {\hastype{\core}{\type}}
+    {\hastype{(\lab \Longleftarrow b) \asgnarrow \core}{\type}}$
+\end{center}
+\caption{Subset of typing rules}
+\label{fig:the-type-language-rules}
+\end{subfigure}
+
+\caption{Types}
+\label{fig:the-type-language}
 \end{figure}
