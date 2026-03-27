@@ -5,12 +5,47 @@
 zipTest = test2 "zip complete"
     (zip :: [Int] -> [Int] -> [(Int, Int)])
         [ex| x*{n}(.* |{b} []) |] (* \label{lne:comp-zip-input1} *)
-        [ex| y*{n}([] |{b} .*) |]           (* \label{lne:comp-zip-input2} *)
-  .== [ex| (<(x, y)>)*{n} |]                     (* \label{lne:comp-zip-out} *)
+        [ex| y*{n}([] |{b} .*) |] (* \label{lne:comp-zip-input2} *)
+  .== [ex| <(x, y)>*{n} |]                     (* \label{lne:comp-zip-out} *)
 \end{hskcode}
 \caption{A complete \hskin{zip} test in \ourDSL}
 \label{fig:zip-complete-test}
 \end{figure}
+\ourDSL performs tests in 2 phases; the generation phase and the validation phase.
+During the generation phase, it uses the expressions for the inputs of function to generate inputs for it.
+During the validation phase, it checks if the expression for the output matches the computed output from the testing function.
 
+\mypara{Generation Phase} 
+Firstly, \ourDSL generates a value from the first symbolic expression \code{[ex| x*{n}(.* |{b} []) |]}.
+When it sees \code{x*\{n\}} it generates a random value for $n$, 
+then generates a random value for $x$ $n$ times and puts all values in a list. 
+For example it may say $n=2$ and then $x_1=1$, $x_2=5$, so that \code{x*\{n\}} generates the value \code{[1, 5]}.
+Then it will generate a value for \code{[] |\{b\} .*} and concatenate the generated value to the last result.
+For a labelled union, it will generate a value and, based on the parity, generate a value from the left or right hand side.
+Suppose we get $b=0$, it would then generate the left hand side which just gives us the empty list.
+Now it concatenates to get the final result of \code{[1, 5] \concat [] = [1, 5]}.
+After generating the value for the first expression it repeats the process for the second expression; \code{y*{n}([] |{b} .*)}.
+Since $n$ and $b$ were already assigned the value in the previous expression, those values are reused in this expressions. 
+So all it has to do is generate a value for $y$ 2 times; $y_1=4$, $y_2=6$. 
+For the second half, we generate value from \code{.*} since that's on the left hand side of the union.
+The expression \code{.*} just generates a random value a random amount of times as a list, \code{[8, 3]} for instance.
+This gives us the final result of \code{[4, 6] \concat [8, 3] = [4, 6, 8, 3]}
+The final step of the generation phase is to apply the testing function to those argument, 
+\codeln{zip [1, 5] [4, 6, 8, 3] = [(1, 4), (5, 6)]}
+That result gets passed to the validator for phase 2.
 
-Figure~\ref{fig:zip-complete-test}
+\mypara{Validation Phase}
+Now that \ourDSL has computed an output from random inputs, 
+it has to check if it is possible that the symbolic expression for the output could generate the computed value.
+Any values assigned to labels from the inputs get carried over to the output as well.
+We start with $n=2$ from the previous expressions, 
+so we just have to match the internal expression, \code{<(x, y)>} twice to validate.
+The angle brackets indicate that the value is a data constructor applied to some arguments.
+In this case its the tuple constructor applied to $x$ and $y$.
+$x_1=1$ and $y_1=4$ so $(x_1, y_1)=(1,4)$.
+Since the value from the expression is equal to the first element of our computed list, we say that we have a match.
+When we have a match, we consume the matched portion of the input and move on to the next portion of the symbolic expression.
+$x_2=5$ and $y_2=6$ s o$(x_2, y_2)=(5, 6)$ which is the second element of our computed list.
+That's another match, so we consume and continue.
+Now that we've matched twice, we check to see if the computed output has been fully consumed.
+Since it has, we say the test was successful.
