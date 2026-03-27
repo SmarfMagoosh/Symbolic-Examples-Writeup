@@ -98,3 +98,25 @@ For example, if after initializing a union-find the operations \hskint{union 1 1
 The third parameter takes a two dimensional list representing a union find. It is an arbitrary set containing \hskin{x} and an arbitrary set containing y, with any number of arbitrary sets between and around them. The output shows \hskin{x} and \hskin{y} in the same set, having been unioned together.
 
 \par Since the output contains many dots, we call this a partially specific test, in that while certain properties of the output are known, namely \hskin{x} and \hskin{y} being in the same set, the exact value of the output is not entirely clear.
+
+\subsection{Threats to Validity}
+
+\mypara{Internal Validity}
+The primary limitation of \ourDSL is its inability to reference label's outisde of its current evaluation context.
+In other words, if it is working with the expression \hskin|x*{y}|, 
+then it only ever has access to one value for $x$ which is determined by the context of $y$. 
+This makes it impossible to consider permutations of \hskin|x*{y}|, find the minimum $x$ generated, or determine if there are duplicate $x$ values.
+These issues caused significant problems when writing tests for \hskin{Data.Map} since we couldn't ensure uniqueness in the key sets or account for
+the fact that converting the map to the list might change the order of the tuples around.
+
+\mypara{External Validity}
+The reason \ourDSL works so well in Haskell is because Haskell has several features;
+GADTs, type level functions, and QuasiQuotations; that allow us to
+to a lot of preprocessing during compilation to help catch errors faster.
+While these features aren't very common to have in other programming languages,
+these other languages will usually have a way to get around that. For example in a 
+dynamically-typed language like Python, it would be impossible to tell if a symbolic expression is well formed before runtime.
+At the same time however, its unnecessary to check anything before runtime since Python's philosophy is to keep running until
+something forces it to crash. This means that \ourDSL could be implemented in a language like Python its just that most of the
+compile time errors we get in Haskell would be runtime errors instead. We could achieve similar results in statically typed languages
+such as Java via type casting and proper error handling with try-catch blocks.
