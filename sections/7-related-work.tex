@@ -44,7 +44,7 @@ Hypothesis for Python~\cite{maciver2019hypothesis},
 PyModel for Python~\cite{jacky2011pymodel},
 Quviq QuickCheck for Erlang~\cite{arts2008testing},
 and 
-Jsongen for json web services~\cite{benac2014jsongen}
+Jsongen for json web services~\cite{benac2014jsongen}.
 
 % \mypara{White box and black box Input Selection}
 % As an alternative to property-based testing,
@@ -59,7 +59,7 @@ that generate (related) function inputs and outputs.
 Alternatively, they can be seens as abstractions or generalizations
 of the inputs themselves.
 This second view,
-of the expressions as abstractions,
+% of the expressions as abstractions,
 suggests a relation to the manipulation of symbolic program values performed
 by program analysis tools.
 The most direct link to our work
@@ -73,7 +73,7 @@ Unlike \ourDSL, these examples are used purely as an \textit{output mechanism}--
 the synthesizer asks the user if certain abstract example input/output pairs
 correspond to the function being synthesized, and the user answers yes or no.
 The abstract example language in~\cite{drachsler2017synthesis}
-is also significantly less sophisticated than ours;
+is less sophisticated than ours;
 kleene stars are only allowed to repeat a single character,
 variables correspond to a single character,
 and there are no further features

@@ -146,13 +146,12 @@ The third parameter takes a two dimensional list representing a union find. It i
 % \par Since the output contains many dots, we call this a partially specific test, in that while certain properties of the output are known, namely \hskin{x} and \hskin{y} being in the same set, the exact value of the output is not entirely clear.
 
 \mypara{Threats to Validity}
-
 \textit{Internal Validity}
-A primary limitation of \ourDSL is its inability to reference label's outside of its current evaluation context.
-In other words, when working with the expression \hskin|x*{y}|, 
+A limitation of \ourDSL is its inability to reference label's outside of its current evaluation context.
+In other words, when working with \hskin|x*{y}|, 
 \ourDSL only has access to one value for $x$, determined by the value of $y$.
 This does not stop us from writing many useful tests
-for a variety of data structures, but does make it hard or impossible to (usefully)
+for a variety of data structures, but does limit our ability to
 test certain functions (\hskin{sort}, for example.)
 While we considered three data structures, and were able to write useful tests for some functions in all of them,
 it is possible the library could be less applicable to other data structures.
@@ -166,8 +165,8 @@ it is possible the library could be less applicable to other data structures.
 GADTs, type level functions, and QuasiQuotations.
 % that allow us to
 % to do preprocessing during compilation to help catch errors faster.
-While these features are not universally accessible in other programming languages,
-we believe the overall approach of \ourDSL could still be adapted for many other languages.
+While these features are not universally accessible in other languages,
+we believe the overall approach of \ourDSL could still be adapted.
 For example, in a 
 dynamically-typed language like Python, it would be impossible to tell if a symbolic expression is well formed before runtime.
 At the same time, it seems unnecessary to check anything before runtime, since dynamic typings overall philosophy is to keep running until
