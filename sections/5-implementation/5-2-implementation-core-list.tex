@@ -16,23 +16,23 @@ The correspondence between these two allows generated values to be passed to fun
     the testing function before handing it to the validator.
 The generator function takes several arguments besides the core expression--
 the environment and the dependency map, for example-- but a (highly simplified) view of its type would be:
-\begin{hskcode}
+\begin{smallhskcode}
 generate :: Core n a -> NestedList n a
-\end{hskcode}
+\end{smallhskcode}
 We take a core expression that is supposed to produce an expression that is \hskin{n}-deep nested lists around \hskin{a}'s,
 and the return type of \hskin{NestedList n a} says that this is indeed what is produced.
 A (again, simplified) view of \hskin{validate} would be:
-\begin{hskcode}
+\begin{smallhskcode}
 validate :: NestedList n a -> Core n a -> NestedList n a
-\end{hskcode}
+\end{smallhskcode}
 we take a \hskin{NestedList n a} and attempt to validate it against the \hskin{Core n a}--
 then, we return any suffix of the list that is left over.
 
 \par To see how this all fits together, consider the(trivial) test 
-\begin{hskcode}
+\begin{smallhskcode}
 test ((:) :: Int -> [Int] -> [Int])
     [ex|x] [ex|y*{z}|] .== [ex|x y*{z}|]
-\end{hskcode}
+\end{smallhskcode}
 where \hskin{(:)} is Haskell's list con's constructor.
 Specialized to lists of \hskin{Int}s, \hskin{:} has type \hskin{Int -> [Int] -> [Int]},
 which can also be written using the \hskin{NestedList} type family as \hskin{NestedList 0 Int -> NestedList 1 Int -> NestedList 1 Int}.

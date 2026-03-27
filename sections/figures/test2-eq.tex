@@ -1,11 +1,9 @@
 \begin{figure}
-    \begin{hskcode}
-test2 :: (Symbolic a, Symbolic b, Symbolic c) => 
-      String
-   -> (NestedList n1 a -> NestedList n2 b -> NestedList n3 c)
-   -> Core n1 a -> Core n2 b -> Core n3 c
-   -> TestResult
-    \end{hskcode}
+    \begin{smallhskcode}
+test2::(Symbolic a, Symbolic b, Symbolic c) => String ->
+  (NestedList n1 a -> NestedList n2 b -> NestedList n3 c)
+  -> Core n1 a -> Core n2 b -> Core n3 c -> TestResult
+    \end{smallhskcode}
     \caption{Type signature of \hskin{test2}}
     \label{fig:test2-eq}
 \end{figure}
