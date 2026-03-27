@@ -12,7 +12,7 @@ For example, the type \hskin{[[Int]]} would be represented by \hskin{Core 2 Int}
 that computes the type that a \hskin{Core n a} would generate.
 For example, \hskin{NestedList 2 Int} reduces to \hskin{[[Int]]}.
 % A \code{Core n a} generates a \code{NestedList n a} where $n$ and $a$ have the same values as the expression that generated it.
-The correspondence between these two allows generated values to be passed to functions as arguments so that the generator can compute the output of
+The correspondence between these two allows generated values to be passed to functions so that the generator can compute the output of
     the testing function before handing it to the validator.
 The generator function takes several arguments besides the core expression--
 the environment and the dependency map, for example-- but a (highly simplified) view of its type would be:
