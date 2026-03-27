@@ -67,26 +67,25 @@ To test the effectiveness of \ourDSL with other data structures,
 we also evaluated it on functions from Haskell's \hskin{Data.Map} 
 library, which implements \hskin{Map},
 a key-value store.
-Although \ourDSL's symbolic expressions describe lists,
-this is (in many cases) not a barrier to specify tests
-for functions of other datatypes,
+Although \ourDSL's expressions describe lists,
+this is (in many cases) not a barrier to testing other datatypes,
 as conversion to and from lists are common.
-\hskin{Map} serves as an example of this strategy.
+\hskin{Map} serves as an example.
 % We selected Map because symbolic expressions in our 
 % approach can generate only lists, and \hskin{Map} provides functionality 
 % to convert between maps and lists, making it suitable for our tests.
 
 Figure~\ref{fig:lookup-test} shows a test for the \hskin{Map} function 
 \hskin{lookup}. Here, the function 
-that we are passing to \hskin{test2} is \hskin{(\x -> lookup x . fromList)} 
+that we pass to \hskin{test2} is \hskin{(\x -> lookup x . fromList)} 
 of type \hskin{Int -> [(Int, Int)] -> Maybe Int}. The original 
-type definition of \hskin{lookup} is \hskin{k -> Map k a -> Maybe a} 
-where it takes a key and a map, looks up for the key of some type 
+type definition of \hskin{lookup} is \hskin{k -> Map k a -> Maybe a}
+allowing it to look up for the key of type 
 \hskin{k} and returns the value of type \hskin{a} wrapped in a 
 \hskin{Maybe}. It returns \hskin{Nothing} if the key does not exist 
-in the Map or returns the value by wrapping it in a \hskin{Just} constructor.
+or returns the value by wrapping it in a \hskin{Just} constructor.
 
-Since we only generate lists from symbolic expressions,
+Since we generate lists from symbolic expressions,
 we set up the function being tested to convert a generated list to a \hskin{Map} using the 
 \hskin{fromList} function. The expression \hskin;[ex| k |]; generates a random key. 
 The expression \hskin;[ex| <((. /= k), .)>* <(k,v)> <((. /= k), .)>* |]; 

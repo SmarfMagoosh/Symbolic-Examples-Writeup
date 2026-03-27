@@ -1,8 +1,7 @@
 \begin{figure}
     \begin{smallhskcode}
 ufUnion = test3 (\x y -> toList . union x y . fromList)
-  [ex| x -> x |]
-  [ex| (y /= x) -> y |]
+  [ex| x -> x |] [ex| (y /= x) -> y |]
   [ex| [.*]*[ .* x .* ][.*]*[ .* y .* ][.*]* |] .== 
     [ex| [.*]*[(.* x .* y .*) | (.* y .* x .*)][.*]* |]
     \end{smallhskcode}
