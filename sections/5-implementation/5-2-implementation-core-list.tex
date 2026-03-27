@@ -12,27 +12,27 @@ For example, the type \hskin{[[Int]]} would be represented by \hskin{Core 2 Int}
 that computes the type that a \hskin{Core n a} would generate.
 For example, \hskin{NestedList 2 Int} reduces to \hskin{[[Int]]}.
 % A \code{Core n a} generates a \code{NestedList n a} where $n$ and $a$ have the same values as the expression that generated it.
-The correspondence between these two allows generated values to be passed to functions as arguments so that the generator can compute the output of
+The correspondence between these two allows generated values to be passed to functions so that the generator can compute the output of
     the testing function before handing it to the validator.
 The generator function takes several arguments besides the core expression--
-the environment and the dependency map, for example-- but a (highly simplified) view of its type would be:
-\begin{hskcode}
+the environment and the dependency map, for example-- but a (simplified) view of its type would be:
+\begin{smallhskcode}
 generate :: Core n a -> NestedList n a
-\end{hskcode}
+\end{smallhskcode}
 We take a core expression that is supposed to produce an expression that is \hskin{n}-deep nested lists around \hskin{a}'s,
 and the return type of \hskin{NestedList n a} says that this is indeed what is produced.
-A (again, simplified) view of \hskin{validate} would be:
-\begin{hskcode}
+An (again, simplified) view of \hskin{validate} would be:
+\begin{smallhskcode}
 validate :: NestedList n a -> Core n a -> NestedList n a
-\end{hskcode}
+\end{smallhskcode}
 we take a \hskin{NestedList n a} and attempt to validate it against the \hskin{Core n a}--
 then, we return any suffix of the list that is left over.
 
 \par To see how this all fits together, consider the(trivial) test 
-\begin{hskcode}
+\begin{smallhskcode}
 test ((:) :: Int -> [Int] -> [Int])
     [ex|x] [ex|y*{z}|] .== [ex|x y*{z}|]
-\end{hskcode}
+\end{smallhskcode}
 where \hskin{(:)} is Haskell's list con's constructor.
 Specialized to lists of \hskin{Int}s, \hskin{:} has type \hskin{Int -> [Int] -> [Int]},
 which can also be written using the \hskin{NestedList} type family as \hskin{NestedList 0 Int -> NestedList 1 Int -> NestedList 1 Int}.

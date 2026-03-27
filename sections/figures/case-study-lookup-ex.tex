@@ -1,10 +1,10 @@
 \begin{figure}
-    \begin{hskcode}
-        lookupTest = test2 (\x -> lookup x . fromList)
-            [ex| k |]
-            [ex| <((. /= k), .)>* <(k,v)> <((. /= k), .)>* |] .==
-                [ex| <Just v> |]
-    \end{hskcode}
+    \begin{smallhskcode}
+lookupTest = test2 (\x -> lookup x . fromList)
+  [ex| k |]
+  [ex| <((. /= k), .)>* <(k,v)> <((. /= k), .)>* |]
+        .== [ex| <Just v> |]
+    \end{smallhskcode}
     \caption{\hskin{lookup} test in \ourDSL}
     \label{fig:lookup-test}
 \end{figure}

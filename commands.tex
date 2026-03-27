@@ -14,6 +14,7 @@
 
 \newcommand{\dslname}[1]{{{\footnotesize{\textsc{#1}}}}\xspace}
 \newcommand{\ourDSL}{\dslname{SymCheck}}
+\newcommand{\symcheck}{\ourDSL}
 
 \newcommand{\code}[1]{$\texttt{#1}$}
 \newcommand{\codeln}[1]{\[\texttt{#1}\]}
@@ -254,7 +255,7 @@
         Ptr,ForeignPtr,CSize
         InPacket,Tree,Prop,TreeEq,TreeLt,Vec,
         NullTerm,IncrList,DecrList,UniqList,BST,MinHeap,MaxHeap,
-        PtrN,ByteStringN,ByteStringEq,VO,ByteStringsEq,ByteStringNE
+        PtrN,ByteStringN,ByteStringEq,VO,ByteStringsEq,ByteStringNE,ex
 	},
 	emphstyle={[2]\color{castanho_ulisses}},
 	emph=
@@ -301,6 +302,16 @@
 \lstnewenvironment{numhskcode}
                   {\lstset{style=hsksty, 
                           escapeinside={(*}{*)},
+                          numbers = left,
+                          numberstyle = \tiny\sffamily
+                          }
+                  }
+                  {}
+
+\lstnewenvironment{numsmallhskcode}
+                  {\lstset{style=hsksty, 
+                          escapeinside={(*}{*)},
+                          basicstyle=\ttfamily\footnotesize,
                           numbers = left,
                           numberstyle = \tiny\sffamily
                           }

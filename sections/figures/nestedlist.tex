@@ -1,5 +1,5 @@
 \begin{figure}
-    \begin{hskcode}
+    \begin{smallhskcode}
 type family NestedList n a where
  NestedList 0 a = a
  NestedList x a = [NestedList (x - 1) a]
@@ -8,7 +8,7 @@ data Core n a where
  Star::Label -> Ast (Core n) a -> Ast (Core n) a
  Var::Label -> Core Z a
  ...
-    \end{hskcode}
+    \end{smallhskcode}
     \caption{\hskin{NestedList} type family and \hskin{Core} GADT}
     \label{fig:nestedlist}
 \end{figure}

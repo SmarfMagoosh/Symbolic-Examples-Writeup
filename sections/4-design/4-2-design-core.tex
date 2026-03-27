@@ -3,8 +3,8 @@
 
 Figure~\ref{fig:the-core-language}
 shows the \textit{core language},
-a minimal language for symbolic expressions.
-Given what we have introduced so far,
+a minimal symbolic expression language.
+Given what we have introduced,
 much of the language is likely unsurprising--
 we have labeled unions and kleene closures,
 assignment to introduce labels,
@@ -13,14 +13,13 @@ Constructor applications
 could simply be literals,
 or could be other constructors from other types in the host language--
 we in particular consider algebraic datatypes.
-\bill{Maybe nail down a bit more.}
 
 The core language has a number of simplifications relative to the surface language.
 First, the core language has no
 unlabeled unions or Kleene closures.
 Second,
 all bindings must have a constraint
-(although trivially, the constraint may just be $\mathit{True}$.)
+(although trivially, the constraint may be $\mathit{True}$.)
 Third, the core language is more explicit about when
 elements are being cons'ed onto a list (via \cons),
 or when two lists are being concatenated together (via \concat.)

@@ -85,7 +85,6 @@ Note that we require the head to \textit{completely} match
 while the tail may pass on some elements to following pieces of the symbolic expression.
 \ValidateEmpty allows an empty symbolic expression to match on any list,
 returning the entire list as a suffix.
-\bill{Why? We might want to actually show an inference tree}
 \ValidateConcat ``non-deterministically'' splits the list $xs$
 to match to each of the two sub-expressions in $r_1 \concat r_2$,
 passing the suffix obtained from $r_1$ to the expression for $r_2$.

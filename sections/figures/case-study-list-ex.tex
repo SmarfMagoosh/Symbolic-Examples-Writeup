@@ -1,23 +1,19 @@
 \begin{figure}
     \begin{subfigure}[t]{1\linewidth}
-        \begin{hskcode}
-            appendTest = test2 (++)
-                [ex| b*{a} |] 
-                [ex| d*{c} |] .== 
-                    [ex| b*{a} d*{c} |]
-        \end{hskcode}
+        \begin{smallhskcode}
+appendTest = test2 (++)
+    [ex| b*{a} |]  [ex| d*{c} |] .== [ex| b*{a} d*{c} |]
+        \end{smallhskcode}
         \caption{\hskin{append}}
         \label{fig:list-append-ex}
     \end{subfigure}
 
 \begin{subfigure}[t]{1\linewidth}
-
-        \begin{hskcode}
-            filterTest = test2 (\x -> filter (/= x))
-                [ex| x |]
-                [ex| (x |{b} (y /= x))*{n} |] .==
-                    [ex| ([] |{b} y)*{n} |]
-        \end{hskcode}
+        \begin{smallhskcode}
+filterTest = test2 (\x -> filter (/= x))
+    [ex| x |] [ex| (x |{b} (y /= x))*{n} |]
+                    .== [ex| ([] |{b} y)*{n} |]
+        \end{smallhskcode}
         \caption{\hskin{filter}}
         \label{fig:list-filter-ex}
     \end{subfigure}
