@@ -65,7 +65,7 @@ To apply property-based testing,
 one would aim to find (expected to be true)
 properties of \hskin{zip},
 and then test those properties.
-For example, one can say that forall \hskin{xs} and \hskin{ys},
+For example, one can say that for all \hskin{xs} and \hskin{ys},
 we have that \hskin{length (zip xs ys) <= length xs}
 and \hskin{length (zip xs ys) <= length ys}.
 Perhaps more interestingly, one can also write something like
@@ -80,7 +80,8 @@ both writing and understanding properties can also be challenging,
 as it requires determining how various functions in a codebase interrelate.
 In this paper,
 we propose a specialized DSL \ourDSL
-which allows writing property-based unit tests, focused on a single function.
+which allows writing property-based unit tests, focused on a single function
+(mainly, with the exception of some necessary use of list conversion functions.)
 Once a programmer understands the language,
 the DSL allows writing tests for particular functions independently of
 other program code.
@@ -146,7 +147,7 @@ in the case where the input lists are the same length.
 \mypara{Contributions}
 In short, our contributions are as follow:
 \begin{itemize}
-\item An novel design for a property-based testing library,
+\item A novel design for a property-based testing library,
 in which an eDSL is used to specify inputs and outputs
 as \textit{symbolic expressions}.
 We define formal rules for both generating values from,

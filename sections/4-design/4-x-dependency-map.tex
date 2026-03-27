@@ -30,8 +30,8 @@ and the \textit{environment} is where we actually store the runtime values.
 % This primarily happens when a variable is declared inside a Kleene closure. 
 % However, if $b$ is referenced without $a$ being in context, it becomes ambiguous which $b$ should be used.
 To track dependencies between variables, we introduce the \textit{dependency map} $\deps$. 
-The dependency map is a mapping that keeps track of which variables runtime values
-can vary based on kleene closure labels.
+The dependency map is a mapping that keeps track of which variable's runtime values
+can vary based on Kleene closure labels.
 In the example above, $a$ doesn't depend on anything, and $b$ depends on $a$. 
 This means that it is illegal to reference $b$ unless $a$ is in the current context--
 such illegal accesses are rejected with an error.
@@ -102,24 +102,24 @@ This then gives us a $\pathvar'$ which contains only the
 relevant context for the label,
 and can be used for the lookup in the environment.
 
-\begin{example}
-Consider the expression:
-\[
-(n \Longleftarrow \mathit{True}) \mapsto ((x \Longleftarrow \mathit{True}) \mapsto x)*_n
-\]
+% \begin{example}
+% Consider the expression:
+% \[
+% (n \Longleftarrow \mathit{True}) \mapsto ((x \Longleftarrow \mathit{True}) \mapsto x)*_n
+% \]
 
-One list that could be generated from this would be $[8, 4, 17]$.
-The corresponding environment would be:
-\begin{align*}
-    \{  &(n, \{\}) \rightarrow 3, \\
-        &(x, \{ n \rightarrow 0 \}) \rightarrow 8, (x, \{ n \rightarrow 1 \}) \rightarrow 4, (x, \{ n \rightarrow 2 \}) \rightarrow 17 \}
-\end{align*}
+% One list that could be generated from this would be $[8, 4, 17]$.
+% The corresponding environment would be:
+% \begin{align*}
+%     \{  &(n, \{\}) \rightarrow 3, \\
+%         &(x, \{ n \rightarrow 0 \}) \rightarrow 8, (x, \{ n \rightarrow 1 \}) \rightarrow 4, (x, \{ n \rightarrow 2 \}) \rightarrow 17 \}
+% \end{align*}
 
-$n$ occurs outside of all kleene closures, and thus has an empty context.
-$x$ is chosen to be $8$, $4$, and $17$, respectively,
-on the $1^{st}$, $2^{nd}$ and $3^{rd}$ iterations of the unrolling of the kleene closure indexed by $n$,
-and thus has a separate value for each of these three contexts.
-\end{example}
+% $n$ occurs outside of all kleene closures, and thus has an empty context.
+% $x$ is chosen to be $8$, $4$, and $17$, respectively,
+% on the $1^{st}$, $2^{nd}$ and $3^{rd}$ iterations of the unrolling of the kleene closure indexed by $n$,
+% and thus has a separate value for each of these three contexts.
+% \end{example}
 % Since a single variable may take on multiple values in different contexts,
 % the environment really maps labels to dictionaries which map contexts to values.
 

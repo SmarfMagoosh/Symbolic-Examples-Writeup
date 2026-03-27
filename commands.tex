@@ -120,7 +120,7 @@
 \newcommand{\UnlabelledUnionTrans}{\rulename{T1-Union}}
 \newcommand{\DotWithPredTrans}{\rulename{T1-Dot-Pr}}
 \newcommand{\DotNoPredTrans}{\rulename{T1-Dot}}
-\newcommand{\AssignmentNoPredTrans}{\rulename{T1-Assign}}
+\newcommand{\AssignmentNoPredTrans}{\rulename{T1-Bind}}
 
 %Translation Phase 2
 \newcommand{\AppTrans}{\rulename{T2-App}}
@@ -135,7 +135,7 @@
 \newcommand{\StarTrans}{\rulename{T2-Kl}}
 
 
-\newcommand{\AssignmentWithPredTrans}{\rulename{T2-Assign}}
+\newcommand{\AssignmentWithPredTrans}{\rulename{T2-Bind}}
 \newcommand{\Variable}{\rulename{T2-Var}}
 \newcommand{\LitTrans}{\rulename{T2-Lit}}
 \newcommand{\EmptyTrans}{\rulename{T2-Emp}}
@@ -157,10 +157,10 @@
 \newcommand{\RuleStarEnd}{\rulename{G-KlEnd}}
 \newcommand{\RuleLiteral}{\rulename{G-Literal}}
 \newcommand{\RuleApply}{\rulename{G-Apply}}
-\newcommand{\RuleAssign}{\rulename{G-Assign}}
+\newcommand{\RuleAssign}{\rulename{G-Bind}}
 
 %Validation
-\newcommand{\ValidateAssignment}{\rulename{V-Assign}}
+\newcommand{\ValidateAssignment}{\rulename{V-Bind}}
 \newcommand{\ValidateCons}{\rulename{V-Cons}}
 \newcommand{\ValidateConcat}{\rulename{V-Cat}}
 \newcommand{\ValidateEmpty}{\rulename{V-Emp}}

@@ -109,7 +109,7 @@ as this will be handled when we use the variable \lab.
 This is because we want to put off assigning variables
 in order to better align them to the concrete expression
 (we will see how this works shortly when discussing \ValidateVarTwo.)
-Also as discussed above though,
+Also as discussed above,
 we apply generation \gens to all the arguments $args$,
 obtaining values $args'$
 and we store $p(args')$ in the constraint store.
@@ -122,11 +122,11 @@ handle matching labels, $v \gennedby \lab$.
 \ValidateVarOne applies if the label being matched
 is already in the environment--
 in this case,
-the rule checks that $\envget{\label}$ is indeed $v$.
+the rule checks that $\envget{\lab}$ is indeed $v$.
 \ValidateVarTwo allows a label $\lab$ that is not the environment
 to match a value $x$.
 To do this, it looks up \lab along the current path in the constraint store,
-$p = \predtrack_\pathvar(\lab)$ and applies this check to the possible assignment to lab,
+$p = \predtrack_\pathvar(\lab)$ and applies this check to the possible assignment to \lab,
 $p(x)$.
 If the constraint is satisfied,
 the value is inserted in the environment to ensure that

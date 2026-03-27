@@ -59,12 +59,14 @@ hence getting us an (indirectly) non-deterministic choice.
 To do this, it looks up $\envget{\lab} = n$ in the environment,
 and then recursive applies \gens to generate $n$ lists that match $r$,
 i.e.
-$\forall 1 \leq i \leq n . (\env_{i - 1}, \envput{\pathvar}{\lab}{i}) r \gens xs_i, \env_i$.
+$\forall 0 \leq i < n . (\env_{i}, \pathput{\lab}{i}) r \gens xs_i, \env_{i + }$.
 Note that (1) the environment is threaded through all these calls,
 to ensure that we record all variable bindings performed within each regular expression
 and (2) as covered in our description of the path in Section~\ref{sec:mappings},
 this is the one place in the rules where we \textit{modify} the path,
 by, on each iteration, setting the label \lab to point to the current iteration count $i$.
+The lists returned by all iterations of the Kleene closure are concatenated (via a \textit{concat} function)
+into a single list.
 
 \mypara{Apply}
 \RuleApply allows data constructors to be applied to symbolic expression arguments.

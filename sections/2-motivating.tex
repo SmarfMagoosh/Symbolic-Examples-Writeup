@@ -130,7 +130,7 @@ so $(x, y)=(1,4)$.
 Since the value from the expression is equal to the first element of our computed list, \ourDSL concludes that there is a match.
 \ourDSL consumes the matched portion of the input and moves on to the next iteration of the Kleene closure where $n=1$.
 We now have, $x=5$ and $y=6$ so $(x, y)=(5, 6)$ which is the second element of our computed list.
-As this is another match, so we consume and continue.
+As this is another match, we consume this value and continue.
 Now that we've exhausted the symbolic expression since $n=2$ and \ourDSL has
 matched twice, we check to see if the computed output has been fully consumed
 as well. Since it has, we say the test was successful.
