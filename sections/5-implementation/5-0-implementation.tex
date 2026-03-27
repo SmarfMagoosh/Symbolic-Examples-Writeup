@@ -10,16 +10,15 @@ and check if the value returned can be validated by another symbolic expressions
 (Examples of this are shown earlier in the
 paper, in Figure~\ref{fig:zip-test}, for example.)
 
-We now briefly consider the details of how this works.
-We will consider \hskin{test2} in particular
+We now consider how this works,
+ considering \hskin{test2} in particular
 (the other \hskin{testN} functions are similar.)
 The type of \hskin{test2} is shown in Figure~\ref{fig:test2-eq}.
 Understanding this type requires an understanding of GADTs and TypeFamilies,
 two advanced type features in Haskell.
 (Note \ourDSL can be \textit{used} without an understanding of GADTs, type families,
 or the details of how the \hskin{testN} works--
-this section is providing an ``under the hood'' look at how the eDSL works internally,
-not essential information for using the DSL.)
+this section is providing an ``under the hood'' look at how the eDSL works internally.)
 We first provide a brief overview of
 GADTs and Type Families~\cite{sulzmann2007system},
 and then elaborate on how they are used in \ourDSL.

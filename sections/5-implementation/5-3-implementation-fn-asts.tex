@@ -8,7 +8,7 @@ The FnType is parametrized with $\mathit{args}$ and $r$ where $\mathit{args}$ is
 the depths and root element type of each argument in order, and $r$ is result type.
 For example, the list cons constructor has type \code{FnType [(0, Int), (1, Int)] (NestedList 1 Int)}. 
 To get its actual type, the typechecker applies the FnType rules to get \code{(NestedList 0 Int) -> (NestedList 1 Int) -> (NestedList 1 Int)}.
-Then it applies the NestedList rules to get the final computed type of \code{Int -> [Int] -> [Int]}.
+Then it applies the NestedList rules to get the final computed type of \hs{Int -> [Int] -> [Int]}.
 
 This type family is used in conjunction with the Asts List GADT (see figure~\ref{fig:astslist}) to fully realize this functionality.
 The Asts list encodes the depth an root element types of each of its elements in its own type as the type argument $\mathit{args}$.

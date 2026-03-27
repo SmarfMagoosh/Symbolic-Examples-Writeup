@@ -15,13 +15,13 @@ For example, \hskin{NestedList 2 Int} reduces to \hskin{[[Int]]}.
 The correspondence between these two allows generated values to be passed to functions so that the generator can compute the output of
     the testing function before handing it to the validator.
 The generator function takes several arguments besides the core expression--
-the environment and the dependency map, for example-- but a (highly simplified) view of its type would be:
+the environment and the dependency map, for example-- but a (simplified) view of its type would be:
 \begin{smallhskcode}
 generate :: Core n a -> NestedList n a
 \end{smallhskcode}
 We take a core expression that is supposed to produce an expression that is \hskin{n}-deep nested lists around \hskin{a}'s,
 and the return type of \hskin{NestedList n a} says that this is indeed what is produced.
-A (again, simplified) view of \hskin{validate} would be:
+An (again, simplified) view of \hskin{validate} would be:
 \begin{smallhskcode}
 validate :: NestedList n a -> Core n a -> NestedList n a
 \end{smallhskcode}
