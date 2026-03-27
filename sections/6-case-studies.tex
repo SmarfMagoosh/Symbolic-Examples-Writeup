@@ -52,8 +52,14 @@ In expression \hskin;[ex| <((. /= k), .)>* <(k,v)> <((. /= k), .)>* |];
 one might notice the angled brackets(<>), which denote data 
 constructor application. Since a map can be represented as a list of tuples,
 where \hskin{(,)} is a constructor that carries two values, 
-we need a data constructor application. So, the subexpression 
-\hskin{<((. /= k), .)>* } generates the list of key-value pair 
+we need a data constructor application. So, in the subexpression 
+\hskin{<((. /= k), .)>* } angled brackets perform \hskin{(,)}
+constructor application. Within the same sub-expression, \hskin{(. /= k)}
+is actually a predicate that generates a key which is not equal to the one 
+we are looking for. Together \hskin{<((. /= k), .)>* }
+generates the list of key-value pair 
 that does not contain key \hskin{k}. Sub-expression \hskin{<(k, v)>} 
-generate a tuple \hskin{(k,v)}. Later, the combined result of all the
-sub-expressions forms the input list.
+generate a tuple \hskin{(k,v)}. Later, the combined result of all the 
+sub-expressions forms the input list. Forming the symbolic 
+expression in the mentioned way, make sure the input 
+list contains only one such key-value pair.
