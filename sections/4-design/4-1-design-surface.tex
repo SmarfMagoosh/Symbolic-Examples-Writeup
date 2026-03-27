@@ -10,8 +10,8 @@ Figure~\ref{fig:the-surface-language}
 shows the grammar of this core language.
 
 \mypara{Features}
-Many features of the core language closely resemble the core language--
-we have labels, as well as labeled unions, labeled kleene closures, and labeled bindings, for instance.
+Many features of the surface language resemble the core language--
+for instance labels, labeled unions, labeled kleene closures, and labeled bindings.
 However, we introduce a number of additional features.
 We also have unlabeled variants on unions, closures, and bindings, in the form of the
 unlabeled union, unlabled kleene closure, and unlabeled dot ($.$) (which represents any value.)
@@ -135,9 +135,8 @@ that has not yet been given a binding.
 There are rules similar to \UnknownLabel to handle
 bindings on unions and Kleene closures.
 Other rules
-simply recursively
-walk over their sub-expressions,
-\ThrCons is shown as an example of such a rule.
+simply recurse over sub-expressions,
+\ThrCons is an example of such a rule.
 
 
 

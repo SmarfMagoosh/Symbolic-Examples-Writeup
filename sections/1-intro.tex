@@ -19,11 +19,11 @@ and
 Rust~\cite{derbenwick2025property}.
 \begin{figure}
 \begin{subfigure}[t]{1\linewidth}
-\begin{hskcode}
+\begin{smallhskcode}
 zip [] _ = []
 zip _ [] = []
 zip (x:xs) (y:ys) = (x, y):zip xs ys
-\end{hskcode}
+\end{smallhskcode}
 \caption{Haskell \hskin{zip} function}
 \label{fig:zip-code}
 \end{subfigure}
@@ -39,12 +39,11 @@ zip (x:xs) (y:ys) = (x, y):zip xs ys
 % \label{fig:zip-test}
 % \end{subfigure}
 \begin{subfigure}[t]{1\linewidth}
-\begin{numhskcode}
-zipTest = test2 "zip"
-      (zip :: [Int] -> [Int] -> [(Int, Int)]) 
+\begin{numsmallhskcode}
+zipTest = test2 "zip" (zip :: [Int]->[Int]->[(Int, Int)]) 
       [ex| x*{n} |]    [ex| y*{n} |]           (* \label{lne:zip-input} *)
   .== [ex| (<(x, y)>)*{n} |]                     (* \label{lne:zip-out} *)
-\end{numhskcode}
+\end{numsmallhskcode}
 \caption{\hskin{zip} \ourDSL test}
 \label{fig:zip-test}
 \end{subfigure}
