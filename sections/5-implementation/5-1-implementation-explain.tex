@@ -18,11 +18,10 @@ in the declaration of \hskin{Nil}, we say the \hskin{Vec} has length \hskin{Zero
 in the declaration of \hskin{:>}, we take a tail of any length \hskin{n},
 and then return a \hskin{Vec} with length \hskin{Succ n}.
 
-A type family acts as a type-level function in Haskell.
-During compilation, all instances of the type family are translated into concrete types by following the translation rules
-    specified at the declaration of the type family.
-This is often helpful when working with GADTs--
-for example, an append function for \hskin{Vec}'s would need to have the type:
+A type family is a type-level function in Haskell.
+During compilation, all instances of the type family are translated into concrete types according to the function.
+This is often helpful alongside GADTs.
+An append function for \hskin{Vec}'s would need to have the type:
 \begin{smallhskcode}
     (+++) :: Vec m a -> Vec n a -> Vec (m + n) a
 \end{smallhskcode}

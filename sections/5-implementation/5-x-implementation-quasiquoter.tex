@@ -1,9 +1,10 @@
 \mypara{QuasiQuotation}
-SymCheck accepts symbolic expressions via a \textit{QuasiQuoter}. 
-A QuasiQuoter is a Haskell feature that allows adding programmer defined syntax to GHC
-(the standard Haskell compiler)~\cite{mainland2007s}.
+SymCheck accepts symbolic expressions via a \textit{QuasiQuoter},
+written \hskin{[ex| <symbolic expression> |]}. 
+In GHC
+(the standard Haskell compiler), QuasiQuoters allow adding programmer defined syntax~\cite{mainland2007s}.
 This allows users to work with textual  symbolic expressions,
 which are parsed into the core language during compilation.
-SymCheck's quasiquoter has the form \hskin{[ex| ... |]},
-where the \hskin{...} are filled in with a symbolic expression.
+% SymCheck's quasiquoter has the form \hskin{[ex| ... |]},
+% where the \hskin{...} are filled in with a symbolic expression.
 % \evan{Bill, is there anything else I need to say here? maybe about how to invoke it? the language extension? Q Exp?}

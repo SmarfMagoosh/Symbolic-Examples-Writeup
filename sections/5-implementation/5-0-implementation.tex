@@ -14,14 +14,14 @@ We now consider how this works,
  considering \hskin{test2} in particular
 (the other \hskin{testN} functions are similar.)
 The type of \hskin{test2} is shown in Figure~\ref{fig:test2-eq}.
-Understanding this type requires an understanding of GADTs and TypeFamilies,
-two advanced type features in Haskell.
+This type involves GADTs and TypeFamilies,
+two advanced Haskell type features .
 (Note \ourDSL can be \textit{used} without an understanding of GADTs, type families,
 or the details of how the \hskin{testN} works--
-this section is providing an ``under the hood'' look at how the eDSL works internally.)
+this section is providing an ``under the hood'' look at how the eDSL works.)
 We also use QuasiQuoters to allow specifying symbolic expressions.
-We first discuss our urse of Quasiquoters.
-Then we provide a brief overview of
+We first discuss our use of Quasiquoters.
+Then we discuss
 GADTs and Type Families~\cite{sulzmann2007system},
 and elaborate on how they are used in \ourDSL.
 
