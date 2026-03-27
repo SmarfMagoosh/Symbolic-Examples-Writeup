@@ -4,7 +4,7 @@ In this section, we discuss some case studies that we performed on
 Haskell's libaries. We collected 25 functions from \hskin{Data.List}
 and 10 frunctions from \hskin{Data.Map} library to test (\abha{what?})
 
-\subsection{Data.List}
+\subsection{List}
 \input{sections/figures/case-study-list-ex.tex}
 Figure~\ref{fig:list-append-ex} presents the test used to generate 
 input-output examples for the \hskin{append} function from \hskin{Data.List}. 
@@ -27,5 +27,33 @@ It then compares the output against the output symbolic expression.
 
 \mypara{Higher-order functions}
 
-\subsection{Data.Map}
+\subsection{Map}
 \input{sections/figures/case-study-lookup-ex.tex}
+To test the effectiveness of \tool with other data structures, 
+we also evaluated it on functions from Haskell's \hskin{Data.Map} 
+library. We selected Map because symbolic expressions in our 
+approach can generate only lists, and \hskin{Map} provides functionality 
+to convert between maps and lists, making it suitable for our tests.
+
+Figure~\ref{fig:lookup-test} shows an example test for a function 
+\hskin{lookup} of \hskin{Map} data structure. Here, the function 
+that we are passing to \hskin{test2} is \hskin{(\x -> lookup x . fromList)} 
+of type \hskin{Int -> [(Int, Int)] -> Maybe Int}. The original 
+type definition of \hskin{lookup} is \hskin{k -> Map k a -> Maybe a} 
+where it takes a key and a map, looks up for the key of some type 
+\hskin{k} and returns the value of type \hskin{a} wrapped in a 
+\hskin{Maybe}. It returns \hskin{Nothing} if the key does not exist 
+in the Map or returns the value by wrapping it in a \hskin{Just} constructor.
+
+Since we only generate lists from symbolic expressions, during function 
+application, we convert the \hskin{Map} to \hskin{List} using the 
+\hskin{fromList} function. The expression \hskin;[ex| k |]; generates a random key. 
+In expression \hskin;[ex| <((. /= k), .)>* <(k,v)> <((. /= k), .)>* |]; 
+one might notice the angled brackets(<>), which denote data 
+constructor application. Since a map can be represented as a list of tuples,
+where \hskin{(,)} is a constructor that carries two values, 
+we need a data constructor application. So, the subexpression 
+\hskin{<((. /= k), .)>* } generates the list of key-value pair 
+that does not contain key \hskin{k}. Sub-expression \hskin{<(k, v)>} 
+generate a tuple \hskin{(k,v)}. Later, the combined result of all the
+sub-expressions forms the input list.
