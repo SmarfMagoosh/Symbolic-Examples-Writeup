@@ -18,14 +18,23 @@ and \core to denote generic core language expressions.
 
 Figure~\ref{fig:the-host-language}
 shows a small snippet of the essential elements in the host language.
-\bill{Do we want to show data constructors here?}
 The most straightforward of these is
 standard \textit{cons-lists},
 where we write \ccons for cons and \nil for the empty list.
 We assume the language additionally contains
-other (possibly user defined) data constructors,
-each of which may be applied to some number of arguments,
+other (possibly user defined) algebraic data types,
+each with a corresponding set of data constructors
+which may be applied to some number of arguments,
 $D\usp\vec{\expr}$.
+Our formalism does not specifically handle primitive types (such as ints)
+(although our implementation does.)
+For the purpose of the formalism, 
+one can consider primitives
+as a special case of
+an ADT,
+with one constructor
+(each with no arguments)
+for each possible value.
 
 DSL compilation, $\compileDSL{\surface}$,
 and tests, $f\usp\vec{\core} \testEq \core$,
