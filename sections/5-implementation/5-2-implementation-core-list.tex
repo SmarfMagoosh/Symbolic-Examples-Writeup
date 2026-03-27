@@ -1,4 +1,4 @@
-\mypara{Core expressions and Nested Lists}
+\mypara{Core expressions and Nested Lists}\input{sections/figures/nestedlist.tex}
 Returning to the type of \hskin{test2},
 we will focus on \hskin{Core n a} and \hskin{NestedList n a}.
 A definition for the \hskin{NestedList} and a partial definition of \hskin{Core} can be seen in figure~\ref{fig:nestedlist}.
@@ -14,8 +14,8 @@ For example, \hskin{NestedList 2 Int} reduces to \hskin{[[Int]]}.
 % A \code{Core n a} generates a \code{NestedList n a} where $n$ and $a$ have the same values as the expression that generated it.
 The correspondence between these two allows generated values to be passed to functions so that the generator can compute the output of
     the testing function before handing it to the validator.
-The generator function takes several arguments besides the core expression--
-the environment and the dependency map, for example-- but a (simplified) view of its type would be:
+The generator function takes several arguments besides the core expression,
+but a (simplified) view of its type would be:
 \begin{smallhskcode}
 generate :: Core n a -> NestedList n a
 \end{smallhskcode}
@@ -57,4 +57,3 @@ from incorrect arguments to tests.
 % Through the rules of the type family function it deduces \codeln{NestedList 0 Int = Int.}
 % Since it knows $i$ is an Int it can safely pass it to the list cons function and repeat the process for the second expression.
 
-\input{sections/figures/nestedlist.tex}
