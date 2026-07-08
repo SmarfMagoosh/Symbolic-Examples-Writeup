@@ -1,10 +1,1 @@
-Must have!
-    - checking rules
-
-1. go through rules and make sure its consistent
-2. do the implementation section
-    - FnType args a
-    - Asts a
-    - Ast n a
-    - NestedList n a
-    - QuasiQuoter
+code snippet figures look like garbage!
