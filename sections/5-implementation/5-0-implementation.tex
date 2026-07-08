@@ -9,6 +9,13 @@ on inputs specified by symbolic expressions,
 and check if the value returned can be validated by another symbolic expression.
 (Examples of this are shown earlier in the
 paper, in Figure~\ref{fig:zip-test}, for example.)
+A typeclass, \hskin{Symbolic}, is provided.
+This typeclass has a single function, \hskin{symbolic}
+to generate a random value of type \hskin{a}.
+We tend to use \hskin{symbolic} only on
+fairly simple types,
+and instead use features of the symbolic expression language to build
+more complicated structures (i.e. lists.)
 
 We now consider how this works,
  considering \hskin{test2} in particular

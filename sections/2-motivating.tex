@@ -120,7 +120,9 @@ This result gets passed to the validator for phase 2.
 \mypara{Validation Phase}
 Now that \ourDSL has computed an output from random inputs, 
 it must verify that it is possible for the output symbolic expression to generate the computed value passed from the generator.
-Any values assigned to labels from the inputs get carried over to the output.
+Any values assigned to labels
+(which we also refer to as \textit{variables})
+from the inputs get carried over to the output.
 We start with $n=2$ from the previous expressions, 
 so \ourDSL must match the internal expression, \code{<(x, y)>} twice to validate the output.
 The angle brackets indicate that the value is a data constructor applied to some arguments,

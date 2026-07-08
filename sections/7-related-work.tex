@@ -44,8 +44,7 @@ Hypothesis for Python~\cite{maciver2019hypothesis},
 PyModel for Python~\cite{jacky2011pymodel},
 Quviq QuickCheck for Erlang~\cite{arts2008testing},
 and 
-Jsongen for json web services~\cite{benac2014jsongen}
-
+Jsongen for json web services~\cite{benac2014jsongen}.
 % \mypara{White box and black box Input Selection}
 % As an alternative to property-based testing,
 % functions may be tested by selecting fixed input/output pairs to check in a test suite.
@@ -59,7 +58,7 @@ that generate (related) function inputs and outputs.
 Alternatively, they can be seens as abstractions or generalizations
 of the inputs themselves.
 This second view,
-of the expressions as abstractions,
+% of the expressions as abstractions,
 suggests a relation to the manipulation of symbolic program values performed
 by program analysis tools.
 The most direct link to our work
@@ -73,11 +72,16 @@ Unlike \ourDSL, these examples are used purely as an \textit{output mechanism}--
 the synthesizer asks the user if certain abstract example input/output pairs
 correspond to the function being synthesized, and the user answers yes or no.
 The abstract example language in~\cite{drachsler2017synthesis}
-is also significantly less sophisticated than ours;
+is less sophisticated than ours;
 kleene stars are only allowed to repeat a single character,
 variables correspond to a single character,
 and there are no further features
 (i.e. no labeled unions or nested lists.)
+Kleene algebra with tests (KAT)~\cite{kozen1997kleene}
+is a generalization of regular expressions
+which has been applied to network program verification~\cite{anderson2014netkat}.
+The generalization is rather different than ours;
+KAT lacks any equivalent of labels, for example.
 
 Other uses of symbolic representations are further removed,
 but still worth considering.
