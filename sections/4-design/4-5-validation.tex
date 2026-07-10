@@ -63,8 +63,8 @@ that must be passed to the predicate,
 as there are no corresponding expressions in the host language list being validated.
 To get around this when validating, we impose a syntactic condition on constraint arguments that
 we do not impose during generation:
-a constraint argument may only contain variables that were bound
-during a previous generation step.
+a constraint argument may not contain variables that were bound
+during the validation step. Any variables using in constraint arguments must instead be declared during the generation phase.
 This allows us to \textit{deterministically} evaluate
 arguments via \gens,
 as the only non-deterministic rule for \gens is \RuleAssign.

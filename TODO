@@ -1,1 +1,3 @@
 code snippet figures look like garbage!
+add proof after validation rules
+might need to update validation rules to account for how we're currently handling predicates
