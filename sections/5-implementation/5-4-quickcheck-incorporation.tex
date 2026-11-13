@@ -1,12 +1,13 @@
 \subsection{Extending QuickCheck}
-\par Since \ourDSL's internal generator is the same as QuickCheck's, we were able to make it work as an
-    extension of QuickCheck. We accomplished this by introducing two new \textit{QuasiQuoters} that
+\par Since \ourDSL's internal generator is the same as QuickCheck's, it is usable as an
+    extension of QuickCheck. This is enabled by two further \textit{QuasiQuoters} that
     each parse in their own syntax and translate it into code that can be used in QuickCheck tests.
 
 \par The first new \textit{QuasiQuoter} we introduce is \hskin{[arb| <constructor> <type> = <symbolic expression> |]}.
-    During compilation, it reads the string and adds 2 top-level declarations to be used. First, it makes a \hskin{newtype}
-    declaration. The name of the new type is the one provided, and it wraps a value of the provided type. Second, it makes
-    an instance of QuickCheck's \hskin{Arbitrary} typeclass for this new type. The instance's ``arbitrary'' method generates 
+    During compilation, it reads the string and adds 2 top-level declarations. First, it introduces a \hskin{newtype}
+    declaration. The name of the new type is \hskin{<constructor>}, and it wraps a value of the \hskin{<type>}. Second, the quasiquoter
+    introduces
+    an instance of QuickCheck's \hskin{Arbitrary} typeclass for this new type. The instance's \hskin{arbitrary} method generates 
     a value from the provided symbolic expression in the same way that \ourDSL does \evan{this sentence needs to be reworked...}.
     This allows users to use symbolic expressions to tell QuickCheck how to generate values rather than having to write \hskin{Arbitrary}
     instances manually. \evan{probably include an example?}
