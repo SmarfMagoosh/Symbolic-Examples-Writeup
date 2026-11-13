@@ -1,8 +1,7 @@
 \begin{figure}
     \begin{smallhskcode}
 lookupTest = test (lookup)
- [ex| k { <((./= k), .)>* <(k,v)> <((. /= k), .)>* }
-        == { <Just v> } |]
+            [ex| k { <((./= k), .)>* <(k,v)> <((. /= k), .)>* } == { <Just v> } |]
 \end{smallhskcode}
     \caption{\hskin{lookup} test in \ourDSL}
     \label{fig:lookup-test}
