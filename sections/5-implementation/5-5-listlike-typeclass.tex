@@ -1,0 +1,28 @@
+\mypara{ListLike} \input{sections/figures/nestedlist.tex}
+While users may want to write property-based tests for many different data strucutres, \ourDSL generates and validates lists.
+So in order to allow tests for any data structure, we implemented a typeclass ``ListLike'' that allows values to be converted
+to and from lists. Essentially, \ourDSL generates values for inputs; those input lists are converted to values as directed by
+the typeclass; the values are passed to the testing function to get the output value; and then the output value is converted
+to a list to be validated by the output expression.
+
+\begin{figure}
+    \begin{smallhskcode}
+class t ~ NestedList n a => ListLike v n a t | v -> n a t where
+    fromList :: t -> v
+    toList :: v -> t
+
+instance ListLike Int Zero Int Int where
+        fromList = id
+        toList = id
+
+instance (ListLike v n a t) => ListLike [v] (Succ n) a [t] where
+        fromList = map fromList
+        toList = map toList
+    \end{smallhskcode}
+    \caption{\hskin{ListLike definition and examples}}
+    \label{fig:listlike-qq}
+\end{figure}
+
+The typeclass includes 4 type parameters; $v$, $n$, $a$, and $t$. $v$ is the type we are converting from, 
+$t$ is the type we are converting to. $t$ functionally defines $n$ and $a$ since, by the definition, \hskin{t ~ NestedList n a}.
+However they need to be included as type parameters so that GHC can definitively know what $n$ and $a$ are.

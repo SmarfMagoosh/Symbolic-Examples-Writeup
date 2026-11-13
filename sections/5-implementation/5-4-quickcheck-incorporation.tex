@@ -22,7 +22,7 @@ main :: IO ()
 main = quickCheck (\SameElem xs -> allSame xs)
     \end{smallhskcode}
     \caption{\hskin{arb QQ example}}
-    \label{fig:list-append-ex}
+    \label{fig:arb-qq}
 \end{figure}
 
 \begin{figure}
@@ -32,7 +32,7 @@ compose x y = x : y : []
 composeTest (ComposeTest (x, y) f) = x > 0 && x == y & f (compose x y)
     \end{smallhskcode}
     \caption{\hskin{qc QQ example}}
-    \label{fig:list-append-ex}
+    \label{fig:qc-qq}
 \end{figure}
 
 \par The second \textit{QuasiQuoter} we introduce is \hskin{[|qc| <name> :: (<smybolic expression> :: <type> ->)+ <smybolic expression> :: <type> |]}.

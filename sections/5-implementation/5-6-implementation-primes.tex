@@ -1,0 +1,21 @@
+\mypara{Primed Variables}
+Another useful feature is for a variable to reference its own value from a previous context. We implemented this using ``primed''
+variables. A primed variable is denoted as a regular variable followed by an apostrophe, and they can only be used as arguments for 
+predicates.
+
+\begin{figure}
+    \begin{smallhskcode}
+groupTest = test "group"
+        (group :: [Int] -> [[Int]])
+        [ex| ({a => ne a'} -> {b => gt <0>} -> a*{b})*{c}
+            == [a*{b}]*{c} |]
+    \end{smallhskcode}
+    \caption{Primed variable in groupTest}
+    \label{fig:group-primed}
+\end{figure}
+
+When evaluating a primed variable we consider the nearest scope. In the case of the the primed ``$a$'' in ~\ref{fig:group-primed},
+the nearest scope is the label ``$c$'' on the kleene closure surrounding it. When $c=0$, we return an arbitrary value for $a'$,
+for all $c > 0$, we evaluate $a'$ as the value stored for $a$ when $c$ equalled $n-1$. This directive can also be used to construct
+a sorted list \hskin[ex| ({a => gt a'} -> a)*{b} |]. In a broad sense, it helps maintain a certain order which can be helpful when
+trying to write good tests for data structures that aren't concerned with order such as maps and sets. \evan{maybe don't even include that last bit...}
