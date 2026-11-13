@@ -1,0 +1,91 @@
+\section{Appendix}
+
+\subsection{Theorems and Proofs}
+\label{sec:appendix-lemmas}
+
+\begin{theorem}
+    \label{thm:gen_val_eq}
+    $\forall r. G(r) = V(r)$
+\end{theorem}
+
+\begin{proof}
+
+    \par We start by establishing invariants for the proof.
+    \par First, at any given point in execution, the environment used for validation will be a subset of the environment used for generation; $\env_v \subseteq \env_g$.
+        Second,  at any given point in execution, the path variables will be the same; $\pathvar_v = \pathvar_g$. 
+        Third, for any label with a value in the generator's environment, the validator will have a predicate for that label in the constraint store; $\forall k \in \env_v. k \in \predtrack \land \predtrack(k)(\env_g(k))$
+    \par Base Case 1: $r = \nil$. Trivial.
+    \par Base Case 2: $r = \lab$. 
+        For generation, we know that $\lab \in \env_g$ since all variables must be preceded by a bind.
+        G-Bind generates an arbitrary value satisfying the predicate of $\lab$'s bind.
+        Thus $G(\lab) = \{ x\;|\;p(args, x)\}$.
+        For validation, we must consider 2 cases.
+        One where the variable is in the environment and one where it is not. 
+        If it is not in the environment, then according to V-Var2 we accept any value that satisfies the predicate of $\lab$'s bind and add it to the environment. 
+        By the invariants, the generator's environment already has an entry for $\lab$ so the subset invariant still holds.
+        If $\lab$ is already in the environment, V-Var1 only accepts the value in the environment. The invariants are trivial.
+        In either case, $V(\lab) = \{ x\;|\;p(args, x)\}$.
+        Thus $G(\lab) = V(\lab)$ and invariants hold.
+    \par Inductive Case 3: $r = r_1 :> r_2$
+        For generation, we reursively generate a value from $r_1$ and $r_2$ and cons them, as dictated by G-Cons.
+        Thus $G(r_1 :> r_2) = \{x :: xs\;|\;x \in G(r_1) \land xs \in G(r_1)\}$.
+        For validation, we decompose the input list into its head and tail and validate the head with $r_1$ and the tail with $r_2$, as shown by V-Cons.
+        Thus $V(r_1 :> r_2) = \{x :: xs\;|\;x \in V(r_1) \land xs \in V(r_1)\}$.
+        By induction, $G(r_1) = V(r_1)$ and $G(r_2) = V(r_2)$. Therefore $G(r_1 :> r_2) = V(r_1 :> r_2)$.
+        The invariants hold trivially.
+    \par Inductive Case 4: $r = xs :++ ys$
+        Essentially the same as case 4 except G-Cat and V-Cat are applied instead of G-Cons and V-Cons.
+        Additionally, instead of splitting the head element from the tail, we non-deterministically split the list in the middle and match each half.
+    \par Inductive Case 5: $r = r_1 |_{\lab} r_2$
+        For generation, we know that $\lab \in \env_g$ since all variables must be preceded by a bind.
+        G-Bind generates an arbitrary integer satisfying the predicate of $\lab$'s bind.
+        As seen in G-UnionL and G-UnionR, if $\env(\lab) \mod 2 = 0$ we generate a value from $r_1$, otherwise we use $r_2$. 
+        Thus $G(r_1 |_{\lab} r_2) = G(r_1) \cup G(r_2)$.
+        For validation, we must once again consider whether $\lab$ is in the environment or not. 
+        If it is in the environment, we validate against $r_1$ or $r_2$ using the same procedure for the label as for generation.
+        This is done by V-UnionSolveL and V-UnionSolveR.
+        If it is not in the environment, we non-deterministically choose to match either the left or right side and insert $0$ or $1$ as the
+        value for $\lab$ into the environment.
+        By the invariants, the generator's environment would already have an entry for $\lab$ so the subset invariant still holds.
+        This is done by V-UnionL and V-UnionR.
+        Thus $V(r_1 |_{\lab} r_2) = V(r_1) \cup V(r_2).$
+        By induction, $V(r_1) = G(r_1)$ and $V(r_2) = G(r_2)$. Thus, $G(r_1 |_{\lab} r_2) = V(r_1 |_{\lab} r_2)$
+        Thus the theorem and invariants hold in all cases.
+    \par Inductive Case 6: $r = (\lab \Longleftarrow p(args, \lab) \rightarrow r')$.
+        For generation, we use G-Bind to generate a random value for $\lab$ such that $p(args, \lab)$ and insert it into the environment.
+        For validation, we use V-Bind to partially apply $p$ to the arguments and store the predicate in the constraint store. 
+        The generation and validation set of $(\lab \Longleftarrow p(args, \lab) \rightarrow r')$ are simply $G(x)$ and $V(x)$ respectively.
+        By induction, these sets are equal.
+        Only the generator's environment had entries add to it, so the subset invariant still holds.
+        The path invariant holds trivially.
+        Since a value for $\lab$ that satisfies the predicate was added at the same time as the predicate for $\lab$ was added to the constraint store, the third invariant also holds. 
+    \par Inductive Case 7: $r = <D\;args>$
+        For generation, we generate a value for each of the arguments then apply the data constructor $D$ to them to get a value.
+        Thus $G(<D\;args>) = \{D\;a_1\;a_2\;\dots\;a_n | a_1 \in G(args[1] \land a_2 \in G(args[2]) \dots a_n \in G(args[n]))\}$
+        For validation, we unapply the data constructor to extract the arguments from the value.
+        Thus $V(<D\;args>) = \{D\;a_1\;a_2\;\dots\;a_n | a_1 \in V(args[1] \land a_2 \in V(args[2]) \dots a_n \in V(args[n]))\}$.
+        By inductions, $\forall n. G(args[n]) = V(args[n])$. Thus $G(<D\;args>) = V(<D\;args>)$.
+        Additionally, if the invariants hold at the execution for each $arg$ then the invariants shall hold as well.
+    \par Inductive Case 8: $r = r_0*_{\lab}$
+        For generation, we know that $\lab \in \env_g$ since all variables must be preceded by a bind.
+        G-Bind generates an arbitrary integer satisfying the predicate of $\lab$'s bind.
+        As seen in G-Kl, we generate values for $r_0$ a number of times equal to $\env_g(\lab)$.
+        At each iteration, we pass the previous iteration's environment so it stays up to date.
+        We also modify the path variable to keep track of which iteration we are currently in so the environment can look up correct values given the context.
+        Supposing that $\env_g(\lab)$ is some arbitrary $n$, we get $G(r_0*_{\lab}) = \{x_1 ++ x_2 \dots ++ x_n | \forall n. x_n \in G(r_0)\}$.
+        For validation, we must once again consider the case where $\lab$ in the environment and the one where its not.
+        If its not, we non-deterministically choose a value for it, call it $n$, that satisfies the predicate from its bind and add it to the environment. 
+        Then we loop $n$ times. At each loop we consume some prefix of the value we're validating and pass the unconsumed suffix to the next iteration.
+        Similary to generation, the validator also updates its path variable and threads the environment through each iteration.
+        After $n$ loops if there is no remaining suffix, the value is validated.
+        This is handled by V-KlSolve.
+        If $\lab$ is in the environment, we follow the same approach except we skip the part about picking a value for $n$ and adding it to the environment.
+        Thus we get $V(r_0*_{\lab}) = \{x_1 ++ x_2 \dots ++ x_n | \forall n. x_n \in V(r_0)\}$
+        In the first case for validation, the label that gets added would already be in the generator's environment so the subset invariant holds.
+        Both processes modify the path variables in the same way at each iteration so the path invariant holds as well.
+        The third invariant holds trivially here.
+        By induction, $G(r_0) = V(r_0)$ and the input variables satisfy the invariants. Thus $G(r_0*_{\lab}) = V(r_0*_{\lab})$
+    
+    Having demonstrated that the theorem holds in all cases, we see that for all symbolic expressions $r$, $G(r) = V(r)$.
+    
+    \end{proof}
