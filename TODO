@@ -1,3 +1,43 @@
-code snippet figures look like garbage!
-add proof after validation rules
-might need to update validation rules to account for how we're currently handling predicates
+1. To code
+    - definitely pull some heroics on the map tests. we don't want the same results and comments as last time
+    - beef up prime variable robustness
+
+2. Paper
+    - Implementation
+        - strengthen the tests in the code using the new implementation stuff
+        - include prime variables
+    - Implementation (section 4)
+        - talk about incorporation with QuickCheck
+    - Case Studies (section 5)
+        - reflect changes made to tests in the implementation section
+
+3. Immediate Steps
+    - look into shrink
+        - if test case false, tries to make it smaller until a "minimal" fail is found
+        - how shrink works is determined by each data type
+            -> shrink :: a -> [a]
+    - have other "==" functions to check for other properties
+        - subsequence
+        - subset
+        - supersequence
+        - superset
+        - permutation
+
+4. Long-term steps
+    - more case studies
+    - improve current case studies
+        - having fromList and toList everywhere is no good.
+        - typeclass that converts stuff for us behind the screen
+
+17 tests failing:
+    square transpose -> failed on test 21/21 with [] as input (problem with test)
+    deleteFindMin -> generation failed
+    lookup -> undefined variable
+    lookupMin -> generation failed
+    member -> undefined variable
+    compose -> failed on input
+    all UF tests -> generation failed
+
+
+
+[({x => gt x'} -> x)*n]*m
