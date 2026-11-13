@@ -11,6 +11,30 @@
     This allows users to use symbolic expressions to tell QuickCheck how to generate values rather than having to write \hskin{Arbitrary}
     instances manually. \evan{probably include an example?}
 
+\begin{figure}
+    \begin{smallhskcode}
+[arb| SameElem [Int] = x -> x* |]
+
+allSame :: [Int] -> Bool
+allSame (x:xs) = all (==x) xs
+
+main :: IO ()
+main = quickCheck (\SameElem xs -> allSame xs)
+    \end{smallhskcode}
+    \caption{\hskin{arb QQ example}}
+    \label{fig:list-append-ex}
+\end{figure}
+
+\begin{figure}
+    \begin{smallhskcode}
+compose x y = x : y : []
+[qc| composeTest :: {x => gt <0>} -> x :: Int -> x :: Int -> x x :: [Int] |]
+composeTest (ComposeTest (x, y) f) = x > 0 && x == y & f (compose x y)
+    \end{smallhskcode}
+    \caption{\hskin{qc QQ example}}
+    \label{fig:list-append-ex}
+\end{figure}
+
 \par The second \textit{QuasiQuoter} we introduce is \hskin{[|qc| <name> :: (<smybolic expression> :: <type> ->)+ <smybolic expression> :: <type> |]}.
     It functions similarly to \hskin{arb} in terms of what declarations are added, but is much more detailed in the exact output.
     This one interprets the name as both the name of a function and a newtype (lowercased and uppercased respectively). It interprets
