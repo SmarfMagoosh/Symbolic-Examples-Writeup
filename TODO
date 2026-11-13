@@ -1,13 +1,12 @@
 1. To code
-    - definitely pull some heroics on the map tests. we don't want the same results and comments as last time
-    - beef up prime variable robustness
+    - definitely pull some heroics on the map tests
+    - beef up prime variable robustness (at least talk about it)
+    - talk about "ListLike" subclass
 
 2. Paper
     - Implementation
         - strengthen the tests in the code using the new implementation stuff
         - include prime variables
-    - Implementation (section 4)
-        - talk about incorporation with QuickCheck
     - Case Studies (section 5)
         - reflect changes made to tests in the implementation section
 

@@ -1,9 +1,9 @@
 \begin{figure}
     \begin{smallhskcode}
-ufUnion = test3 (\x y -> toList . union x y . fromList)
-  [ex| x -> x |] [ex| (y /= x) -> y |]
-  [ex| [.*]*[ .* x .* ][.*]*[ .* y .* ][.*]* |] .== 
-    [ex| [.*]*[(.* x .* y .*) | (.* y .* x .*)][.*]* |]
+ufUnion = test (union)
+  [ex| { x { (y /= x) -> y } }
+  { [.*]*[ .* x .* ][.*]*[ .* y .* ][.*]* } 
+    == { [.*]*[(.* x .* y .*) | (.* y .* x .*)][.*]* } |]
     \end{smallhskcode}
     \caption{\hskin{union} test in \ourDSL}
     \label{fig:uf-union-test}

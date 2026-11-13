@@ -77,7 +77,7 @@ as conversion to and from lists are common.
 
 Figure~\ref{fig:lookup-test} shows a test for the \hskin{Map} function 
 \hskin{lookup}. Here, the function 
-that we pass to \hskin{test2} is \hskin{(\x -> lookup x . fromList)},
+that we pass to \hskin{test} is \hskin{(\x -> lookup x . fromList)},
 of type \hskin{Int -> [(Int, Int)] -> Maybe Int}. The original 
 type definition of \hskin{lookup} is \hskin{k -> Map k a -> Maybe a}
 allowing it to (try to) look up the key and

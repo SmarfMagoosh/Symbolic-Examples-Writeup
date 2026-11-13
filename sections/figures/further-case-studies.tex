@@ -1,24 +1,20 @@
 \begin{figure}
 \begin{smallhskcode}
-diffTest = test2 ((\x y -> toList (difference
-                (fromList x) (fromList y))))
-      [ex| .* <(k, .)> .* |] [ex| .* <(k, .)> .*|]
-  .== [ex| <((. /= k), .)>* |]
+diffTest = test (difference)
+    [ex| { .* <(k, .)> .* } { .* <(k, .)> .* }
+      == { <((. /= k), .)>* } |]
 (*\vspace{-0.7em}*)
-inter1Test = test2 ((\x y -> toList (intersection
-                (fromList x) (fromList y))))
-      [ex| [<(k, v1)>] |] [ex| .* <(k, v2)> .*|]
-  .== [ex| [<(k, v1)>] |]
+inter1Test = test (intersection)
+    [ex| { [<(k, v1)>] } { .* <(k, v2)> .* }
+      == { [<(k, v1)>] } |]
 (*\vspace{-0.7em}*)
-inter2Test = test2 ((\x y -> toList (intersection
-                (fromList x) (fromList y))))
-      [ex| [<(k,v)>] |] [ex| <((. /= k), .)>* |]
-  .== [ex| [] |]
+inter2Test = test (intersection)
+      [ex| { [<(k,v)>] } { <((. /= k), .)>* }
+        == [] |]
 (*\vspace{-0.7em}*)
-splitTest = test2 ((\x y ->  let (l, r) =
-    split x (fromList y) in (toList l, toList r)))
-      [ex| k |] [ex| .* |] 
-  .== [ex| <(<((. < k), .)>*, <((. > k), .)>*)> |]
+splitTest = test (split)
+    [ex| k { .* } 
+      == { <(<((. < k), .)>*, <((. > k), .)>*)> } |]
 \end{smallhskcode}
 \caption{Additional Map Tests}
 \label{fig:additional-map}
