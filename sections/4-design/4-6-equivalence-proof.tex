@@ -26,16 +26,16 @@
     One where the variable is in the environment and one where it is not. 
     If it is not in the environment, then according to V-Var2 we accept any value that satisfies the predicate of $\lab$'s bind and add it to the environment. 
     By the invariants, the generator's environment already has an entry for $\lab$ so the subset invariant still holds.
-    If $\lab$ is already in the environment, V-Var1 only accepts the value in the environment. The invariants are trivial in this case.
+    If $\lab$ is already in the environment, V-Var1 only accepts the value in the environment. The invariants are trivial.
     In either case, $V(\lab) = \{ x\;|\;p(args, x)\}$.
     Thus $G(\lab) = V(\lab)$ and invariants hold.
 \par Inductive Case 3: $r = r_1 :> r_2$
-    For generation, we recursivle generate a value from $r_1$ and $r_2$ and cons them together, as dictated by G-Cons.
+    For generation, we reursively generate a value from $r_1$ and $r_2$ and cons them, as dictated by G-Cons.
     Thus $G(r_1 :> r_2) = \{x :: xs\;|\;x \in G(r_1) \land xs \in G(r_1)\}$.
-    For validation, we decompose the input list into its head and tail components and validate the head with $r_1$ and the tail with $r_2$, as shown by V-Cons.
+    For validation, we decompose the input list into its head and tail and validate the head with $r_1$ and the tail with $r_2$, as shown by V-Cons.
     Thus $V(r_1 :> r_2) = \{x :: xs\;|\;x \in V(r_1) \land xs \in V(r_1)\}$.
     By induction, $G(r_1) = V(r_1)$ and $G(r_2) = V(r_2)$. Therefore $G(r_1 :> r_2) = V(r_1 :> r_2)$.
-    The invariants hold trivially
+    The invariants hold trivially.
 \par Inductive Case 4: $r = xs :++ ys$
     Essentially the same as case 4 except G-Cat and V-Cat are applied instead of G-Cons and V-Cons.
     Additionally, instead of splitting the head element from the tail, we non-deterministically split the list in the middle and match each half.
