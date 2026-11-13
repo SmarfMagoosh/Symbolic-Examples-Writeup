@@ -1,20 +1,16 @@
 \begin{figure}
 \begin{smallhskcode}
 diffTest = test (difference)
-    [ex| { .* <(k, .)> .* } { .* <(k, .)> .* }
-      == { <((. /= k), .)>* } |]
+    [ex| { .* <(k, .)> .* } { .* <(k, .)> .* } == { <((. /= k), .)>* } |]
 (*\vspace{-0.7em}*)
 inter1Test = test (intersection)
-    [ex| { [<(k, v1)>] } { .* <(k, v2)> .* }
-      == { [<(k, v1)>] } |]
+    [ex| { [<(k, v1)>] } { .* <(k, v2)> .* } == { [<(k, v1)>] } |]
 (*\vspace{-0.7em}*)
 inter2Test = test (intersection)
-      [ex| { [<(k,v)>] } { <((. /= k), .)>* }
-        == [] |]
+      [ex| { [<(k,v)>] } { <((. /= k), .)>* } == [] |]
 (*\vspace{-0.7em}*)
 splitTest = test (split)
-    [ex| k { .* } 
-      == { <(<((. < k), .)>*, <((. > k), .)>*)> } |]
+    [ex| k { .* } == { <(<((. < k), .)>*, <((. > k), .)>*)> } |]
 \end{smallhskcode}
 \caption{Additional Map Tests}
 \label{fig:additional-map}

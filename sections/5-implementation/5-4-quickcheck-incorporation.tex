@@ -16,11 +16,8 @@
     \begin{smallhskcode}
 [arb| SameElem [Int] = x -> x* |]
 
-allSame :: [Int] -> Bool
-allSame (x:xs) = all (==x) xs
-
-main :: IO ()
-main = quickCheck (\SameElem xs -> allSame xs)
+allSame :: [Int] -> Bool            main :: IO ()
+allSame (x:xs) = all (==x) xs       main = quickCheck (\SameElem xs -> allSame xs)
     \end{smallhskcode}
     \caption{\hskin{arb QQ example}}
     \label{fig:list-append-ex}

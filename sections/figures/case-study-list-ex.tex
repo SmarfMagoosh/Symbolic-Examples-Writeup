@@ -1,8 +1,7 @@
 \begin{figure}
     \begin{subfigure}[t]{1\linewidth}
         \begin{smallhskcode}
-appendTest = test (++)
-    [ex| { b*{a} } { d*{c} } == { b*{a} d*{c} } |]
+appendTest = test (++) [ex| { b*{a} } { d*{c} } == { b*{a} d*{c} } |]
         \end{smallhskcode}
         \caption{\hskin{append}}
         \label{fig:list-append-ex}
@@ -11,8 +10,7 @@ appendTest = test (++)
 \begin{subfigure}[t]{1\linewidth}
         \begin{smallhskcode}
 filterTest = test (\x -> filter (/= x))
-    [ex| x { (x |{b} (y /= x))*{n} }
-        == { ([] |{b} y)*{n} } |]
+                    [ex| x { (x |{b} (y /= x))*{n} } == { ([] |{b} y)*{n} } |]
         \end{smallhskcode}
         \caption{\hskin{filter}}
         \label{fig:list-filter-ex}

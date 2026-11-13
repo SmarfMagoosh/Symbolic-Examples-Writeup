@@ -145,7 +145,6 @@ The third parameter takes a two dimensional list representing a union find. It i
 % \par Since the output contains many dots, we call this a partially specific test, in that while certain properties of the output are known, namely \hskin{x} and \hskin{y} being in the same set, the exact value of the output is not entirely clear.
 
 \mypara{Threats to Validity}
-\textit{Internal Validity}
 A limitation of \ourDSL is its inability to reference label's outside of its current evaluation context.
 In other words, when working with \hskin|x*{y}|, 
 \ourDSL only has access to one value for $x$, determined by the value of $y$.
@@ -159,7 +158,6 @@ it is possible the library could be less applicable to other data structures.
 % was that we couldn't ensure uniqueness of \textit{all} keys being inserted or account for
 % the fact that converting the map to the list might change the order of the tuples around.
 
-\textit{External Validity}
 \ourDSL benefits from several features of Haskell:
 GADTs, type level functions, and QuasiQuotations.
 % that allow us to
