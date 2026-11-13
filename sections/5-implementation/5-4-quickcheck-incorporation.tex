@@ -10,7 +10,8 @@
     an instance of QuickCheck's \hskin{Arbitrary} typeclass for this new type. The instance's \hskin{arbitrary} method generates 
     a value from the provided symbolic expression in the same way that \ourDSL does \evan{this sentence needs to be reworked...}.
     This allows users to use symbolic expressions to tell QuickCheck how to generate values rather than having to write \hskin{Arbitrary}
-    instances manually. \evan{probably include an example?}
+    instances manually.
+    Figure~\ref{fig:arb-qq} shows an example.
 
 \begin{figure}
     \begin{smallhskcode}
@@ -41,5 +42,6 @@ composeTest (ComposeTest (x, y) f) = x > 0 && x == y & f (compose x y)
     provided output type as input and returns a bool.
 \par The arbitrary instance for this newtype generates a value for each argument using \ourDSL's generation function and wraps each value in a tuple.
     Then it partially applies arguments to \ourDSL's validation function and passes that as the new type's function argument. This allows
-    the user to perform proberty-based tests the way that we designed while using syntax they are more familiar with. It also allows for the
-    possibility of adding extra checks before passing the values to the testing function and then the validation functions. \evan{probably also include an example here?}
+    the user to perform property-based tests the way that we designed while using syntax they are more familiar with. It also allows for the
+    possibility of adding extra checks before passing the values to the testing function and then the validation functions.
+    An example is shown in Figure~\ref{fig:qc-qq}

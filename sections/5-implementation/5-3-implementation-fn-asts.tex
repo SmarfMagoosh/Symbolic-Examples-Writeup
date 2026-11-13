@@ -10,9 +10,9 @@ For example, the list cons constructor has type \code{FnType [(0, Int), (1, Int)
 To get its actual type, the typechecker applies the FnType rules to get \code{(NestedList 0 Int) -> (NestedList 1 Int) -> (NestedList 1 Int)}.
 Then it applies the NestedList rules to get the final computed type of \hskin{Int -> [Int] -> [Int]}.
 
-This type family is used in conjunction with the Asts List GADT (see figure~\ref{fig:nestedlist}) to fully realize this functionality.
-The Asts list encodes the depth an root element types of each of its elements in its own type as the type argument $\mathit{args}$.
-\bill{I don't understand the sentence before this}
+This type family is used in conjunction with the Asts List GADT (see Figure~\ref{fig:nestedlist}) to fully realize this functionality.
+The Asts GADT has only one type parameter. That parameter is a type-level list of type-level tuples. Each tuple contains the $n$
+and $a$ of each Ast in order.
 This means that the the constructor for data can look like this:
 \codeln{Data :: FnType args a -> Asts args -> Ast 0 a}
 Since the $\mathit{args}$ from FnType and the Asts list are the same, the typechecker knows that when the elements of the list
