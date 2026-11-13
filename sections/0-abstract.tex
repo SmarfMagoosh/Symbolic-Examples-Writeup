@@ -8,16 +8,16 @@ on randomly generated values.
 In this work,
 we propose a new approach to property-based testing
 based on describing the desired function behavior via an eDSL, {\footnotesize{\textsc{SymCheck}}}.
-As opposed to traditional property-based tests,
-which typically rely on relating multiple function calls together,
 {\footnotesize{\textsc{SymCheck}}} allows writing tests
-which focus on describing the behavior of a single function.
-We believe this offers some clear advantages over
+which focus on describing the behavior of a function
+via a declarative language.
+We believe this offers some advantages over
 traditional property based testing:
-it reduces the (sometimes difficult) burden of finding properties that hold
-between multiple functions;
-the tests are more focused, making it clearer which function has a bug when a test fails,
-and {\footnotesize{\textsc{SymCheck}}} tests can more cleanly act as a form of specification
+the language can be used to specify precise preconditions on inputs and sets of inputs,
+a sometimes cumbersome task with traditional test generators.
+It can also allow for expressing very precise properties that hold
+between a functions input and output--- sometimes, specifying \textit{exactly} which input/output pairs are allowed.
+{\footnotesize{\textsc{SymCheck}}} tests can  act as a form of specification
 for other programmers trying to read and understand the program.
 We conduct case studies in which we apply
 {\footnotesize{\textsc{SymCheck}}} to real world data structure libraries.
